@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-
+import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,10 @@ function Header() {
     { label: "Home", path: "/home" },
     { label: "Catalog", path: "/catalog" },
   ];
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const theme = useTheme();
   const navigateTo = useNavigate();
+
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -26,8 +28,9 @@ function Header() {
   const handleNavigate = (path) => {
     navigateTo(path);
   };
+
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{ backgroundColor: "background.default" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <HamburgerMenu

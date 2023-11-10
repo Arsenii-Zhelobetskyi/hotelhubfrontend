@@ -1,8 +1,8 @@
-import HouseHotelTabMenu from "../../components/House&HotelMenu/House&HotelMenu";
+import Switch from "./components/Switch";
 function Catalog() {
   return (
     <div>
-      <HouseHotelTabMenu />
+      <Switch />
     </div>
   );
 }

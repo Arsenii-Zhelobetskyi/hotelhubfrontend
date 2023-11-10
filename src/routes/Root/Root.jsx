@@ -1,27 +1,52 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/";
+import CssBaseline from "@mui/material/CssBaseline";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#92A5EF",
+      main: "#3B71FE",
       light: "#8BC5E5",
-      dark: "#3B71FE",
     },
     secondary: {
-      main: "#A4CDE3",
-      light: "#E4D7CF",
-      dark: "#FA8F54",
+      main: "#777E90",
+      light: "#353945",
     },
-    typography: {
-      icon: "#3B71FE",
+    background: {
+      default: "#141416",
     },
-    vars: {
-      palette: {
-        text: {
-          icon: "#3B71FE",
-        },
+    text: {
+      primary: "#FCFCFD",
+      secondary: "#777E90",
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          backgroundColor:
+            ownerState.color === "primary"
+              ? theme.palette.primary.main
+              : "Transparent",
+          border:
+            ownerState.color === "primary"
+              ? "none"
+              : "3px solid " + theme.palette.secondary.main,
+          "&:hover": {
+            backgroundColor:
+              ownerState.color === "primary"
+                ? theme.palette.primary.light
+                : theme.palette.secondary.light,
+          },
+          color: theme.palette.text.primary,
+          boxShadow: "none",
+          borderRadius: "50px",
+          padding: "10px 30px",
+        }),
+      },
+      defaultProps: {
+        disableRipple: true, //усі кнопки тепер без пульсацій
       },
     },
   },
@@ -32,6 +57,7 @@ function Root() {
     <ThemeProvider theme={theme}>
       <Header />
       <div className={"App-body"}>
+        <CssBaseline />
         <Outlet />
       </div>
     </ThemeProvider>
