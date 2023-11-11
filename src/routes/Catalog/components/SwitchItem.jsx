@@ -15,7 +15,6 @@ function SwitchItem({ data, places = undefined, type }) {
         container
         rowSpacing={5}
         columnSpacing={5}
-        centered
         sx={{ display: "flex", justifyContent: "center" }}
       >
         {data?.map((item) => (
