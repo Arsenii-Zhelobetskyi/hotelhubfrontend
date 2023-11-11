@@ -7,11 +7,11 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#3B71FE",
-      light: "#8BC5E5",
+      dark: "#2756CC",
     },
     secondary: {
       main: "#777E90",
-      light: "#353945",
+      dark: "#353945",
     },
     background: {
       default: "#141416",
@@ -19,6 +19,12 @@ const theme = createTheme({
     text: {
       primary: "#FCFCFD",
       secondary: "#777E90",
+    },
+  },
+  typography: {
+    h2: {
+      fontSize: "48px",
+      fontWeight: "bold",
     },
   },
   components: {
@@ -33,16 +39,16 @@ const theme = createTheme({
             ownerState.color === "primary"
               ? "none"
               : "3px solid " + theme.palette.secondary.main,
+          padding: ownerState.color === "primary" ? "12px 30px" : "10px 30px",
           "&:hover": {
             backgroundColor:
               ownerState.color === "primary"
-                ? theme.palette.primary.light
-                : theme.palette.secondary.light,
+                ? theme.palette.primary.dark
+                : theme.palette.secondary.dark,
           },
           color: theme.palette.text.primary,
           boxShadow: "none",
           borderRadius: "50px",
-          padding: "10px 30px",
         }),
       },
       defaultProps: {
@@ -51,6 +57,12 @@ const theme = createTheme({
     },
   },
 });
+
+theme.typography.secondary = {
+  fontSize: "16px",
+  color: theme.palette.secondary.main,
+  display: "block",
+};
 
 function Root() {
   return (

@@ -1,25 +1,63 @@
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 import { useLoaderData } from "react-router-dom";
 import { API_URL } from "../../utils/config";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 export async function loader({ params }) {
   const req = await fetch(`${API_URL}/api/hotel/${params.id}`);
+  console.log(params);
   const data = await req.json();
   return { data };
 }
 function SinglePage() {
-  const { data } = useLoaderData();
+  // const { data } = useLoaderData();
   console.log(data);
   return (
-    <div>
-      <h1>{data.name}</h1>
-      <div>{data.address}</div>
-      <div>
-        <img src={data.photo} />
-      </div>
-      <p>{data.description}</p>
-      <div>{data.contact_inf}</div>
-      <div>{data.placeN}</div>
-      <div>{data.roomN}</div>
-    </div>
+    <Box sx={{ textAlign: "left" }}>
+      <Typography variant="h2" sx={{ textAlign: "left" }}>
+        {data.name}
+      </Typography>
+      <Typography variant="secondary">{data.address}</Typography>
+      <Box
+        component="img"
+        sx={{
+          height: 784,
+          width: 856,
+          maxHeight: { xs: 900, md: 784 },
+          maxWidth: { xs: 856, md: 856 },
+          objectFit: "cover",
+          borderRadius: "16px",
+          marginTop: "20px",
+        }}
+        alt="The house from the offer."
+        src={data.photo}
+      />
+      <Box
+        sx={{
+          marginTop: "20px",
+          display: "flex",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box>
+          <Typography variant="secondary">{data.description}</Typography>
+          <Typography variant="secondary">{data.contact_inf}</Typography>
+          <Typography variant="secondary">{data.placeN}</Typography>
+          <Typography variant="secondary">{data.roomN}</Typography>
+        </Box>
+        <Box sx={{ display: "flex", gap: "8px" }}>
+          <Button variant="contained" color="secondary">
+            Save
+          </Button>
+          <Button variant="contained" color="primary">
+            Order now
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

@@ -1,34 +1,39 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AJAX } from "../../../utils/api";
 import { API_URL } from "../../../utils/config";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import HotelCard from "./HotelCard.jsx";
-import HouseCard from "./HouseCard.jsx";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import SwitchItem from './SwitchItem'
+import SwitchItem from "./SwitchItem";
+import { useLoaderData } from "react-router-dom";
+export async function loader() {
+  const [hotels, places, houses] = await Promise.all([
+    AJAX(`${API_URL}/api/hotels`),
+    AJAX(`${API_URL}/api/totalOccupiedPlaces`),
+    AJAX(`${API_URL}/api/houses`),
+  ]);
+  return { hotels, places, houses };
+}
 function Switch() {
-  const [value, setValue] = useState(0); // значення вкладки за замовчуванням
+  const [value, setValue] = useState("0"); // значення вкладки за замовчуванням
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [hotels, setHotels] = useState([]);
+  /* const [hotels, setHotels] = useState([]);
   const [houses, setHouses] = useState([]);
-  const [places, setOccupiedPlacesByHotel] = useState([]);
-  useEffect(() => {
+  const [places, setOccupiedPlacesByHotel] = useState([]); */
+  const { hotels, places, houses } = useLoaderData();
+  /*   useEffect(() => {
     // Fetch users and total occupied places by hotel when the component mounts
     async function fetchData() {
       try {
         const [hotelsData, placesData, housesData] = await Promise.all([
           AJAX(`${API_URL}/api/hotels`),
           AJAX(`${API_URL}/api/totalOccupiedPlaces`),
-          AJAX(`${API_URL}/api/houses`)
+          AJAX(`${API_URL}/api/houses`),
         ]);
-        console.log(hotelsData);
-        console.log(housesData);
-        console.log(placesData);
         setHotels(hotelsData);
         setOccupiedPlacesByHotel(placesData);
         setHouses(housesData);
@@ -39,9 +44,10 @@ function Switch() {
 
     fetchData();
   }, []);
-  // console.log(hotels);
-  // console.log(houses);
-  // console.log(places);
+ */
+  console.log(hotels);
+  console.log(houses);
+  console.log(places);
   return (
     <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
       <TabContext value={value}>
@@ -61,10 +67,10 @@ function Switch() {
         </Box>
 
         <TabPanel value="0">
-          <SwitchItem data={hotels} places={places}/>
+          <SwitchItem data={hotels} places={places} />
         </TabPanel>
         <TabPanel value="1">
-          <SwitchItem data={houses}/>
+          <SwitchItem data={houses} />
         </TabPanel>
       </TabContext>
     </Box>
