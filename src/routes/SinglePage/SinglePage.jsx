@@ -5,9 +5,11 @@ import { API_URL } from "../../utils/config";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 export async function loader({ params }) {
-  const req = await fetch(`${API_URL}/api/${params.type}/${params.id}`);
-  console.log(params);
+  const req = await fetch(
+    `${API_URL}/api/${params.type}s/${params.type}/${params.id}`
+  );
   const data = await req.json();
+  console.log(data);
   return { data };
 }
 function SinglePage() {
@@ -31,7 +33,7 @@ function SinglePage() {
           marginTop: "20px",
         }}
         alt="The house from the offer."
-        src={data.photo}
+        src={data.photo.main ? data.photo.main : data.photo}
       />
       <Box
         sx={{

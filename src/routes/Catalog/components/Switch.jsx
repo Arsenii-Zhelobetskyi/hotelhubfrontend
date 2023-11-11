@@ -10,9 +10,9 @@ import SwitchItem from "./SwitchItem";
 import { useLoaderData } from "react-router-dom";
 export async function loader() {
   const [hotels, places, houses] = await Promise.all([
-    AJAX(`${API_URL}/api/hotels`),
-    AJAX(`${API_URL}/api/totalOccupiedPlaces`),
-    AJAX(`${API_URL}/api/houses`),
+    AJAX(`${API_URL}/api/hotels/`),
+    AJAX(`${API_URL}/api/totalOccupiedPlaces/`),
+    AJAX(`${API_URL}/api/houses/`),
   ]);
   return { hotels, places, houses };
 }
