@@ -26,18 +26,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/catalog",
-        element: <Catalog />,
-        loader: catalogLoader,
         children: [
           {
-            path: "house/:id", // Шлях для будинків у каталозі
-            element: <SinglePage />, // Замініть на вашу компоненту, яка показує сторінку для будинків
-            loader: singlePageLoader, // Ви могли б додати свій loader
+            index: true,
+            element: <Catalog />,
+            loader: catalogLoader,
           },
           {
-            path: "hotel/:id", // Шлях для готелів у каталозі
-            element: <SinglePage />, // Замініть на вашу компоненту, яка показує сторінку для готелів
-            loader: singlePageLoader, // А також можна додати свій loader
+            path: ":type/:id", // Шлях для будинків у каталозі
+            element: <SinglePage />, // Замініть на вашу компоненту, яка показує сторінку для будинків
+            loader: singlePageLoader, // Ви могли б додати свій loader
           },
         ],
       },

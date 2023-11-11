@@ -67,10 +67,10 @@ function Switch() {
         </Box>
 
         <TabPanel value="0">
-          <SwitchItem data={hotels} places={places} />
+          <SwitchItem data={hotels} places={places} type="hotel" />
         </TabPanel>
         <TabPanel value="1">
-          <SwitchItem data={houses} />
+          <SwitchItem data={houses} type="house" />
         </TabPanel>
       </TabContext>
     </Box>

@@ -4,14 +4,14 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import CardMedia from "@mui/material/CardMedia";
 import { useNavigate } from "react-router-dom";
-function SwitchItemData({ item, theme, places }) {
+function SwitchItemData({ item, theme, places, type }) {
   const navigateTo = useNavigate();
   const handleNavigate = (path) => {
     navigateTo(path);
   };
   return (
     <Box
-      onClick={() => handleNavigate(`/single-page/${item.id}`)}
+      onClick={() => handleNavigate(`/catalog/${type}/${item.id}`)}
       sx={{ cursor: "pointer" }}
     >
       <CardMedia

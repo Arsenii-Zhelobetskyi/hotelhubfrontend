@@ -7,7 +7,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useTheme } from "@mui/material/styles";
 
 import SwitchItemData from "./SwitchItemData";
-function SwitchItem({ data, places = undefined }) {
+function SwitchItem({ data, places = undefined, type }) {
   const theme = useTheme();
   return (
     <div>
@@ -29,7 +29,12 @@ function SwitchItem({ data, places = undefined }) {
                 width: "310px",
               }}
             >
-              <SwitchItemData item={item} theme={theme} places={places} />
+              <SwitchItemData
+                item={item}
+                theme={theme}
+                places={places}
+                type={type}
+              />
             </Card>
           </Grid>
         ))}

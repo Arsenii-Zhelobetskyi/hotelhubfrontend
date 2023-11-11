@@ -5,13 +5,13 @@ import { API_URL } from "../../utils/config";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 export async function loader({ params }) {
-  const req = await fetch(`${API_URL}/api/hotel/${params.id}`);
+  const req = await fetch(`${API_URL}/api/${params.type}/${params.id}`);
   console.log(params);
   const data = await req.json();
   return { data };
 }
 function SinglePage() {
-  // const { data } = useLoaderData();
+  const { data } = useLoaderData();
   console.log(data);
   return (
     <Box sx={{ textAlign: "left" }}>
