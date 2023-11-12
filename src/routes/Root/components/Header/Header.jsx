@@ -14,6 +14,7 @@ function Header() {
   const pages = [
     { label: "Home", path: "/home" },
     { label: "Catalog", path: "/catalog" },
+    { label: "My Orders", path: "/orderHistory" },
   ];
   const theme = useTheme();
   const navigateTo = useNavigate();

@@ -6,6 +6,8 @@ import ErrorPage from "./routes/ErrorPage/ErrorPage.jsx";
 import Catalog from "./routes/Catalog/Catalog.jsx";
 import Root from "./routes/Root/Root.jsx";
 import SinglePage from "./routes/SinglePage/SinglePage.jsx";
+import OrderHistory from "./routes/OrderHistory/OrderHistory.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +40,10 @@ const router = createBrowserRouter([
             loader: singlePageLoader, // Ви могли б додати свій loader
           },
         ],
+      },
+      {
+        path: "/orderHistory",
+        element: <OrderHistory />,
       },
     ],
   },

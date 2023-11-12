@@ -7,6 +7,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useTheme } from "@mui/material/styles";
 
 import SwitchItemData from "./SwitchItemData";
+
 function SwitchItem({ data, places = undefined, type }) {
   const theme = useTheme();
   return (

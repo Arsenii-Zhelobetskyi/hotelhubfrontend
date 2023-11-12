@@ -5,7 +5,7 @@ function AlertComp({ status }) {
   if (status) {
     if (status === "free") {
       alert = (
-        <Alert
+        <Alert severity="success"
           sx={{
             bottom: 15,
             left: 20,
@@ -21,7 +21,7 @@ function AlertComp({ status }) {
       );
     } else {
       alert = (
-        <Alert
+        <Alert severity="error"
           sx={{
             bottom: 15,
             left: 20,

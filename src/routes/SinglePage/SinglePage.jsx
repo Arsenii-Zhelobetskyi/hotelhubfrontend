@@ -39,7 +39,6 @@ function SinglePage() {
         sx={{
           marginTop: "20px",
           display: "flex",
-          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}

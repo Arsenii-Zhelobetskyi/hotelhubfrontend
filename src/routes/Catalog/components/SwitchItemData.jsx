@@ -59,8 +59,8 @@ function SwitchItemData({ item, theme, places, type }) {
             marginTop: "10px",
           }}
         >
-          Кількість вільних місць:
-          {item.placeN -
+          {item.status ? "Кількість місць: " : "Кількість вільних місць: "}
+           {item.placeN -
             (places?.find((el) => el.hotelId === item.id)?.totalPlaces || 0)}
         </Typography>
       </Box>
