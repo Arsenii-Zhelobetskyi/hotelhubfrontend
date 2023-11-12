@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { loader as singlePageLoader } from "./routes/SinglePage/SinglePage.jsx";
 import { loader as catalogLoader } from "./routes/Catalog/components/Switch.jsx";
+import {loader as orderHistoryLoader } from "./routes/OrderHistory/OrderHistory.jsx"
 import Home from "./routes/Home/Home.jsx";
 import ErrorPage from "./routes/ErrorPage/ErrorPage.jsx";
 import Catalog from "./routes/Catalog/Catalog.jsx";
@@ -36,14 +37,15 @@ const router = createBrowserRouter([
           },
           {
             path: ":type/:id", // Шлях для будинків у каталозі
-            element: <SinglePage />, // Замініть на вашу компоненту, яка показує сторінку для будинків
-            loader: singlePageLoader, // Ви могли б додати свій loader
+            element: <SinglePage />, //  компонентa, яка показує сторінку для будинків
+            loader: singlePageLoader, //  свій loader
           },
         ],
       },
       {
-        path: "/orderHistory",
+        path: "/orderHistory/:user_id",
         element: <OrderHistory />,
+        loader: orderHistoryLoader,
       },
     ],
   },

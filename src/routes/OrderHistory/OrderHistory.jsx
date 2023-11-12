@@ -7,49 +7,37 @@ import { useLoaderData } from "react-router-dom";
 
 export async function loader({ params }) {
   const req = await fetch(
-    `${API_URL}/api/orderList/${params.user_id}`
+    `${API_URL}/api/orderHistory/${params.user_id}`
   );
-  const orderList = await req.json();
-  console.log(orderList);
-  return { orderList };
+  const history = await req.json();
+  console.log(history);
+  return { history };
 }
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'date', headerName: 'Data', type: 'data', width: 100, editable: false },
-  { field: 'total', headerName: 'Total', type: 'number', width: 110, editable: true },
-  { field: 'status', headerName: 'Status', type: 'number', width: 110, editable: true },
-  { field: 'buildMethod', headerName: 'Build Method', type: 'text', width: 130 },
+  { field: 'id', headerName: ' ID', width: 130 },
+  { field: 'order_date', headerName: 'Date', type: 'date', width: 210, valueGetter: (params) => new Date(params.row.order_date), },
+  { field: 'status', headerName: 'Status', type: 'text', width: 190 },
+  { field: 'buildMethod', headerName: 'Build Method', type: 'text', width: 220 },
+  { field: 'total_amount', headerName: 'Total', type: 'number', width: 190 },
 ];
 
 function OrderHistory() {
 
   const theme = useTheme();
+  const { history } = useLoaderData();
+  console.log(history);
 
-  const [rows, setRows] = useState([]); 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { orderList } = await useLoaderData();
-        setRows(orderList);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  // const { orderList } = useLoaderData();
-  // console.log(orderList);
+const rows = Object.values(history);
 
   return (
     <div>
-      <h1>My Order History</h1>
-      <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
+      <h1 >My Order History</h1>
+      <Box sx={{ height: 400, width: `100%`, marginTop: 4  }}>
+        <DataGrid sx={{ color: `${theme.palette.text.primary}`, paddingRight: 2, paddingLeft: 2, fontSize: 18}}
         rows={rows}
-        columns={columns}
+          columns={columns}
+          filterMode="server"
         initialState={{
           pagination: {
             paginationModel: {
