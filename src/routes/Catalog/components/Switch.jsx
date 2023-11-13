@@ -56,13 +56,13 @@ function Switch() {
             value={value}
             onChange={handleChange}
             variant={"fullWidth"}
-            textColor="secondary"
+            textColor="FFFFFF"
             indicatorColor="secondary"
             aria-label="secondary tabs example"
             centered
           >
-            <Tab value="0" label="Hotels" />
-            <Tab value="1" label="Houses" />
+            <Tab value="0" label="Hotels" sx={{ fontSize: 16 }} />
+            <Tab value="1" label="Houses" sx={{ fontSize: 16 }}/>
           </TabList>
         </Box>
 

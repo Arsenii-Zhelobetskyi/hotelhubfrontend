@@ -1,7 +1,7 @@
 import Switch from "./components/Switch";
 function Catalog() {
   return (
-    <div>
+    <div style={{ paddingTop: 10}}>
       <Switch />
     </div>
   );

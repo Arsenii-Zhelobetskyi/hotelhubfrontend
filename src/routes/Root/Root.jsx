@@ -15,10 +15,12 @@ const theme = createTheme({
     },
     background: {
       default: "#141416",
+      light: "#EAF0FF",
     },
     text: {
       primary: "#FCFCFD",
       secondary: "#777E90",
+      dark: "#141416",
     },
   },
   typography: {
@@ -53,6 +55,22 @@ const theme = createTheme({
       },
       defaultProps: {
         disableRipple: true, //усі кнопки тепер без пульсацій
+      },
+    },
+
+    MuiDataGrid: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          backgroundColor: theme.palette.background.default,
+          border:
+            ownerState.color === "secondary"
+              ? "none"
+              : "2px solid " + theme.palette.secondary.light,
+          padding: ownerState.color === "primary" ? "12px 30px" : "10px 30px",
+          color: theme.palette.text.primary,
+          boxShadow: "none",
+          borderRadius: "20px",
+        }),
       },
     },
   },
