@@ -1,6 +1,5 @@
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import SearchForm from "./components/SearchForm"
+import SearchForm from "./components/SearchForm";
 function Home() {
   return (
     <div>

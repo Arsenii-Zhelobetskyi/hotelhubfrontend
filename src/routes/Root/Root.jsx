@@ -14,8 +14,9 @@ const theme = createTheme({
       dark: "#353945",
     },
     background: {
-      default: "#141416",
+      default: "#1D1D1E",
       light: "#EAF0FF",
+      dark: "#171616D6",
     },
     text: {
       primary: "#FCFCFD",
@@ -73,6 +74,43 @@ const theme = createTheme({
         }),
       },
     },
+
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          backgroundColor: theme.palette.secondary.dark,
+          color: theme.palette.text.primary,
+          "&:hover": {
+            backgroundColor:
+              ownerState.color === "primary"
+                ? theme.palette.primary.dark
+                : theme.palette.secondary.dark,
+          },
+          padding:"none",
+          boxShadow: "none",
+        }),
+      },
+    },
+
+    MuiInputBase: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          
+          padding:"none",
+        }),
+      },
+    },
+
+    MuiPaper: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          backgroundColor: theme.palette.background.grey,
+          
+          color: theme.palette.text.primary,
+          borderRadius: "10px",
+        }),
+      },
+    }
   },
 });
 

@@ -1,13 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import { loader as singlePageLoader } from "./routes/SinglePage/SinglePage.jsx";
 import { loader as catalogLoader } from "./routes/Catalog/components/Switch.jsx";
-import {loader as orderHistoryLoader } from "./routes/OrderHistory/OrderHistory.jsx"
+import { loader as orderHistoryLoader } from "./routes/OrderHistory/OrderHistory.jsx";
+import { loader as searchFormLoader } from "./routes/Home/components/SearchForm.jsx";
 import Home from "./routes/Home/Home.jsx";
 import ErrorPage from "./routes/ErrorPage/ErrorPage.jsx";
 import Catalog from "./routes/Catalog/Catalog.jsx";
 import Root from "./routes/Root/Root.jsx";
 import SinglePage from "./routes/SinglePage/SinglePage.jsx";
 import OrderHistory from "./routes/OrderHistory/OrderHistory.jsx";
+import SearchForm from "./routes/Home/components/SearchForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,10 +24,12 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        loader: searchFormLoader,
       },
       {
         path: "/home",
         element: <Home />,
+        loader: searchFormLoader,
       },
       {
         path: "/catalog",

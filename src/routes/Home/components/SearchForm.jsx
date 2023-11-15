@@ -1,63 +1,118 @@
 import React, { useState, useEffect } from "react";
 import { API_URL } from "../../../utils/config";
-import styles from "./style.css";
+import { AJAX } from "../../../utils/api";
+import "./style.css";
 import Box from '@mui/material/Box';
 import { useTheme } from "@mui/material/styles";
 import { useLoaderData } from "react-router-dom";
 import background from "./image.jpg";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Paper } from "@mui/material";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Divider from "@mui/material/Divider";
+import PinDropIcon from '@mui/icons-material/PinDropOutlined';
+import PersonIcon from '@mui/icons-material/PersonAddAltOutlined';
 
-
-export async function loader({ params }) {
-  const req = await fetch(
-    `${API_URL}/api/reservation/${params.user_id}`
-  );
-  const history = await req.json();
-  console.log(history);
-  return { history };
+export async function loader() {
+  const cities = await AJAX(`${API_URL}/api/cities`);
+  return cities;
 }
 
 function SearchForm() {
+  const theme = useTheme();
+  const data = useLoaderData();
+
+  console.log(data);
+  const options = data.map((city) => `${city.name}, ${city.country}`);
+
   return (
-      <div style={{ paddingBottom: 200 }}>
-        <article style={{ height: "100%", position: "relative", }}>
-          <img src={background} alt="House photo" style={{ width: "95%", borderRadius: 40, objectFit: "cover" }} />
-          <h1 style={{
-            fontSize: 80,
-            color: "#C99C1E",
-            textAlign: "center",
-            position: "absolute",
-            top: 0,
-            bottom: 300,
-            left: 0,
-            right: 550,
-            height: "fit-content",
-            margin: "auto",
-            lineHeight: 1.2,
-            fontFamily: "cursive",
-            textShadow: "8px 6px 4px #000000",
-          }}>
-            Welcome, <br></br> dear <br></br> traveler!
+    <Box className="container">
+      
+      <article className="article">
+        
+          <img src={background} alt="House photo" className="image" />
+          <h1 className="title">
+            Welcome, <br /> dear <br /> traveler!
           </h1>
-          <form style={{
-            position: "absolute",
-            top: 550,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            width: 1000,
-            height: 255,
-            margin: "auto",
-            background: "rgba(51, 54, 65, 0.51)",
-            borderRadius: 16,
-            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-            backdropFilter: "blur(8.9px)",
-            border: "1px solid  #5F6A7B",
-          }}>
-            <h3 style={{ margin: 20, textAlign: "left",  }}>Search and Book Your Getaway</h3>
+        
+          <form className="form">
+
+            <Typography sx={{ margin: "20px 50px ", textAlign: "left", fontSize: 18, fontFamily: "monospace", fontStyle: "italic", color: "#DCDEE2E3" }}>Search and Book Your Getaway</Typography>
+            <div className="flex-box-left">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel value="female" control={<Radio />} label="House" sx={{ marginRight: 5 }}/>
+                    <FormControlLabel value="male" control={<Radio />} label="Room in hotel" />
+                  </RadioGroup>
+                </FormControl>
+            </div>
+          
+            <Divider sx={{ border: `.5px solid ${theme.palette.secondary.main}`, margin: "8px 20px", width: "96%" }} />
+          
+            <div className="flex-box">
+              <Box sx={{ display: 'flex', alignItems: 'center',  }}>
+                <PinDropIcon sx={{ color: theme.palette.text.primary, marginRight: 1, fontSize: 35, }} />
+                <Stack spacing={0} sx={{ width: 270, borderRadius: 2,}}>
+                  <Autocomplete sx={{ borderRadius: 2,  }}
+                    freeSolo
+                    id="free-solo-1"
+                    disableClearable
+                    options={options}
+                    PaperComponent={({ children }) => (
+                      <Paper style={{ fontSize: 15, }}>{children}</Paper>
+                    )}
+                    renderInput={(params) => (
+                      <TextField sx={{ backgroundColor: theme.palette.background.dark, borderRadius: 2,}} id="filled-basic" variant="filled" size="small"
+                        {...params}
+                        label="Location"
+                        InputProps={{
+                          ...params.InputProps,
+                          type: 'search',
+                        }}
+                      />
+                    )}
+                  />
+                </Stack>
+              </Box>
             
+              <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                <PersonIcon sx={{ color: theme.palette.text.primary, marginRight: 1, fontSize: 35, }} />
+                <TextField sx={{ backgroundColor: theme.palette.background.dark, border: "2px solid #525C708C", borderRadius: 2, width: 150, }}
+                  id="filled-number"
+                  label="Number of guests"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  defaultValue="1"
+                  inputProps={{
+                    min: 1,
+                    max: 30,
+                  }}
+                  />
+              </Box>
+            
+            </div>
+
           </form>
+            
+          
         </article>
-      </div>
+        
+    </Box>
 
     )
 }

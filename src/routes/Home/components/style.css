@@ -1,18 +1,82 @@
+/* SearchForm.css */
+.container {
+    padding-bottom: 200px;
+}
+
 .article {
     height: 100%;
     position: relative;
-    overflow: hidden;
 }
 
-.header {
-    font-size: 80px;
-    color: white;
+.image {
+    width: 95%;
+    border-radius: 40px;
+    object-fit: cover;
+}
+
+.title {
+    font-size: 75px;
+    color: #C99C1E;
     text-align: center;
     position: absolute;
     top: 0;
+    bottom: 44%;
+    left: 0;
+    right: 50%;
+    max-width: 1000px;
+    height: fit-content;
+    margin: auto;
+    line-height: 1.2;
+    font-family: cursive;
+    text-shadow: 8px 6px 4px #000000;
+}
+
+.form {
+    position: absolute;
+    top: 80%;
     bottom: 0;
     left: 0;
     right: 0;
-    height: fit-content;
+    width: 85%;
+    height: 40%;
     margin: auto;
+    background: rgba(51, 54, 65, 0.51);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8.9px);
+    border: 1px solid #51565e74;
+}
+
+@media screen and (max-width: 1000px) {
+  .title {
+    font-size: 59px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+    .title {
+        font-size: 48px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .title {
+        font-size: 36px;
+    }
+}
+
+.flex-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 18px 10px;
+}
+
+.flex-box-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    padding: 0 0 0 50px;
 }
