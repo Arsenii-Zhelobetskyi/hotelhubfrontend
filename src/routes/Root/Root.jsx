@@ -24,12 +24,7 @@ const theme = createTheme({
       dark: "#141416",
     },
   },
-  typography: {
-    h2: {
-      fontSize: "48px",
-      fontWeight: "bold",
-    },
-  },
+
   components: {
     MuiButton: {
       styleOverrides: {
@@ -86,7 +81,7 @@ const theme = createTheme({
                 ? theme.palette.primary.dark
                 : theme.palette.secondary.dark,
           },
-          padding:"none",
+          padding: "none",
           boxShadow: "none",
         }),
       },
@@ -95,8 +90,7 @@ const theme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: ({ ownerState }) => ({
-          
-          padding:"none",
+          padding: "none",
         }),
       },
     },
@@ -104,20 +98,53 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: ({ ownerState }) => ({
-          backgroundColor: theme.palette.background.grey,
-          
+          backgroundColor: theme.palette.background.dark,
           color: theme.palette.text.primary,
           borderRadius: "10px",
         }),
       },
-    }
+    },
   },
 });
 
-theme.typography.secondary = {
-  fontSize: "16px",
+theme.typography.hero = {
+  fontSize: "48px",
+  fontWeight: "bold",
+  display: "block",
+};
+
+theme.typography.headline1 = {
+  fontSize: "40px",
   color: theme.palette.secondary.main,
   display: "block",
+};
+theme.typography.headline2 = {
+  fontSize: "32px",
+  color: theme.palette.text.primary,
+  fontWeight: "bold",
+  display: "block",
+};
+theme.typography.headline3 = {
+  fontSize: "20px",
+  color: theme.palette.text.primary,
+
+  display: "block",
+};
+
+theme.typography.caption1 = {
+  fontSize: "18px",
+  color: theme.palette.secondary.main,
+  display: "block",
+};
+theme.typography.caption2 = {
+  fontSize: "14px",
+  color: theme.palette.secondary.main,
+  display: "block",
+};
+
+theme.typography.body = {
+  fontSize: "16px",
+  color: theme.palette.secondary.main,
 };
 
 function Root() {

@@ -1,26 +1,20 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import { useLoaderData } from "react-router-dom";
-import { API_URL } from "../../utils/config";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-export async function loader({ params }) {
-  const req = await fetch(
-    `${API_URL}/api/${params.type}s/${params.type}/${params.id}`
-  );
-  const data = await req.json();
-  console.log(data);
-  return { data };
-}
+import Box from "@mui/material/Box";
+
+import { useLoaderData } from "react-router-dom";
+import Reviews from "./components/Reviews/Reviews.jsx";
+import { API_URL } from "../../utils/config";
 function SinglePage() {
   const { data } = useLoaderData();
   console.log(data);
   return (
-    <Box sx={{ textAlign: "left" }}>
-      <Typography variant="h2" sx={{ textAlign: "left" }}>
+    <Box sx={{ textAlign: "left", marginBottom: "250px" }}>
+      <Typography variant="hero" sx={{ textAlign: "left" }}>
         {data.name}
       </Typography>
-      <Typography variant="secondary">{data.address}</Typography>
+      <Typography variant="caption1">{data.address}</Typography>
       <Box
         component="img"
         sx={{
@@ -44,10 +38,10 @@ function SinglePage() {
         }}
       >
         <Box>
-          <Typography variant="secondary">{data.description}</Typography>
-          <Typography variant="secondary">{data.contact_inf}</Typography>
-          <Typography variant="secondary">{data.placeN}</Typography>
-          <Typography variant="secondary">{data.roomN}</Typography>
+          <Typography variant="body">{data.description}</Typography>
+          <Typography variant="body">{data.contact_inf}</Typography>
+          <Typography variant="body">{data.placeN}</Typography>
+          <Typography variant="body">{data.roomN}</Typography>
         </Box>
         <Box sx={{ display: "flex", gap: "8px" }}>
           <Button variant="contained" color="secondary">
@@ -58,6 +52,7 @@ function SinglePage() {
           </Button>
         </Box>
       </Box>
+      <Reviews />
     </Box>
   );
 }

@@ -22,15 +22,15 @@ function SwitchItemData({ item, theme, places, type }) {
       />
       <Box sx={{ padding: "24px" }}>
         <Typography
+          variant="headline3"
           sx={{
-            fontSize: 20,
-            fontWeight: "bold",
             textAlign: "left",
           }}
         >
           {item.name}
         </Typography>
         <Typography
+          variant="caption2"
           sx={{
             color: theme.palette.text.secondary,
             fontSize: 14,
@@ -50,8 +50,8 @@ function SwitchItemData({ item, theme, places, type }) {
         />
         <AlertComp status={item.status} />
         <Typography
+          variant="caption2"
           sx={{
-            color: "#D0CBDCB8",
             bottom: 20,
             right: 20,
             fontSize: 14,
@@ -60,7 +60,7 @@ function SwitchItemData({ item, theme, places, type }) {
           }}
         >
           {item.status ? "Кількість місць: " : "Кількість вільних місць: "}
-           {item.placeN -
+          {item.placeN -
             (places?.find((el) => el.hotelId === item.id)?.totalPlaces || 0)}
         </Typography>
       </Box>

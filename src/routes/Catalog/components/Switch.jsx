@@ -7,24 +7,17 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import SwitchItem from "./SwitchItem";
-import { useLoaderData } from "react-router-dom";
-export async function loader() {
-  const [hotels, places, houses] = await Promise.all([
-    AJAX(`${API_URL}/api/hotels/`),
-    AJAX(`${API_URL}/api/rooms/occupiedPlacesByHotel`),
-    AJAX(`${API_URL}/api/houses/`),
-  ]);
-  return { hotels, places, houses };
-}
-function Switch() {
+function Switch({ hotels, places, houses }) {
   const [value, setValue] = useState("0"); // значення вкладки за замовчуванням
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  /* const [hotels, setHotels] = useState([]);
-  const [houses, setHouses] = useState([]);
-  const [places, setOccupiedPlacesByHotel] = useState([]); */
-  const { hotels, places, houses } = useLoaderData();
+
+  console.log(hotels);
+  console.log(hotels);
+  console.log(hotels);
+  console.log(hotels);
+
   /*   useEffect(() => {
     // Fetch users and total occupied places by hotel when the component mounts
     async function fetchData() {
@@ -45,9 +38,7 @@ function Switch() {
     fetchData();
   }, []);
  */
-  console.log(hotels);
-  console.log(houses);
-  console.log(places);
+
   return (
     <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
       <TabContext value={value}>
@@ -56,13 +47,12 @@ function Switch() {
             value={value}
             onChange={handleChange}
             variant={"fullWidth"}
-            textColor="FFFFFF"
             indicatorColor="secondary"
-            aria-label="secondary tabs example"
+            textColor="secondary"
             centered
           >
             <Tab value="0" label="Hotels" sx={{ fontSize: 16 }} />
-            <Tab value="1" label="Houses" sx={{ fontSize: 16 }}/>
+            <Tab value="1" label="Houses" sx={{ fontSize: 16 }} />
           </TabList>
         </Box>
 
