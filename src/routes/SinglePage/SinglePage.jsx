@@ -1,14 +1,12 @@
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 import { useLoaderData } from "react-router-dom";
 import Reviews from "./components/Reviews/Reviews.jsx";
-import { API_URL } from "../../utils/config";
 function SinglePage() {
   const { data } = useLoaderData();
-  console.log(data);
+
   return (
     <Box sx={{ textAlign: "left", marginBottom: "250px" }}>
       <Typography variant="hero" sx={{ textAlign: "left" }}>

@@ -8,21 +8,23 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import { formatDistanceToNow } from "date-fns";
 import { API_URL } from "../../../../utils/config";
-import { AJAX } from "../../../../utils/api";
 import Rating from "@mui/material/Rating";
 import Divider from "@mui/material/Divider";
 import useTheme from "@mui/material/styles/useTheme";
+import { useParams } from "react-router-dom";
 function Body() {
   const theme = useTheme();
   const [comments, setComments] = useState([]);
   const [sort, setSort] = useState("");
+  const { type, id } = useParams();
 
   const handleChange = (event) => {
     setSort(event.target.value);
   };
   useEffect(() => {
     async function fetchComments() {
-      const data = await AJAX(`${API_URL}/api/comments/`);
+      const res = await fetch(`${API_URL}/api/comments/${id}?type=${type}`);
+      const data = await res.json();
       setComments(data);
     }
     fetchComments();
@@ -76,7 +78,10 @@ function Body() {
               {formatDistanceToNow(new Date(comment.date), { addSuffix: true })}
             </Typography>
             <Divider
-              sx={{ border: `0.5px solid ${theme.palette.secondary.main}`, marginTop:"20px" }}
+              sx={{
+                border: `0.5px solid ${theme.palette.secondary.main}`,
+                marginTop: "20px",
+              }}
             />
           </Box>
         ))}
