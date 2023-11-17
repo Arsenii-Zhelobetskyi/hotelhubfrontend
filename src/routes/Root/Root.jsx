@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/";
@@ -17,6 +16,7 @@ const theme = createTheme({
       default: "#1D1D1E",
       light: "#EAF0FF",
       dark: "#171616D6",
+      grey: "rgba(34,38,45,0.88)"
     },
     text: {
       primary: "#FCFCFD",
@@ -70,34 +70,17 @@ const theme = createTheme({
       },
     },
 
-    MuiAutocomplete: {
+    MuiDivider: {
       styleOverrides: {
-        root: ({ ownerState }) => ({
-          backgroundColor: theme.palette.secondary.dark,
-          color: theme.palette.text.primary,
-          "&:hover": {
-            backgroundColor:
-              ownerState.color === "primary"
-                ? theme.palette.primary.dark
-                : theme.palette.secondary.dark,
-          },
-          padding: "none",
-          boxShadow: "none",
-        }),
-      },
-    },
-
-    MuiInputBase: {
-      styleOverrides: {
-        root: ({ ownerState }) => ({
-          padding: "none",
-        }),
-      },
+        root: () => ({
+          border: `1px solid ${theme.palette.secondary.main}`,
+        })
+      }
     },
 
     MuiPaper: {
       styleOverrides: {
-        root: ({ ownerState }) => ({
+        root: () => ({
           backgroundColor: theme.palette.background.dark,
           color: theme.palette.text.primary,
           borderRadius: "10px",
@@ -106,6 +89,7 @@ const theme = createTheme({
     },
   },
 });
+
 
 theme.typography.hero = {
   fontSize: "48px",
@@ -127,7 +111,6 @@ theme.typography.headline2 = {
 theme.typography.headline3 = {
   fontSize: "20px",
   color: theme.palette.text.primary,
-
   display: "block",
 };
 
