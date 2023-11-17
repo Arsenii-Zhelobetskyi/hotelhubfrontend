@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { API_URL } from "../../../utils/config";
-import { AJAX } from "../../../utils/api";
+// import React, { useState, useEffect } from "react";
 import "./style.css";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
@@ -18,13 +16,36 @@ import FormControl from "@mui/material/FormControl";
 import Divider from "@mui/material/Divider";
 import PinDropIcon from "@mui/icons-material/PinDropOutlined";
 import PersonIcon from "@mui/icons-material/PersonAddAltOutlined";
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-dat e-pickers/DatePicker';
+import TravelIcon from '@mui/icons-material/TravelExploreTwoTone';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+import styled from 'styled-components';
+import { css } from '@emotion/react';
+import Button from "@mui/material/Button";
+
+
+
+
 
 function SearchForm() {
+
   const theme = useTheme();
+
+  const iconStyles = css`
+    color: ${theme.palette.text.primary};
+    margin-right: 1px;
+    font-size: 35px;
+  `;
+
+const StyledIcon1 = styled(PersonIcon)`
+  ${iconStyles}
+`;
+const StyledIcon2 = styled(PinDropIcon)`
+  ${iconStyles}
+`;
+  
   const data = useLoaderData();
 
   console.log(data);
@@ -39,20 +60,25 @@ function SearchForm() {
         </h1>
 
         <form className="form">
-          <Typography
-            sx={{
-              margin: "20px 50px ",
-              textAlign: "left",
-              fontSize: 18,
-              fontFamily: "monospace",
-              fontStyle: "italic",
-              color: "#DCDEE2E3",
-            }}
-          >
-            Search and Book Your Getaway
-          </Typography>
+
+          <div className="flex-box" style={{ justifyContent: "space-between" }}>
+
+            <Typography sx={{ padding: "10px 50px 25px 15px", textAlign: "left", fontSize: 18, }}> Search and Book Your Getaway </Typography>
+          
+              <Button sx={{ width: "18%",}}  variant="contained" color="primary" >
+                <TravelIcon  sx={{
+                  color: theme.palette.text.primary,
+                  paddingRight: 1,
+                  fontSize: 35,
+                  }} /> 
+                <Typography sx={{ textAlign: "center", fontSize: 14, }}> Search </Typography>
+            </Button>
+          
+          </div>
+          
           <div className="flex-box-left">
             <FormControl>
+
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -70,27 +96,22 @@ function SearchForm() {
                   label="Room in hotel"
                 />
               </RadioGroup>
+
             </FormControl>
           </div>
 
-          <Divider
-            sx={{
-              border: `.5px solid ${theme.palette.secondary.main}`,
-              margin: "8px 20px",
-              width: "96%",
-            }}
-          />
+          <Divider sx={{margin: '8px 20px',  width: "96%",}}/>
 
           <div className="flex-box">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PinDropIcon
+              <StyledIcon2
                 sx={{
                   color: theme.palette.text.primary,
                   marginRight: 1,
                   fontSize: 35,
                 }}
               />
-              <Stack spacing={0} sx={{ width: 270, borderRadius: 2 }}>
+              <Stack spacing={2} sx={{ width: 250, borderRadius: 2 }}>
                 <Autocomplete
                   sx={{ borderRadius: 2 }}
                   freeSolo
@@ -102,15 +123,10 @@ function SearchForm() {
                   )}
                   renderInput={(params) => (
                     <TextField
-                      sx={{
-                        backgroundColor: theme.palette.background.dark,
-                        borderRadius: 2,
-                      }}
+                      sx={{ backgroundColor: theme.palette.background.dark, borderRadius: 2, }}
                       id="filled-basic"
-                      variant="filled"
-                      size="small"
-                      {...params}
-                      label="Location"
+                      variant="filled" size="small"
+                      {...params} label="Location"
                       InputProps={{
                         ...params.InputProps,
                         type: "search",
@@ -121,8 +137,35 @@ function SearchForm() {
               </Stack>
             </Box>
 
+            <Box sx={{paddingLeft: 3}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker sx={{backgroundColor: theme.palette.background.grey,
+                      border: `1px solid ${theme.palette.secondary.dark}`,
+                      borderRadius: 2,
+                      width: "80%",}}
+                    format="YYYY-MM-DD"  
+                    label="Start Date"
+                    defaultValue={dayjs()}
+                  />
+                </LocalizationProvider>
+            </Box>
+
+            <Typography variant="headline3"> – </Typography>
+
+            <Box sx={{paddingRight: 3}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker sx={{backgroundColor: theme.palette.background.grey,
+                      border: `1px solid ${theme.palette.secondary.dark}`,
+                      borderRadius: 2,
+                      width: "80%",}}
+                    format="YYYY-MM-DD"
+                    label="End Date"
+                  />
+                </LocalizationProvider>
+            </Box>
+
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PersonIcon
+              <StyledIcon1
                 sx={{
                   color: theme.palette.text.primary,
                   marginRight: 1,
@@ -132,9 +175,8 @@ function SearchForm() {
               <TextField
                 sx={{
                   backgroundColor: theme.palette.background.dark,
-                  border: "2px solid #525C708C",
                   borderRadius: 2,
-                  width: 150,
+                  width: 130,
                 }}
                 id="filled-number"
                 label="Number of guests"
@@ -151,9 +193,7 @@ function SearchForm() {
               />
             </Box>
 
-            <Box>
-              
-            </Box>
+
           </div>
         </form>
       </article>
