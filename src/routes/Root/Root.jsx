@@ -1,7 +1,7 @@
+import CssBaseline from "@mui/material/CssBaseline";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/";
-import CssBaseline from "@mui/material/CssBaseline";
 const theme = createTheme({
   palette: {
     primary: {
@@ -16,7 +16,7 @@ const theme = createTheme({
       default: "#1D1D1E",
       light: "#EAF0FF",
       dark: "#171616D6",
-      grey: "rgba(34,38,45,0.88)"
+      grey: "rgba(34,38,45,0.88)",
     },
     text: {
       primary: "#FCFCFD",
@@ -74,8 +74,8 @@ const theme = createTheme({
       styleOverrides: {
         root: () => ({
           border: `1px solid ${theme.palette.secondary.main}`,
-        })
-      }
+        }),
+      },
     },
 
     MuiPaper: {
@@ -89,7 +89,6 @@ const theme = createTheme({
     },
   },
 });
-
 
 theme.typography.hero = {
   fontSize: "48px",

@@ -1,6 +1,5 @@
 // import React, { useState, useEffect } from "react";
 import "./style.css";
-import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import { useLoaderData } from "react-router-dom";
 import background from "./image.jpg";
@@ -16,21 +15,17 @@ import FormControl from "@mui/material/FormControl";
 import Divider from "@mui/material/Divider";
 import PinDropIcon from "@mui/icons-material/PinDropOutlined";
 import PersonIcon from "@mui/icons-material/PersonAddAltOutlined";
-import TravelIcon from '@mui/icons-material/TravelExploreTwoTone';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
-import styled from 'styled-components';
-import { css } from '@emotion/react';
+import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+import styled from "styled-components";
+import { css } from "@emotion/react";
 import Button from "@mui/material/Button";
-
-
-
-
+import Box from "@mui/material/Box";
 
 function SearchForm() {
-
   const theme = useTheme();
 
   const iconStyles = css`
@@ -39,13 +34,13 @@ function SearchForm() {
     font-size: 35px;
   `;
 
-const StyledIcon1 = styled(PersonIcon)`
-  ${iconStyles}
-`;
-const StyledIcon2 = styled(PinDropIcon)`
-  ${iconStyles}
-`;
-  
+  const StyledIcon1 = styled(PersonIcon)`
+    ${iconStyles}
+  `;
+  const StyledIcon2 = styled(PinDropIcon)`
+    ${iconStyles}
+  `;
+
   const data = useLoaderData();
 
   console.log(data);
@@ -60,25 +55,35 @@ const StyledIcon2 = styled(PinDropIcon)`
         </h1>
 
         <form className="form">
-
           <div className="flex-box" style={{ justifyContent: "space-between" }}>
+            <Typography
+              sx={{
+                padding: "10px 50px 25px 15px",
+                textAlign: "left",
+                fontSize: 18,
+              }}
+            >
+              {" "}
+              Search and Book Your Getaway{" "}
+            </Typography>
 
-            <Typography sx={{ padding: "10px 50px 25px 15px", textAlign: "left", fontSize: 18, }}> Search and Book Your Getaway </Typography>
-          
-              <Button sx={{ width: "18%",}}  variant="contained" color="primary" >
-                <TravelIcon  sx={{
+            <Button sx={{ width: "18%" }} variant="contained" color="primary">
+              <TravelIcon
+                sx={{
                   color: theme.palette.text.primary,
                   paddingRight: 1,
                   fontSize: 35,
-                  }} /> 
-                <Typography sx={{ textAlign: "center", fontSize: 14, }}> Search </Typography>
+                }}
+              />
+              <Typography sx={{ textAlign: "center", fontSize: 14 }}>
+                {" "}
+                Search{" "}
+              </Typography>
             </Button>
-          
           </div>
-          
+
           <div className="flex-box-left">
             <FormControl>
-
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -96,11 +101,10 @@ const StyledIcon2 = styled(PinDropIcon)`
                   label="Room in hotel"
                 />
               </RadioGroup>
-
             </FormControl>
           </div>
 
-          <Divider sx={{margin: '8px 20px',  width: "96%",}}/>
+          <Divider sx={{ margin: "8px 20px", width: "96%" }} />
 
           <div className="flex-box">
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -123,10 +127,15 @@ const StyledIcon2 = styled(PinDropIcon)`
                   )}
                   renderInput={(params) => (
                     <TextField
-                      sx={{ backgroundColor: theme.palette.background.dark, borderRadius: 2, }}
+                      sx={{
+                        backgroundColor: theme.palette.background.dark,
+                        borderRadius: 2,
+                      }}
                       id="filled-basic"
-                      variant="filled" size="small"
-                      {...params} label="Location"
+                      variant="filled"
+                      size="small"
+                      {...params}
+                      label="Location"
                       InputProps={{
                         ...params.InputProps,
                         type: "search",
@@ -137,31 +146,37 @@ const StyledIcon2 = styled(PinDropIcon)`
               </Stack>
             </Box>
 
-            <Box sx={{paddingLeft: 3}}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{backgroundColor: theme.palette.background.grey,
-                      border: `1px solid ${theme.palette.secondary.dark}`,
-                      borderRadius: 2,
-                      width: "80%",}}
-                    format="YYYY-MM-DD"  
-                    label="Start Date"
-                    defaultValue={dayjs()}
-                  />
-                </LocalizationProvider>
+            <Box sx={{ paddingLeft: 3 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  sx={{
+                    backgroundColor: theme.palette.background.grey,
+                    border: `1px solid ${theme.palette.secondary.dark}`,
+                    borderRadius: 2,
+                    width: "80%",
+                  }}
+                  format="YYYY-MM-DD"
+                  label="Start Date"
+                  defaultValue={dayjs()}
+                />
+              </LocalizationProvider>
             </Box>
 
             <Typography variant="headline3"> – </Typography>
 
-            <Box sx={{paddingRight: 3}}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker sx={{backgroundColor: theme.palette.background.grey,
-                      border: `1px solid ${theme.palette.secondary.dark}`,
-                      borderRadius: 2,
-                      width: "80%",}}
-                    format="YYYY-MM-DD"
-                    label="End Date"
-                  />
-                </LocalizationProvider>
+            <Box sx={{ paddingRight: 3 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  sx={{
+                    backgroundColor: theme.palette.background.grey,
+                    border: `1px solid ${theme.palette.secondary.dark}`,
+                    borderRadius: 2,
+                    width: "80%",
+                  }}
+                  format="YYYY-MM-DD"
+                  label="End Date"
+                />
+              </LocalizationProvider>
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -192,8 +207,6 @@ const StyledIcon2 = styled(PinDropIcon)`
                 }}
               />
             </Box>
-
-
           </div>
         </form>
       </article>

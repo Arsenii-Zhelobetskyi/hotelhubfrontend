@@ -1,11 +1,11 @@
 import React from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
+import { Box } from "@mui/material";
 function UserMenu() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
