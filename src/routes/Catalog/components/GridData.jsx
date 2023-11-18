@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import CardMedia from "@mui/material/CardMedia";
 import { useNavigate } from "react-router-dom";
-function SwitchItemData({ item, theme, places, type }) {
+function GridData({ item, theme, places, type }) {
   const navigateTo = useNavigate();
   const handleNavigate = (path) => {
     navigateTo(path);
@@ -14,11 +14,14 @@ function SwitchItemData({ item, theme, places, type }) {
       onClick={() => handleNavigate(`/catalog/${type}/${item.id}`)}
       sx={{ cursor: "pointer" }}
     >
-      <CardMedia
+      <Box
         component="img"
-        height="190"
-        image={`${item.photo.main ? item.photo.main : item.photo}`}
-        alt="item photo"
+        sx={{
+          height: 190,
+          width: "100%",
+        }}
+        alt="The house from the offer."
+        src={`${item.photo.main ? item.photo.main : item.photo}`}
       />
       <Box sx={{ padding: "24px" }}>
         <Typography
@@ -68,4 +71,4 @@ function SwitchItemData({ item, theme, places, type }) {
   );
 }
 
-export default SwitchItemData;
+export default GridData;

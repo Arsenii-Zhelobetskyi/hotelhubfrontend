@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
@@ -11,11 +11,22 @@ import SendIcon from "@mui/icons-material/Send";
 import { useParams } from "react-router-dom";
 import Body from "./Body.jsx";
 import { API_URL } from "../../../../utils/config";
-function Reviews() {
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchComments,
+  addComment,
+} from "../../../../redux/slices/commentsSlice.jsx";
+function Reviews({ type, id }) {
+  const dispatch = useDispatch();
+  const comments = useSelector((state) => state.comments);
+  useEffect(() => {
+    dispatch(fetchComments({ type, id }));
+  }, []);
+
   const [body, setBody] = useState("");
   const [error, setError] = useState(false);
   const [rating, setRating] = useState(4);
-  const { type, id } = useParams();
+
   const theme = useTheme();
   const handleChange = (e) => {
     setBody(e.target.value);
@@ -23,26 +34,16 @@ function Reviews() {
       setError(false);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (body.length === 0) {
       setError(true);
       return;
     }
-
-    const res = await fetch(`${API_URL}/api/comments/create`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "anonymous",
-        body: body,
-        rating: rating,
-        type: type,
-        id: id,
-      }),
-    });
+    dispatch(
+      addComment({ comment: { title: "anonymous", body, rating, id }, type })
+    );
     setBody("");
   };
   return (
@@ -107,7 +108,7 @@ function Reviews() {
           />
         </form>
       </Box>
-      <Body />
+      <Body data={comments.data} />
     </Box>
   );
 }

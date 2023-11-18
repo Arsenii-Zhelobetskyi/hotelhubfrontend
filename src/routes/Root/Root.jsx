@@ -2,6 +2,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/";
+import store from "../../redux/store.jsx";
+import { Provider } from "react-redux";
 const theme = createTheme({
   palette: {
     primary: {
@@ -131,13 +133,15 @@ theme.typography.body = {
 
 function Root() {
   return (
-    <ThemeProvider theme={theme}>
-      <Header />
-      <div className={"App-body"}>
-        <CssBaseline />
-        <Outlet />
-      </div>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Header />
+        <div className={"App-body"}>
+          <CssBaseline />
+          <Outlet />
+        </div>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
