@@ -1,6 +1,7 @@
-// import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import "./style.css";
 import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 import { useLoaderData } from "react-router-dom";
 import background from "./image.jpg";
 import Typography from "@mui/material/Typography";
@@ -15,6 +16,11 @@ import FormControl from "@mui/material/FormControl";
 import Divider from "@mui/material/Divider";
 import PinDropIcon from "@mui/icons-material/PinDropOutlined";
 import PersonIcon from "@mui/icons-material/PersonAddAltOutlined";
+import TravelIcon from '@mui/icons-material/TravelExploreTwoTone';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -23,27 +29,46 @@ import dayjs from "dayjs";
 import styled from "styled-components";
 import { css } from "@emotion/react";
 import Button from "@mui/material/Button";
+
+
 import Box from "@mui/material/Box";
 
 function SearchForm() {
+
+  const [formData, setFormData] = useState({
+    city: '',
+    startDate: `${dayjs()}`,
+    endDate: '',
+    guests: 1,
+    accommodationType: 'house',
+  });
+
+  const handleAccommodationChange = (event) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      accommodationType: event.target.value,
+    }));
+  };
+  const handleGuestsChange = (event) => {
+    const guests = parseInt(event.target.value, 10);
+    setFormData((prevData) => ({
+      ...prevData,
+      guests: isNaN(guests) ? 1 : guests,
+    }));
+  };
+ 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    console.log(formData);
+  };
+
+
+    
   const theme = useTheme();
-
-  const iconStyles = css`
-    color: ${theme.palette.text.primary};
-    margin-right: 1px;
-    font-size: 35px;
-  `;
-
-  const StyledIcon1 = styled(PersonIcon)`
-    ${iconStyles}
-  `;
-  const StyledIcon2 = styled(PinDropIcon)`
-    ${iconStyles}
-  `;
-
+  
   const data = useLoaderData();
 
-  console.log(data);
   const options = data.map((city) => `${city.name}, ${city.country}`);
 
   return (
@@ -54,7 +79,7 @@ function SearchForm() {
           Welcome, <br /> dear <br /> traveler!
         </h1>
 
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit}>
           <div className="flex-box" style={{ justifyContent: "space-between" }}>
             <Typography
               sx={{
@@ -67,9 +92,10 @@ function SearchForm() {
               Search and Book Your Getaway{" "}
             </Typography>
 
-            <Button sx={{ width: "18%" }} variant="contained" color="primary">
-              <TravelIcon
-                sx={{
+            <Typography sx={{ padding: "10px 50px 25px 15px", textAlign: "left", fontSize: 18, }}> Search and Book Your Getaway </Typography>
+          
+              <Button sx={{ width: "18%",}}  variant="contained" color="primary" type="submit">
+                <TravelIcon  sx={{
                   color: theme.palette.text.primary,
                   paddingRight: 1,
                   fontSize: 35,
@@ -88,15 +114,17 @@ function SearchForm() {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
+                value={formData.accommodationType}
+                onChange={handleAccommodationChange}
               >
                 <FormControlLabel
-                  value="female"
+                  value="house"
                   control={<Radio />}
                   label="House"
                   sx={{ marginRight: 5 }}
                 />
                 <FormControlLabel
-                  value="male"
+                  value="hotel"
                   control={<Radio />}
                   label="Room in hotel"
                 />
@@ -108,7 +136,7 @@ function SearchForm() {
 
           <div className="flex-box">
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <StyledIcon2
+              <PinDropIcon
                 sx={{
                   color: theme.palette.text.primary,
                   marginRight: 1,
@@ -118,10 +146,13 @@ function SearchForm() {
               <Stack spacing={2} sx={{ width: 250, borderRadius: 2 }}>
                 <Autocomplete
                   sx={{ borderRadius: 2 }}
-                  freeSolo
+                  freeSolo name="location"
                   id="free-solo-1"
-                  disableClearable
                   options={options}
+                  filterOptions={(options, { inputValue }) => {
+                    const filteredOptions = options.filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()));
+                    return filteredOptions.slice(0, 7);
+                  }}
                   PaperComponent={({ children }) => (
                     <Paper style={{ fontSize: 15 }}>{children}</Paper>
                   )}
@@ -131,9 +162,9 @@ function SearchForm() {
                         backgroundColor: theme.palette.background.dark,
                         borderRadius: 2,
                       }}
-                      id="filled-basic"
+                      id="filled-basic" 
                       variant="filled"
-                      size="small"
+                      size="small" 
                       {...params}
                       label="Location"
                       InputProps={{
@@ -142,6 +173,13 @@ function SearchForm() {
                       }}
                     />
                   )}
+                  value={formData.city}
+                  onChange={(event, value) => {
+                    if (value) {
+                      const cityName = value.split(',')[0].trim(); 
+                      setFormData((prevData) => ({ ...prevData, city: cityName }));
+                    }
+                  }}
                 />
               </Stack>
             </Box>
@@ -152,18 +190,31 @@ function SearchForm() {
                   sx={{
                     backgroundColor: theme.palette.background.grey,
                     border: `1px solid ${theme.palette.secondary.dark}`,
-                    borderRadius: 2,
+                    borderRadius: 2, 
                     width: "80%",
-                  }}
-                  format="YYYY-MM-DD"
-                  label="Start Date"
-                  defaultValue={dayjs()}
+                  }} 
+                  format="YYYY-MM-DD"disablePast
+                  label="Start Date" name="startDate"
+                  value={dayjs()}
+                    onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date}))}
                 />
               </LocalizationProvider>
             </Box>
 
             <Typography variant="headline3"> – </Typography>
 
+            <Box sx={{paddingRight: 3}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                  <DatePicker sx={{backgroundColor: theme.palette.background.grey,
+                        border: `1px solid ${theme.palette.secondary.dark}`,
+                        borderRadius: 2, 
+                        width: "80%",}} 
+                        format="YYYY-MM-DD" name="endDate"
+                      label="End Date" disablePast 
+                      value={dayjs().add(1, 'day')}
+                      onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date}))}
+                    />
+                </LocalizationProvider>
             <Box sx={{ paddingRight: 3 }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -180,7 +231,7 @@ function SearchForm() {
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <StyledIcon1
+              <PersonIcon
                 sx={{
                   color: theme.palette.text.primary,
                   marginRight: 1,
@@ -188,19 +239,18 @@ function SearchForm() {
                 }}
               />
               <TextField
-                sx={{
-                  backgroundColor: theme.palette.background.dark,
-                  borderRadius: 2,
-                  width: 130,
+                sx={{ backgroundColor: theme.palette.background.dark,
+                  borderRadius: 2, width: 130,
                 }}
                 id="filled-number"
+                name="guests" value={formData.guests}
                 label="Number of guests"
-                type="number"
+                type="number" 
                 InputLabelProps={{
                   shrink: true,
                 }}
                 variant="filled"
-                defaultValue="1"
+                onChange={handleGuestsChange}
                 inputProps={{
                   min: 1,
                   max: 30,
