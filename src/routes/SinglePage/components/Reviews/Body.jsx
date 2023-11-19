@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import useTheme from "@mui/material/styles/useTheme";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,7 +11,7 @@ import { API_URL } from "../../../../utils/config";
 import { AJAX } from "../../../../utils/api";
 import Rating from "@mui/material/Rating";
 import Divider from "@mui/material/Divider";
-import useTheme from "@mui/material/styles/useTheme";
+
 function Body() {
   const theme = useTheme();
   const [comments, setComments] = useState([]);
