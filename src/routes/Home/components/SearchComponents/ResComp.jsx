@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
-
 import Card from "@mui/material/Card";
-
 import Grid  from "@mui/material/Unstable_Grid2";
-
 import { useTheme } from "@mui/material/styles";
+import CompData from "./CompData";
 
-import GridData from "./GridData";
-
-function GridComp({ data, places = undefined, type }) {
+function ResComp( compData, type ) {
   const theme = useTheme();
   return (
     <div>
@@ -18,7 +13,7 @@ function GridComp({ data, places = undefined, type }) {
         columnSpacing={5}
         sx={{ display: "flex", justifyContent: "center" }}
       >
-        {data?.map((item) => (
+        {compData.data?.map((item) => (
           <Grid key={item.id}>
             <Card
               variant="outlined"
@@ -29,7 +24,7 @@ function GridComp({ data, places = undefined, type }) {
                 width: "310px",
               }}
             >
-              <GridData item={item} theme={theme} places={places} type={type} />
+              <CompData item={item} theme={theme} type={type} />
             </Card>
           </Grid>
         ))}
@@ -38,4 +33,4 @@ function GridComp({ data, places = undefined, type }) {
   );
 }
 
-export default GridComp;
+export default ResComp;

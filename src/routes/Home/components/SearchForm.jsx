@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./style.css";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,24 +16,20 @@ import FormControl from "@mui/material/FormControl";
 import Divider from "@mui/material/Divider";
 import PinDropIcon from "@mui/icons-material/PinDropOutlined";
 import PersonIcon from "@mui/icons-material/PersonAddAltOutlined";
-import TravelIcon from '@mui/icons-material/TravelExploreTwoTone';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import styled from "styled-components";
-import { css } from "@emotion/react";
 import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
+import {fetchDataSearch} from "../../../redux/slices/searchSlice.jsx";
+import Results from "./SearchComponents/Results.jsx";
 
-
-import Box from "@mui/material/Box";
 
 function SearchForm() {
+  const dispatch = useDispatch();
+  const searchData = useSelector((state) => state.search);
 
   const [formData, setFormData] = useState({
     city: '',
@@ -57,18 +53,39 @@ function SearchForm() {
     }));
   };
  
-  const handleSubmit = (event) => {
+  const [submitClicked, setSubmitClicked] = useState(false);
+  const [resultsData, setResultsData] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    console.log(formData);
+   
+    dispatch(
+      fetchDataSearch({
+        accommodationType: formData.accommodationType,
+        city: formData.city,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        guests: formData.guests,
+      })
+    ).then(() => { setSubmitClicked(true); });
+      
   };
+  useEffect(() => {
+    if (submitClicked) {
+      // Виконується після завантаження даних та натиску кнопки
+      console.log('Search Data:', searchData.data);
 
-
+      setResultsData(searchData.data);
+      setShowResults(true);
+      
+      setSubmitClicked(false);
+    }
+  }, [searchData, submitClicked]);
+   
     
   const theme = useTheme();
-  
   const data = useLoaderData();
-
   const options = data.map((city) => `${city.name}, ${city.country}`);
 
   return (
@@ -81,16 +98,7 @@ function SearchForm() {
 
         <form className="form" onSubmit={handleSubmit}>
           <div className="flex-box" style={{ justifyContent: "space-between" }}>
-            <Typography
-              sx={{
-                padding: "10px 50px 25px 15px",
-                textAlign: "left",
-                fontSize: 18,
-              }}
-            >
-              {" "}
-              Search and Book Your Getaway{" "}
-            </Typography>
+      
 
             <Typography sx={{ padding: "10px 50px 25px 15px", textAlign: "left", fontSize: 18, }}> Search and Book Your Getaway </Typography>
           
@@ -124,7 +132,7 @@ function SearchForm() {
                   sx={{ marginRight: 5 }}
                 />
                 <FormControlLabel
-                  value="hotel"
+                  value="room"
                   control={<Radio />}
                   label="Room in hotel"
                 />
@@ -195,8 +203,8 @@ function SearchForm() {
                   }} 
                   format="YYYY-MM-DD"disablePast
                   label="Start Date" name="startDate"
-                  value={dayjs()}
-                    onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date}))}
+                  defaultValue={dayjs()} value={''}
+                  onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date}))}
                 />
               </LocalizationProvider>
             </Box>
@@ -211,22 +219,9 @@ function SearchForm() {
                         width: "80%",}} 
                         format="YYYY-MM-DD" name="endDate"
                       label="End Date" disablePast 
-                      value={dayjs().add(1, 'day')}
+                      defaultValue={dayjs().add(1, 'day')} value={''}
                       onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date}))}
-                    />
-                </LocalizationProvider>
-            <Box sx={{ paddingRight: 3 }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  sx={{
-                    backgroundColor: theme.palette.background.grey,
-                    border: `1px solid ${theme.palette.secondary.dark}`,
-                    borderRadius: 2,
-                    width: "80%",
-                  }}
-                  format="YYYY-MM-DD"
-                  label="End Date"
-                />
+                  />
               </LocalizationProvider>
             </Box>
 
@@ -260,7 +255,11 @@ function SearchForm() {
           </div>
         </form>
       </article>
+      
+      {showResults && <Results data={searchData.data} type={formData.accommodationType}/>}
+
     </Box>
+     
   );
 }
 

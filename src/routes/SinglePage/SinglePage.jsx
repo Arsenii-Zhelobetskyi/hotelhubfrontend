@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import Reviews from "./components/Reviews/Reviews.jsx";
 import { fetchSinglePage } from "../../redux/slices/singlePageSlice.jsx";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Skeleton from "@mui/material/Skeleton";
 import { useParams } from "react-router-dom";
 

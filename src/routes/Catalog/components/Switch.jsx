@@ -4,7 +4,6 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import { fetchHotels } from "../../../redux/slices/hotelsSlice";
 import { fetchHouses } from "../../../redux/slices/housesSlice";
 import { fetchOccupiedPlacesByHotel } from "../../../redux/slices/roomsSlice";
