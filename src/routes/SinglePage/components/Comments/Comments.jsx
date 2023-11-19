@@ -1,40 +1,57 @@
-import React from "react";
 import { useState, useEffect } from "react";
+
 import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Rating from "@mui/material/Rating";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import { IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { useParams } from "react-router-dom";
-import Body from "./Body.jsx";
-import { API_URL } from "../../../../utils/config";
+import {
+  Box,
+  Rating,
+  Typography,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Pagination,
+} from "@mui/material";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchComments,
   addComment,
 } from "../../../../redux/slices/commentsSlice.jsx";
-function Reviews({ type, id }) {
-  const dispatch = useDispatch();
-  const comments = useSelector((state) => state.comments);
-  useEffect(() => {
-    dispatch(fetchComments({ type, id }));
-  }, []);
 
-  const [body, setBody] = useState("");
-  const [error, setError] = useState(false);
-  const [rating, setRating] = useState(4);
+import Body from "./Body.jsx";
 
+function Comments({ type, id }) {
   const theme = useTheme();
-  const handleChange = (e) => {
+  const dispatch = useDispatch();
+
+  const comments = useSelector((state) => state.comments);
+  const [body, setBody] = useState(""); // comment body
+  const [error, setError] = useState(false);
+  const [orderBy, setOrderBy] = useState("");
+  const [rating, setRating] = useState(4);
+  const [currentPage, useCurrentPage] = useState(1);
+  const [currentLimit, useCurrentLimit] = useState(5);
+
+  useEffect(() => {
+    dispatch(
+      fetchComments({
+        type,
+        id,
+        page: currentPage,
+        limit: currentLimit,
+        orderBy,
+      })
+    );
+  }, [currentPage, orderBy]);
+  const handleInputChange = (e) => {
     setBody(e.target.value);
     if (error) {
       setError(false);
     }
   };
-
+  const handlePagination = (e, value) => {
+    useCurrentPage(value);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (body.length === 0) {
@@ -44,6 +61,7 @@ function Reviews({ type, id }) {
     dispatch(
       addComment({ comment: { title: "anonymous", body, rating, id }, type })
     );
+    setOrderBy("");
     setBody("");
   };
   return (
@@ -104,13 +122,24 @@ function Reviews({ type, id }) {
                 </InputAdornment>
               ),
             }}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </form>
       </Box>
-      <Body data={comments.data} />
+      <Body
+        data={comments.data}
+        sort={orderBy}
+        setOrderBy={setOrderBy}
+        type={type}
+      />
+      <Pagination
+        count={Math.ceil(comments.quantity / currentLimit)}
+        color="primary"
+        sx={{ marginTop: "50px", display: "flex", justifyContent: "center" }}
+        onChange={handlePagination}
+      />
     </Box>
   );
 }
 
-export default Reviews;
+export default Comments;
