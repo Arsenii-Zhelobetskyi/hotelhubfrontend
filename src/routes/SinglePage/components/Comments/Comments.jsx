@@ -126,7 +126,12 @@ function Comments({ type, id }) {
           />
         </form>
       </Box>
-      <Body data={comments.data} sort={orderBy} setOrderBy={setOrderBy} />
+      <Body
+        data={comments.data}
+        sort={orderBy}
+        setOrderBy={setOrderBy}
+        type={type}
+      />
       <Pagination
         count={Math.ceil(comments.quantity / currentLimit)}
         color="primary"

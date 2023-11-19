@@ -46,7 +46,28 @@ export const addComment = createAsyncThunk(
     }
   }
 );
+export const deleteComment = createAsyncThunk(
+  "deleteComment",
+  async ({ id, type }) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const response = await fetch(
+        `${API_URL}/api/comments/delete/${id}?type=${type}`,
+        {
+          method: "DELETE",
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return id;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 const commentsSlice = createSlice({
   name: "comments",
   initialState: {
@@ -69,6 +90,12 @@ const commentsSlice = createSlice({
     });
     builder.addCase(addComment.fulfilled, (state, action) => {
       state.data.push(action.payload);
+    });
+
+    builder.addCase(deleteComment.fulfilled, (state, action) => {
+      state.data = state.data.filter(
+        (comment) => comment.id !== action.payload
+      );
     });
   },
 });

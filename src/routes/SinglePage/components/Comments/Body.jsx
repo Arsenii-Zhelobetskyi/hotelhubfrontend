@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTheme } from "@mui/material/styles";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 
 import {
   Box,
@@ -11,13 +13,15 @@ import {
   Select,
   Rating,
   Divider,
+  Button,
 } from "@mui/material";
 
 import { formatDistanceToNow } from "date-fns";
-
-function Body({ data, orderBy, setOrderBy }) {
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComment } from "../../../../redux/slices/commentsSlice";
+function Body({ data, orderBy, setOrderBy, type }) {
   const theme = useTheme();
-
+  const dispatch = useDispatch();
   const options = [
     ["", "None"],
     [JSON.stringify({ field: "date", algorithm: "desc" }), "Newest"],
@@ -28,7 +32,9 @@ function Body({ data, orderBy, setOrderBy }) {
   const handleChange = (event) => {
     setOrderBy(event.target.value);
   };
-
+  const handleCommentDeletion = (id) => {
+    dispatch(deleteComment({ id, type }));
+  };
   return (
     <Box>
       <Box
@@ -43,7 +49,6 @@ function Body({ data, orderBy, setOrderBy }) {
         <Typography variant="headline2">Comments</Typography>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
           <InputLabel>Sort by</InputLabel>
-
           <Select
             defaultValue={options[0][0]}
             value={orderBy}
@@ -62,26 +67,40 @@ function Body({ data, orderBy, setOrderBy }) {
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "25px" }}>
+      <Box>
         {data?.map((comment) => (
           <Box key={comment.id}>
-            <Box></Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography variant="headline3">{comment.title}</Typography>
-              <Rating name="read-only" value={comment.rating} readOnly />
-            </Box>
-            <Typography variant="body">{comment.body}</Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                color="error"
+                onClick={() => handleCommentDeletion(comment.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+              <Box
+                sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+              >
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Typography variant="headline3">{comment.title}</Typography>
+                  <Rating name="read-only" value={comment.rating} readOnly />
+                </Box>
+                <Typography variant="body">{comment.body}</Typography>
 
-            <Typography
-              variant="body"
-              sx={{ marginTop: "10px", display: "flex" }}
-            >
-              {formatDistanceToNow(new Date(comment.date), { addSuffix: true })}
-            </Typography>
+                <Typography
+                  variant="body"
+                  sx={{ marginTop: "10px", display: "flex" }}
+                >
+                  {formatDistanceToNow(new Date(comment.date), {
+                    addSuffix: true,
+                  })}
+                </Typography>
+              </Box>
+            </Box>
             <Divider
               sx={{
                 border: `0.5px solid ${theme.palette.secondary.main}`,
                 marginTop: "20px",
+                marginBottom: "20px",
               }}
             />
           </Box>
