@@ -16,31 +16,29 @@ import FormControl from "@mui/material/FormControl";
 import Divider from "@mui/material/Divider";
 import PinDropIcon from "@mui/icons-material/PinDropOutlined";
 import PersonIcon from "@mui/icons-material/PersonAddAltOutlined";
-import TravelIcon from '@mui/icons-material/TravelExploreTwoTone';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+// import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import dayjs from "dayjs";
 import styled from "styled-components";
 import { css } from "@emotion/react";
 import Button from "@mui/material/Button";
 
-
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 
 function SearchForm() {
-
   const [formData, setFormData] = useState({
-    city: '',
+    city: "",
     startDate: `${dayjs()}`,
-    endDate: '',
+    endDate: "",
     guests: 1,
-    accommodationType: 'house',
+    accommodationType: "house",
   });
 
   const handleAccommodationChange = (event) => {
@@ -56,17 +54,15 @@ function SearchForm() {
       guests: isNaN(guests) ? 1 : guests,
     }));
   };
- 
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     console.log(formData);
   };
 
-
-    
   const theme = useTheme();
-  
+
   const data = useLoaderData();
 
   const options = data.map((city) => `${city.name}, ${city.country}`);
@@ -92,10 +88,25 @@ function SearchForm() {
               Search and Book Your Getaway{" "}
             </Typography>
 
-            <Typography sx={{ padding: "10px 50px 25px 15px", textAlign: "left", fontSize: 18, }}> Search and Book Your Getaway </Typography>
-          
-              <Button sx={{ width: "18%",}}  variant="contained" color="primary" type="submit">
-                <TravelIcon  sx={{
+            <Typography
+              sx={{
+                padding: "10px 50px 25px 15px",
+                textAlign: "left",
+                fontSize: 18,
+              }}
+            >
+              {" "}
+              Search and Book Your Getaway{" "}
+            </Typography>
+
+            <Button
+              sx={{ width: "18%" }}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              <TravelIcon
+                sx={{
                   color: theme.palette.text.primary,
                   paddingRight: 1,
                   fontSize: 35,
@@ -146,11 +157,14 @@ function SearchForm() {
               <Stack spacing={2} sx={{ width: 250, borderRadius: 2 }}>
                 <Autocomplete
                   sx={{ borderRadius: 2 }}
-                  freeSolo name="location"
+                  freeSolo
+                  name="location"
                   id="free-solo-1"
                   options={options}
                   filterOptions={(options, { inputValue }) => {
-                    const filteredOptions = options.filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()));
+                    const filteredOptions = options.filter((option) =>
+                      option.toLowerCase().includes(inputValue.toLowerCase())
+                    );
                     return filteredOptions.slice(0, 7);
                   }}
                   PaperComponent={({ children }) => (
@@ -162,9 +176,9 @@ function SearchForm() {
                         backgroundColor: theme.palette.background.dark,
                         borderRadius: 2,
                       }}
-                      id="filled-basic" 
+                      id="filled-basic"
                       variant="filled"
-                      size="small" 
+                      size="small"
                       {...params}
                       label="Location"
                       InputProps={{
@@ -176,8 +190,11 @@ function SearchForm() {
                   value={formData.city}
                   onChange={(event, value) => {
                     if (value) {
-                      const cityName = value.split(',')[0].trim(); 
-                      setFormData((prevData) => ({ ...prevData, city: cityName }));
+                      const cityName = value.split(",")[0].trim();
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        city: cityName,
+                      }));
                     }
                   }}
                 />
@@ -190,31 +207,26 @@ function SearchForm() {
                   sx={{
                     backgroundColor: theme.palette.background.grey,
                     border: `1px solid ${theme.palette.secondary.dark}`,
-                    borderRadius: 2, 
+                    borderRadius: 2,
                     width: "80%",
-                  }} 
-                  format="YYYY-MM-DD"disablePast
-                  label="Start Date" name="startDate"
+                  }}
+                  format="YYYY-MM-DD"
+                  disablePast
+                  label="Start Date"
+                  name="startDate"
                   value={dayjs()}
-                    onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date}))}
+                  onChange={(date) =>
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      startDate: date,
+                    }))
+                  }
                 />
               </LocalizationProvider>
             </Box>
 
             <Typography variant="headline3"> – </Typography>
 
-            <Box sx={{paddingRight: 3}}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                  <DatePicker sx={{backgroundColor: theme.palette.background.grey,
-                        border: `1px solid ${theme.palette.secondary.dark}`,
-                        borderRadius: 2, 
-                        width: "80%",}} 
-                        format="YYYY-MM-DD" name="endDate"
-                      label="End Date" disablePast 
-                      value={dayjs().add(1, 'day')}
-                      onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date}))}
-                    />
-                </LocalizationProvider>
             <Box sx={{ paddingRight: 3 }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -225,37 +237,60 @@ function SearchForm() {
                     width: "80%",
                   }}
                   format="YYYY-MM-DD"
+                  name="endDate"
                   label="End Date"
+                  disablePast
+                  value={dayjs().add(1, "day")}
+                  onChange={(date) =>
+                    setFormData((prevData) => ({ ...prevData, endDate: date }))
+                  }
                 />
               </LocalizationProvider>
-            </Box>
+              <Box sx={{ paddingRight: 3 }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    sx={{
+                      backgroundColor: theme.palette.background.grey,
+                      border: `1px solid ${theme.palette.secondary.dark}`,
+                      borderRadius: 2,
+                      width: "80%",
+                    }}
+                    format="YYYY-MM-DD"
+                    label="End Date"
+                  />
+                </LocalizationProvider>
+              </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PersonIcon
-                sx={{
-                  color: theme.palette.text.primary,
-                  marginRight: 1,
-                  fontSize: 35,
-                }}
-              />
-              <TextField
-                sx={{ backgroundColor: theme.palette.background.dark,
-                  borderRadius: 2, width: 130,
-                }}
-                id="filled-number"
-                name="guests" value={formData.guests}
-                label="Number of guests"
-                type="number" 
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="filled"
-                onChange={handleGuestsChange}
-                inputProps={{
-                  min: 1,
-                  max: 30,
-                }}
-              />
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <PersonIcon
+                  sx={{
+                    color: theme.palette.text.primary,
+                    marginRight: 1,
+                    fontSize: 35,
+                  }}
+                />
+                <TextField
+                  sx={{
+                    backgroundColor: theme.palette.background.dark,
+                    borderRadius: 2,
+                    width: 130,
+                  }}
+                  id="filled-number"
+                  name="guests"
+                  value={formData.guests}
+                  label="Number of guests"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  onChange={handleGuestsChange}
+                  inputProps={{
+                    min: 1,
+                    max: 30,
+                  }}
+                />
+              </Box>
             </Box>
           </div>
         </form>

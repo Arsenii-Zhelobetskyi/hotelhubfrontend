@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 
 import { useTheme } from "@mui/material/styles";
@@ -24,19 +23,26 @@ import Body from "./Body.jsx";
 function Comments({ type, id }) {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const comments = useSelector((state) => state.comments);
-  const [currentPage, useCurrentPage] = useState(1);
-  const [currentLimit, useCurrentLimit] = useState(5);
-  useEffect(() => {
-    dispatch(
-      fetchComments({ type, id, page: currentPage, limit: currentLimit })
-    );
-  }, [currentPage]);
 
+  const comments = useSelector((state) => state.comments);
   const [body, setBody] = useState(""); // comment body
   const [error, setError] = useState(false);
+  const [orderBy, setOrderBy] = useState("");
   const [rating, setRating] = useState(4);
+  const [currentPage, useCurrentPage] = useState(1);
+  const [currentLimit, useCurrentLimit] = useState(5);
 
+  useEffect(() => {
+    dispatch(
+      fetchComments({
+        type,
+        id,
+        page: currentPage,
+        limit: currentLimit,
+        orderBy,
+      })
+    );
+  }, [currentPage, orderBy]);
   const handleInputChange = (e) => {
     setBody(e.target.value);
     if (error) {
@@ -55,6 +61,7 @@ function Comments({ type, id }) {
     dispatch(
       addComment({ comment: { title: "anonymous", body, rating, id }, type })
     );
+    setOrderBy("");
     setBody("");
   };
   return (
@@ -119,7 +126,7 @@ function Comments({ type, id }) {
           />
         </form>
       </Box>
-      <Body data={comments.data} />
+      <Body data={comments.data} sort={orderBy} setOrderBy={setOrderBy} />
       <Pagination
         count={Math.ceil(comments.quantity / currentLimit)}
         color="primary"

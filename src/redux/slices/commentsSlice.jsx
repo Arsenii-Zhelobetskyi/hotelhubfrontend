@@ -3,15 +3,18 @@ import { API_URL } from "../../utils/config";
 
 export const fetchComments = createAsyncThunk(
   "fetchComments",
-  async ({ type, id, page, limit }) => {
+  async ({ type, id, page, limit, orderBy }) => {
     const quantityResponse = await fetch(
       `${API_URL}/api/comments/count?type=${type}&id=${id}`
     );
     const { quantity } = await quantityResponse.json();
 
     const commentsResponse = await fetch(
-      `${API_URL}/api/comments/${id}?type=${type}&page=${page}&limit=${limit}`
+      `${API_URL}/api/comments/${id}?type=${type}&page=${page}&limit=${limit}&orderBy=${orderBy}`
     );
+    /* const commentsResponse = await fetch(
+      `${API_URL}/api/comments/${id}?type=${type}&page=${page}&limit=${limit}`
+    ); */
     const data = await commentsResponse.json();
 
     return { data, quantity };
