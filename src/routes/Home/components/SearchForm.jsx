@@ -21,9 +21,17 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+import styled from "styled-components";
+import { css } from "@emotion/react";
 import Button from "@mui/material/Button";
 
 
+import Box from "@mui/material/Box";
 
 function SearchForm() {
 
@@ -72,8 +80,17 @@ function SearchForm() {
         </h1>
 
         <form className="form" onSubmit={handleSubmit}>
-
           <div className="flex-box" style={{ justifyContent: "space-between" }}>
+            <Typography
+              sx={{
+                padding: "10px 50px 25px 15px",
+                textAlign: "left",
+                fontSize: 18,
+              }}
+            >
+              {" "}
+              Search and Book Your Getaway{" "}
+            </Typography>
 
             <Typography sx={{ padding: "10px 50px 25px 15px", textAlign: "left", fontSize: 18, }}> Search and Book Your Getaway </Typography>
           
@@ -82,15 +99,17 @@ function SearchForm() {
                   color: theme.palette.text.primary,
                   paddingRight: 1,
                   fontSize: 35,
-                  }} /> 
-                <Typography sx={{ textAlign: "center", fontSize: 14, }}> Search </Typography>
+                }}
+              />
+              <Typography sx={{ textAlign: "center", fontSize: 14 }}>
+                {" "}
+                Search{" "}
+              </Typography>
             </Button>
-          
           </div>
-          
+
           <div className="flex-box-left">
             <FormControl>
-
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -110,11 +129,10 @@ function SearchForm() {
                   label="Room in hotel"
                 />
               </RadioGroup>
-
             </FormControl>
           </div>
 
-          <Divider sx={{margin: '8px 20px',  width: "96%",}}/>
+          <Divider sx={{ margin: "8px 20px", width: "96%" }} />
 
           <div className="flex-box">
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -140,10 +158,15 @@ function SearchForm() {
                   )}
                   renderInput={(params) => (
                     <TextField
-                      sx={{ backgroundColor: theme.palette.background.dark, borderRadius: 2, }}
+                      sx={{
+                        backgroundColor: theme.palette.background.dark,
+                        borderRadius: 2,
+                      }}
                       id="filled-basic" 
-                      variant="filled" size="small" 
-                      {...params} label="Location"
+                      variant="filled"
+                      size="small" 
+                      {...params}
+                      label="Location"
                       InputProps={{
                         ...params.InputProps,
                         type: "search",
@@ -161,18 +184,21 @@ function SearchForm() {
               </Stack>
             </Box>
 
-            <Box sx={{paddingLeft: 3}}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{backgroundColor: theme.palette.background.grey,
-                      border: `1px solid ${theme.palette.secondary.dark}`,
-                      borderRadius: 2, 
-                      width: "80%",}} 
-                    format="YYYY-MM-DD"  disablePast
-                    label="Start Date" name="startDate"
-                    value={dayjs()}
+            <Box sx={{ paddingLeft: 3 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  sx={{
+                    backgroundColor: theme.palette.background.grey,
+                    border: `1px solid ${theme.palette.secondary.dark}`,
+                    borderRadius: 2, 
+                    width: "80%",
+                  }} 
+                  format="YYYY-MM-DD"disablePast
+                  label="Start Date" name="startDate"
+                  value={dayjs()}
                     onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date}))}
-                  />
-                </LocalizationProvider>
+                />
+              </LocalizationProvider>
             </Box>
 
             <Typography variant="headline3"> – </Typography>
@@ -189,6 +215,19 @@ function SearchForm() {
                       onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date}))}
                     />
                 </LocalizationProvider>
+            <Box sx={{ paddingRight: 3 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  sx={{
+                    backgroundColor: theme.palette.background.grey,
+                    border: `1px solid ${theme.palette.secondary.dark}`,
+                    borderRadius: 2,
+                    width: "80%",
+                  }}
+                  format="YYYY-MM-DD"
+                  label="End Date"
+                />
+              </LocalizationProvider>
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -218,8 +257,6 @@ function SearchForm() {
                 }}
               />
             </Box>
-
-
           </div>
         </form>
       </article>

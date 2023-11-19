@@ -1,16 +1,64 @@
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-
-import { useLoaderData } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Reviews from "./components/Reviews/Reviews.jsx";
-import { API_URL } from "../../utils/config";
+import { fetchSinglePage } from "../../redux/slices/singlePageSlice.jsx";
+import React, { useEffect } from "react";
+import Skeleton from "@mui/material/Skeleton";
+import { useParams } from "react-router-dom";
+
 function SinglePage() {
-  const { data } = useLoaderData();
-  console.log(data);
+  const dispatch = useDispatch();
+  const singlePage = useSelector((state) => state.singlePage);
+  const { data } = singlePage;
+  const { type, id } = useParams();
+  useEffect(() => {
+    dispatch(fetchSinglePage({ type, id }));
+  }, []);
+ 
+  if (singlePage.isLoading) {
+    return (
+      <Box
+        sx={{
+          textAlign: "left",
+          marginBottom: "250px",
+          width: { md: "900px" },
+        }}
+      >
+        <Skeleton variant="text" width={200} height={40} />
+        <Skeleton variant="text" width={400} height={20} />
+        <Skeleton
+          variant="rectangular"
+          width={856}
+          height={784}
+          sx={{ borderRadius: "16px" }} // Add borderRadius here
+        />
+        <Skeleton variant="text" width={350} height={20} />
+        <Skeleton variant="text" width={350} height={20} />
+        <Skeleton variant="text" width={350} height={20} />
+        <Skeleton variant="text" width={350} height={20} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <Skeleton variant="rectangular" width={100} height={36} />
+            <Skeleton variant="rectangular" width={100} height={36} />
+          </Box>
+        </Box>
+        <Skeleton variant="rectangular" width={856} height={400} />
+      </Box>
+    );
+  }
+
   return (
-    <Box sx={{ textAlign: "left", marginBottom: "250px" }}>
+    <Box
+      sx={{ textAlign: "left", marginBottom: "250px", width: { md: "900px" } }}
+    >
       <Typography variant="hero" sx={{ textAlign: "left" }}>
         {data.name}
       </Typography>
@@ -27,7 +75,7 @@ function SinglePage() {
           marginTop: "20px",
         }}
         alt="The house from the offer."
-        src={data.photo.main ? data.photo.main : data.photo}
+        src={data.photo?.main ? data.photo.main : data.photo}
       />
       <Box
         sx={{
@@ -37,13 +85,13 @@ function SinglePage() {
           alignItems: "center",
         }}
       >
-        <Box>
+        <Box sx={{ width: "350px" }}>
           <Typography variant="body">{data.description}</Typography>
           <Typography variant="body">{data.contact_inf}</Typography>
           <Typography variant="body">{data.placeN}</Typography>
           <Typography variant="body">{data.roomN}</Typography>
         </Box>
-        <Box sx={{ display: "flex", gap: "8px" }}>
+        <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <Button variant="contained" color="secondary">
             Save
           </Button>
@@ -52,7 +100,7 @@ function SinglePage() {
           </Button>
         </Box>
       </Box>
-      <Reviews />
+      <Reviews type={type} id={id} />
     </Box>
   );
 }

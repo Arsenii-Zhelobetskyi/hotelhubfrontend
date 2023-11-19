@@ -38,28 +38,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Catalog />,
-            loader: async () => {
-              const res = await Promise.all([
-                fetch(`${API_URL}/api/hotels/`),
-                fetch(`${API_URL}/api/rooms/occupiedPlacesByHotel`),
-                fetch(`${API_URL}/api/houses/`),
-              ]);
-              const data = await Promise.all(
-                res.map(async (r) => await r.json())
-              );
-              return data;
-            },
           },
           {
             path: ":type/:id", // Шлях для будинків у каталозі
             element: <SinglePage />, //  компонентa, яка показує сторінку для будинків
-            loader: async ({ params }) => {
-              const req = await fetch(
-                `${API_URL}/api/${params.type}s/${params.type}/${params.id}`
-              );
-              const data = await req.json();
-              return { data };
-            }, //  свій loader
           },
         ],
       },

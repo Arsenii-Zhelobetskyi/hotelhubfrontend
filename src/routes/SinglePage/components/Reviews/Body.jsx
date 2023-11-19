@@ -8,26 +8,17 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import { formatDistanceToNow } from "date-fns";
 import { API_URL } from "../../../../utils/config";
-import { AJAX } from "../../../../utils/api";
 import Rating from "@mui/material/Rating";
 import Divider from "@mui/material/Divider";
 
-function Body() {
+import { useParams } from "react-router-dom";
+function Body({ data }) {
   const theme = useTheme();
-  const [comments, setComments] = useState([]);
   const [sort, setSort] = useState("");
-
   const handleChange = (event) => {
     setSort(event.target.value);
   };
-  useEffect(() => {
-    async function fetchComments() {
-      const data = await AJAX(`${API_URL}/api/comments/`);
-      setComments(data);
-    }
-    fetchComments();
-  }, []);
-
+  console.log(data);
   return (
     <Box>
       <Box
@@ -41,13 +32,16 @@ function Body() {
       >
         <Typography variant="headline2">Comments</Typography>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-select-small-label">Sort by</InputLabel>
+          <InputLabel>Sort by</InputLabel>
           <Select
-            labelId="demo-select-small-label"
-            id="demo-select-small"
             value={sort}
             label="Age"
             onChange={handleChange}
+            sx={{
+              [`& fieldset`]: {
+                border: `1px solid ${theme.palette.secondary.main}`,
+              },
+            }}
           >
             <MenuItem value="">
               <em>None</em>
@@ -60,7 +54,7 @@ function Body() {
         </FormControl>
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: "25px" }}>
-        {comments.map((comment) => (
+        {data?.map((comment) => (
           <Box key={comment.id}>
             <Box></Box>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -76,7 +70,10 @@ function Body() {
               {formatDistanceToNow(new Date(comment.date), { addSuffix: true })}
             </Typography>
             <Divider
-              sx={{ border: `0.5px solid ${theme.palette.secondary.main}`, marginTop:"20px" }}
+              sx={{
+                border: `0.5px solid ${theme.palette.secondary.main}`,
+                marginTop: "20px",
+              }}
             />
           </Box>
         ))}
