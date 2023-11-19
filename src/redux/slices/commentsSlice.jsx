@@ -3,10 +3,18 @@ import { API_URL } from "../../utils/config";
 
 export const fetchComments = createAsyncThunk(
   "fetchComments",
-  async ({ type, id }) => {
-    const response = await fetch(`${API_URL}/api/comments/${id}?type=${type}`);
-    const data = await response.json();
-    return { data };
+  async ({ type, id, page, limit }) => {
+    const quantityResponse = await fetch(
+      `${API_URL}/api/comments/count?type=${type}&id=${id}`
+    );
+    const { quantity } = await quantityResponse.json();
+
+    const commentsResponse = await fetch(
+      `${API_URL}/api/comments/${id}?type=${type}&page=${page}&limit=${limit}`
+    );
+    const data = await commentsResponse.json();
+
+    return { data, quantity };
   }
 );
 export const addComment = createAsyncThunk(
@@ -14,8 +22,6 @@ export const addComment = createAsyncThunk(
   async ({ comment, type }) => {
     // eslint-disable-next-line no-useless-catch
     try {
-      console.log(comment);
-      console.log(type);
       const response = await fetch(
         `${API_URL}/api/comments/create?type=${type}`,
         {
@@ -44,6 +50,7 @@ const commentsSlice = createSlice({
     data: [],
     isLoading: false,
     isError: false,
+    quantity: 0,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchComments.pending, (state, action) => {
@@ -52,6 +59,7 @@ const commentsSlice = createSlice({
     builder.addCase(fetchComments.fulfilled, (state, action) => {
       state.data = action.payload.data;
       state.isLoading = false;
+      state.quantity = parseInt(action.payload.quantity);
     });
     builder.addCase(fetchComments.rejected, (state, action) => {
       state.isError = true;

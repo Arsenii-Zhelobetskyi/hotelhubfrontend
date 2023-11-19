@@ -55,7 +55,6 @@ const router = createBrowserRouter([
             `${API_URL}/api/reservation/${params.user_id}`
           );
           const history = await req.json();
-          console.log(history);
           return { history };
         },
       },

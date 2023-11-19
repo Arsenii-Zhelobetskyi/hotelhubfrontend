@@ -1,24 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
+import { useTheme } from "@mui/material/styles";
+
+import {
+  Box,
+  Typography,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Rating,
+  Divider,
+} from "@mui/material";
+
 import { formatDistanceToNow } from "date-fns";
-import { API_URL } from "../../../../utils/config";
-import Rating from "@mui/material/Rating";
-import Divider from "@mui/material/Divider";
-import useTheme from "@mui/material/styles/useTheme";
-import { useParams } from "react-router-dom";
+
 function Body({ data }) {
   const theme = useTheme();
   const [sort, setSort] = useState("");
   const handleChange = (event) => {
     setSort(event.target.value);
   };
-  console.log(data);
   return (
     <Box>
       <Box
@@ -46,10 +48,10 @@ function Body({ data }) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={10}>Newest</MenuItem>
-            <MenuItem value={20}>Oldest</MenuItem>
-            <MenuItem value={30}>Best</MenuItem>
-            <MenuItem value={40}>Worst</MenuItem>
+            <MenuItem value={"Newest"}>Newest</MenuItem>
+            <MenuItem value={"oldest"}>Oldest</MenuItem>
+            <MenuItem value={"Best"}>Best</MenuItem>
+            <MenuItem value={"Worst"}>Worst</MenuItem>
           </Select>
         </FormControl>
       </Box>

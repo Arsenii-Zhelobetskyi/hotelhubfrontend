@@ -1,12 +1,15 @@
+import React, { useEffect } from "react";
+
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { useDispatch, useSelector } from "react-redux";
-import Reviews from "./components/Reviews/Reviews.jsx";
-import { fetchSinglePage } from "../../redux/slices/singlePageSlice.jsx";
-import React, { useEffect } from "react";
 import Skeleton from "@mui/material/Skeleton";
+
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchSinglePage } from "../../redux/slices/singlePageSlice.jsx";
+import Comments from "./components/Comments/Comments.jsx";
 
 function SinglePage() {
   const dispatch = useDispatch();
@@ -16,7 +19,7 @@ function SinglePage() {
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
- 
+
   if (singlePage.isLoading) {
     return (
       <Box
@@ -100,7 +103,7 @@ function SinglePage() {
           </Button>
         </Box>
       </Box>
-      <Reviews type={type} id={id} />
+      <Comments type={type} id={id} />
     </Box>
   );
 }
