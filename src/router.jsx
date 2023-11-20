@@ -1,6 +1,5 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "./routes/Home/Home.jsx";
-import Root from "./routes/Root/Root.jsx";
 import Catalog from "./routes/Catalog/Catalog.jsx";
 import ErrorPage from "./routes/ErrorPage/ErrorPage.jsx";
 import SinglePage from "./routes/SinglePage/SinglePage.jsx";
@@ -9,13 +8,34 @@ import UserSettings from "./routes/UserSettings/UserSettings.jsx";
 import UserNotFound from "./routes/UserSettings/UserNotFound.jsx";
 import { API_URL } from "./utils/config";
 
+import DefaultLayout from "./views/DefaultLayout/DefaultLayout.jsx";
+import LoginLayout from "./views/LoginLayout/LoginLayout.jsx";
+import LoginForm from "./components/LoginForm/LoginForm.jsx";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LoginLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Navigate to={"/login"} />,
+      },
+      {
+        path: "/login",
+        element: <LoginForm />,
+      },
+      {
+        path: "/registration",
+        element: <RegistrationForm />,
+      },
+    ],
+  },
+  {
+    path: "/",
     element: (
       <>
-        <Root />
+        <DefaultLayout />
       </>
     ),
     errorElement: <ErrorPage />,
@@ -77,10 +97,6 @@ const router = createBrowserRouter([
         element: <UserNotFound />,
       },
     ],
-  },
-  {
-    path: "/login", // Доданий шлях для сторінки входу
-    element: <RegistrationForm />, // Компонент сторінки входу
   },
 ]);
 export default router;
