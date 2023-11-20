@@ -67,20 +67,7 @@ function SinglePage() {
         {data.name}
       </Typography>
       <Typography variant="caption1">{data.address}</Typography>
-      <Box
-        component="img"
-        sx={{
-          height: 784,
-          width: 856,
-          maxHeight: { xs: 900, md: 784 },
-          maxWidth: { xs: 856, md: 856 },
-          objectFit: "cover",
-          borderRadius: "16px",
-          marginTop: "20px",
-        }}
-        alt="The house from the offer."
-        src={data.photo?.main ? data.photo.main : data.photo}
-      />
+
       <Carousel photo={data.photo} />
       <Box
         sx={{

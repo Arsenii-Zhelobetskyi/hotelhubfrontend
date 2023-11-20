@@ -8,6 +8,8 @@ import OrderHistory from "./routes/OrderHistory/OrderHistory.jsx";
 import UserSettings from "./routes/UserSettings/UserSettings.jsx";
 import UserNotFound from "./routes/UserSettings/UserNotFound.jsx";
 import { API_URL } from "./utils/config";
+
+import RegistrationForm from "./components/RegistrationForm/RegistrationForm.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -62,7 +64,9 @@ const router = createBrowserRouter([
         path: "/userSettings/:user_id",
         element: <UserSettings />,
         loader: async ({ params }) => {
-          const req = await fetch(`${API_URL}/api/users/user/${params.user_id}`);
+          const req = await fetch(
+            `${API_URL}/api/users/user/${params.user_id}`
+          );
           const user = await req.json();
 
           return { user };
@@ -73,6 +77,10 @@ const router = createBrowserRouter([
         element: <UserNotFound />,
       },
     ],
+  },
+  {
+    path: "/login", // Доданий шлях для сторінки входу
+    element: <RegistrationForm />, // Компонент сторінки входу
   },
 ]);
 export default router;
