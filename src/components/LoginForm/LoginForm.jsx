@@ -64,7 +64,7 @@ function LoginForm() {
       <DialogActions>
         <Button>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained" color="primary">
-          Register
+          Log in
         </Button>
       </DialogActions>
     </Dialog>
