@@ -68,11 +68,12 @@ function UserSettings() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    name: actionType === "name" ? newName : user.name,
-                    email: actionType === "email" ? newEmail : user.email,
-                    password: actionType === "password" ? newPassword : undefined,
+                    name: newName,
+                    email: newEmail,
+                    password: newPassword,
                 }),
             });
+
 
             if (result.ok) {
                 const updatedUser = await result.json();
