@@ -4,6 +4,8 @@ import Header from "./components/Header/Header.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/";
 import store from "../../redux/store.jsx";
 import { Provider } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 const theme = createTheme({
   palette: {
     primary: {

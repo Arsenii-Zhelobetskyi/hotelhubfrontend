@@ -5,33 +5,26 @@
   --swiper-pagination-bullet-active-color: #3b71fe;
   --swiper-pagination-bullet-inactive-opacity: 0.8;
 }
-.swiper-navigation {
-}
 .swiper {
   display: flex;
   flex-direction: row;
   align-items: center;
   text-align: center;
   justify-content: center;
-  /* background-color: black; */
   width: 100%;
-  width: 100%;
-}
-.swiper-wrapper {
-  display: flex;
-  flex-direction: row;
   width: 100%;
 }
 .carousel {
   position: relative;
 }
-.swiper-button-prev,
-.swiper-button-next {
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: "";
   position: absolute;
-}
-.swiper-slide {
-  color: red;
-  display: block;
+  opacity: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 }
