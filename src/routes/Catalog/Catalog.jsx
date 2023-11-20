@@ -9,6 +9,7 @@ function Catalog() {
   const hotels = useSelector((state) => state.hotels);
   const houses = useSelector((state) => state.houses);
   const places = useSelector((state) => state.rooms);
+  console.log(hotels);
   return (
     <Box
       sx={{
@@ -23,7 +24,7 @@ function Catalog() {
       {value === "0" ? (
         <GridComp data={hotels?.data} places={places.data} type="hotel" />
       ) : (
-        <GridComp data={houses.data} type="house" />
+        <GridComp data={houses?.data} type="house" />
       )}
       <Pagination count={10} color="primary" />
     </Box>

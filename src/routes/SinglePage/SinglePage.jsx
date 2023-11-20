@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchSinglePage } from "../../redux/slices/singlePageSlice.jsx";
 import Comments from "./components/Comments/Comments.jsx";
+import Carousel from "./components/Carousel/Carousel.jsx";
 
 function SinglePage() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function SinglePage() {
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
-
+  console.log(data);
   if (singlePage.isLoading) {
     return (
       <Box
@@ -80,6 +81,7 @@ function SinglePage() {
         alt="The house from the offer."
         src={data.photo?.main ? data.photo.main : data.photo}
       />
+      <Carousel photo={data.photo} />
       <Box
         sx={{
           marginTop: "20px",

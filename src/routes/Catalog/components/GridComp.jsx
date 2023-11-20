@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Card from "@mui/material/Card";
 
-import Grid  from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Unstable_Grid2";
 
 import { useTheme } from "@mui/material/styles";
 
@@ -10,7 +10,7 @@ import GridData from "./GridData";
 
 function GridComp({ data, places = undefined, type }) {
   const theme = useTheme();
-  console.log(data);
+
   return (
     <div>
       <Grid
