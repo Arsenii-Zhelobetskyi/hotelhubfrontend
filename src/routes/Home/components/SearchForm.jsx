@@ -1,27 +1,18 @@
 import { useState, useEffect } from "react";
 import "./style.css";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import { useTheme, Box, Typography, TextField, Stack, Autocomplete, Radio, RadioGroup, FormControl, FormControlLabel, Divider, Button, Paper } from "@mui/material/";
+
 import { useLoaderData } from "react-router-dom";
 import background from "./image.jpg";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Autocomplete from "@mui/material/Autocomplete";
-import { Paper } from "@mui/material";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Divider from "@mui/material/Divider";
 import PinDropIcon from "@mui/icons-material/PinDropOutlined";
 import PersonIcon from "@mui/icons-material/PersonAddAltOutlined";
 import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 import dayjs from "dayjs";
-import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchDataSearch} from "../../../redux/slices/searchSlice.jsx";
 import Results from "./SearchComponents/Results.jsx";
@@ -33,8 +24,8 @@ function SearchForm() {
 
   const [formData, setFormData] = useState({
     city: "",
-    startDate: `${dayjs()}`,
-    endDate: "",
+    startDate: `${dayjs().format('YYYY-MM-DD')}`,
+    endDate: `${dayjs().format('YYYY-MM-DD')}`,
     guests: 1,
     accommodationType: "house",
   });
@@ -220,10 +211,9 @@ function SearchForm() {
                     borderRadius: 2,
                     width: "80%",
                   }} 
-                  format="YYYY-MM-DD"disablePast
-                  label="Start Date" name="startDate"
-                  defaultValue={dayjs()} value={''}
-                  onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date}))}
+                  format="YYYY-MM-DD" disablePast
+                  label="Start Date" name="startDate" value={dayjs(formData.startDate)}
+                  onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date.format("YYYY-MM-DD") }))} 
                 />
               </LocalizationProvider>
             </Box>
@@ -236,10 +226,10 @@ function SearchForm() {
                         border: `1px solid ${theme.palette.secondary.dark}`,
                         borderRadius: 2, 
                         width: "80%",}} 
-                        format="YYYY-MM-DD" name="endDate"
                       label="End Date" disablePast 
-                      defaultValue={dayjs().add(1, 'day')} value={''}
-                      onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date}))}
+                      format="YYYY-MM-DD" name="endDate"
+                      value={dayjs(formData.endDate)} 
+                      onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date.format("YYYY-MM-DD") }))} 
                   />
               </LocalizationProvider>
             </Box>

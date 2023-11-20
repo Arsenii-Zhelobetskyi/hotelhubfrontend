@@ -21,7 +21,7 @@ function CompData({ item, theme, type }) {
           width: "100%",
         }}
         alt="The house from the offer."
-        src={`${item.photo.main ? item.photo.main : item.photo}`}
+        src={`${item.photo.main ? item.photo.main : item.photo.data[0]}`}
       />
       <Box sx={{ padding: "24px" }}>
         <Typography
