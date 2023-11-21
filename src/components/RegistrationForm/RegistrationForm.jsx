@@ -6,13 +6,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-
+import { useNavigate } from "react-router-dom";
 function RegistrationForm({ onClose }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-
+    const navigate = useNavigate();
     const handleNameChange = (e) => {
         setName(e.target.value);
     };
@@ -31,6 +31,9 @@ function RegistrationForm({ onClose }) {
 
     const displayErrorMessage = (message) => {
         setError(message);
+    };
+    const handleLogin = async () => {
+        navigate("/login");
     };
 
     const handleSubmit = async () => {
@@ -122,6 +125,9 @@ function RegistrationForm({ onClose }) {
                     )}
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={handleLogin} color="primary">
+                        Have an account?
+                    </Button>
                     <Button onClick={onClose}>Cancel</Button>
                     <Button onClick={handleSubmit} variant="contained" color="primary">
                         Register

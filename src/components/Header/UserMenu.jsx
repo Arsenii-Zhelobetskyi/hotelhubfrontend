@@ -12,10 +12,9 @@ import { logout } from "../../redux/slices/authorizationSlice.jsx";
 
 function UserMenu() {
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const navigate = useNavigate();  // Замінено з useHistory
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // Використовуйте поле 'name' для отримання інформації про користувача
     const userId = useSelector((state) => state.authorization.userId);
 
     const handleOpenUserMenu = (event) => {
@@ -25,27 +24,26 @@ function UserMenu() {
     const handleCloseUserMenu = (setting) => {
         setAnchorElUser(null);
         if (setting === "Account" && userId) {
-            // Використовуйте 'userName' для переходу на сторінку налаштувань користувача
             navigate(`/userSettings/${userId}`);
         } else if (setting === "Logout") {
             handleLogout();
+        } else if (setting === "My Orders") {
+            navigate(`/orderHistory/${userId}`);
         }
     };
 
     const handleLogout = async () => {
         try {
             await dispatch(logout());
-            // Перенаправте користувача на головну сторінку після виходу
             window.location.reload();
         } catch (error) {
             console.error("Logout failed:", error);
-            // Обробляйте помилки логауту тут
         } finally {
             setAnchorElUser(null);
         }
     };
 
-    const settings = ["Profile", "Account", "Dashboard", "Logout"];
+    const settings = ["Profile", "Account", "My Orders", "Dashboard", "Logout"];
 
     return (
         <Box sx={{ flexGrow: 0 }}>

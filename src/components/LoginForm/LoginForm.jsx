@@ -11,10 +11,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/slices/authorizationSlice.jsx";
 import { useStateContext } from "../../utils/contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
 function LoginForm() {
   const dispatch = useDispatch();
   const authorization = useSelector((state) => state.authorization);
   const { setName, setEmail, setToken } = useStateContext();
+  const navigate = useNavigate();
 
   const [email, _setEmail] = useState("");
   const [name, _setName] = useState("");
@@ -38,37 +40,44 @@ function LoginForm() {
       setToken(authorization.name.token);
     }
   }, [authorization.name, setEmail, setToken]);
+  const handleRegistrationClick = () => {
+    navigate("/registration");
+  };
   return (
-    <Dialog open={true}>
-      <DialogTitle>Login Form</DialogTitle>
-      <DialogContent>
-        <DialogContentText>Please fill out the login form.</DialogContentText>
-        <TextField
-          margin="dense"
-          label="Email"
-          type="email"
-          fullWidth
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <TextField
-          margin="dense"
-          label="Password"
-          type="password"
-          fullWidth
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
-      </DialogContent>
-      <DialogActions>
-        <Button>Cancel</Button>
-        <Button onClick={handleSubmit} variant="contained" color="primary">
-          Log in
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <Dialog open={true}>
+        <DialogTitle>Login Form</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Please fill out the login form.</DialogContentText>
+          <TextField
+              margin="dense"
+              label="Email"
+              type="email"
+              fullWidth
+              value={email}
+              onChange={handleEmailChange}
+          />
+          <TextField
+              margin="dense"
+              label="Password"
+              type="password"
+              fullWidth
+              value={password}
+              onChange={handlePasswordChange}
+          />
+          {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRegistrationClick} color="primary">
+            Register
+          </Button>
+          <Button>Cancel</Button>
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            Log in
+          </Button>
+        </DialogActions>
+      </Dialog>
   );
 }
+
 
 export default LoginForm;
