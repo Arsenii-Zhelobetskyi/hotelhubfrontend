@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import { fetchHotels } from "../../../redux/slices/hotelsSlice";
-import { fetchHouses } from "../../../redux/slices/housesSlice";
-import { fetchOccupiedPlacesByHotel } from "../../../redux/slices/roomsSlice";
-function Switch({ value, setValue }) {
-  const dispatch = useDispatch();
 
+function Switch({ value, setValue }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    dispatch(fetchHotels());
-    dispatch(fetchHouses());
-    dispatch(fetchOccupiedPlacesByHotel());
-  }, []);
   return (
     <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
       <TabContext value={value}>

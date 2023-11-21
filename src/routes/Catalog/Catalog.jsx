@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Switch from "./components/Switch";
-import Pagination from "@mui/material/Pagination";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import GridComp from "./components/GridComp";
 import { Box } from "@mui/material";
@@ -22,11 +21,10 @@ function Catalog() {
     >
       <Switch value={value} setValue={setValue} />
       {value === "0" ? (
-        <GridComp data={hotels?.data} places={places.data} type="hotel" />
+        <GridComp key={0} info={hotels} places={places.data} type="hotel" />
       ) : (
-        <GridComp data={houses?.data} type="house" />
+        <GridComp key={1} info={houses} type="house" />
       )}
-      <Pagination count={10} color="primary" />
     </Box>
   );
 }

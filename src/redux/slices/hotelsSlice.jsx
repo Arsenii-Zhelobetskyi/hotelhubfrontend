@@ -1,10 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../utils/config";
-export const fetchHotels = createAsyncThunk("fetchHotels", async () => {
-  const response = await fetch(`${API_URL}/api/hotels/`);
-  const data = await response.json();
-  return { data };
-});
+export const fetchHotels = createAsyncThunk(
+  "fetchHotels",
+  async ({ page, limit }) => {
+    const quantityResponse = await fetch(`${API_URL}/api/hotels/count`);
+    const { quantity } = await quantityResponse.json();
+    const response = await fetch(
+      `${API_URL}/api/hotels/?page=${page}&limit=${limit}`
+    );
+    const data = await response.json();
+    return { data, quantity };
+  }
+);
 
 const hotelsSlice = createSlice({
   name: "hotels",
@@ -12,6 +19,7 @@ const hotelsSlice = createSlice({
     data: [],
     isLoading: false,
     isError: false,
+    quantity: 0,
   },
   extraReducers: (builder) => {
     builder
@@ -21,6 +29,7 @@ const hotelsSlice = createSlice({
       .addCase(fetchHotels.fulfilled, (state, action) => {
         state.data = action.payload.data;
         state.isLoading = false;
+        state.quantity = parseInt(action.payload.quantity);
       })
       .addCase(fetchHotels.rejected, (state) => {
         state.isError = true;
