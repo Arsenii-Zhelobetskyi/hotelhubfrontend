@@ -1,9 +1,7 @@
-import Pagination from "@mui/material/Pagination";
 import ResComp from "./ResComp.jsx"
 import { Box, Typography } from "@mui/material";
 
 function Results( resData, type) {
-  console.log(resData.data);
   let value;
   if (type === "room") {
     value = "0";
@@ -28,7 +26,7 @@ function Results( resData, type) {
       ) : (
         <ResComp data={resData.data} type="house" />
       )}
-      <Pagination count={10} color="primary" />
+      
     </Box>
   );
 }

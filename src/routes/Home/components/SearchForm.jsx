@@ -64,8 +64,6 @@ function SearchForm() {
   useEffect(() => {
     if (submitClicked) {
       // Виконується після завантаження даних та натиску кнопки
-      console.log('Search Data:', searchData.data);
-
       setShowResults(true);
       
       setSubmitClicked(false);
@@ -228,6 +226,7 @@ function SearchForm() {
                         width: "80%",}} 
                       label="End Date" disablePast 
                       format="YYYY-MM-DD" name="endDate"
+                      minDate={dayjs(formData.startDate)} 
                       value={dayjs(formData.endDate)} 
                       onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date.format("YYYY-MM-DD") }))} 
                   />

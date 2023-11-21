@@ -1,4 +1,3 @@
-import AlertComp from "./AlertComp";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -33,37 +32,33 @@ function CompData({ item, theme, type }) {
           {item.name}
         </Typography>
         <Typography
-          variant="caption2"
+          variant="caption1"
           sx={{
-            color: theme.palette.text.secondary,
-            fontSize: 14,
             textAlign: "left",
             marginTop: "6px",
             marginBottom: "7px",
           }}
-        >
-          {item.address}
-        </Typography>
-        {item.price ? <Typography>{item.price}$</Typography> : ""}
+        > {item.address} </Typography>
+        
+        <Typography
+          variant="caption2"
+          sx={{
+            textAlign: "left",
+            marginTop: "9px",
+          }}
+        > {item.description} </Typography>
+          
         <Divider
           sx={{
             border: `.5px solid ${theme.palette.secondary.main}`,
             textAlign: "left",
-            marginTop: "7px",
+            margin: "15px 0 10px 0",
           }}
         />
-        <AlertComp status={item.status} />
-        <Typography
-          variant="caption2"
-          sx={{
-            bottom: 20,
-            right: 20,
-            fontSize: 14,
-            textAlign: "left",
-            marginTop: "7px",
-          }}
-        > Кількість місць: {" "} {item.placeN}
-        </Typography>
+
+         {item.price ? <Typography sx={{ marginBottom: -1}}>{item.price}$</Typography> : ""}
+        
+        
       </Box>
     </Box>
   );
