@@ -48,11 +48,13 @@ const authorizationSlice = createSlice({
   name: "authorization",
   initialState: {
     isLoading: false,
+    userId: null,
     name: null,
     isError: false,
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
+      state.userId = action.payload.userId;
       state.name = action.payload;
     });
     builder.addCase(login.pending, (state) => {
