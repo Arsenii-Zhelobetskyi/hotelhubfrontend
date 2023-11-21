@@ -7,15 +7,16 @@ import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/slices/authorizationSlice.jsx";
 
 function UserMenu() {
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const navigate = useNavigate();
+    const navigate = useNavigate();  // Замінено з useHistory
+    const dispatch = useDispatch();
 
     // Використовуйте поле 'name' для отримання інформації про користувача
     const userId = useSelector((state) => state.authorization.userId);
-
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -26,6 +27,21 @@ function UserMenu() {
         if (setting === "Account" && userId) {
             // Використовуйте 'userName' для переходу на сторінку налаштувань користувача
             navigate(`/userSettings/${userId}`);
+        } else if (setting === "Logout") {
+            handleLogout();
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await dispatch(logout());
+            // Перенаправте користувача на головну сторінку після виходу
+            window.location.reload();
+        } catch (error) {
+            console.error("Logout failed:", error);
+            // Обробляйте помилки логауту тут
+        } finally {
+            setAnchorElUser(null);
         }
     };
 

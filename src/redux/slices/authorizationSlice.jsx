@@ -23,27 +23,23 @@ export const login = createAsyncThunk("login", async (log) => {
   }
 });
 
-/* export const logout = createAsyncThunk("logout", async (log) => {
-  // eslint-disable-next-line no-useless-catch
+export const logout = createAsyncThunk("logout", async () => {
   try {
-    const response = await fetch(`${API_URL}/logout`, {
+     const response = await fetch(`${API_URL}/logout`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(log),
-    });
+       headers: {
+         "Content-Type": "application/json",
+       },
+     });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
 
-    return await response.json();
+    localStorage.removeItem("ACCESS_TOKEN");
+
   } catch (error) {
     throw error;
   }
 });
- */
+
 const authorizationSlice = createSlice({
   name: "authorization",
   initialState: {
@@ -65,9 +61,10 @@ const authorizationSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     });
-    // builder.addCase(logout.fulfilled, (state, action) => {
-    //   state.user = action.payload;
-    // });
+    builder.addCase(logout.fulfilled, (state, action) => {
+      state.userId = null;
+      state.name = null;
+    });
   },
 });
 
