@@ -15,7 +15,10 @@ function UserMenu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.authorization.userId);
+  //const userId = useSelector((state) => state.authorization.user.id);
+  const data = localStorage.getItem("ACCESS");
+  const parsedData = JSON.parse(data);
+  const userId = parsedData.id;
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -23,8 +26,9 @@ function UserMenu() {
 
   const handleCloseUserMenu = (setting) => {
     setAnchorElUser(null);
-    if (setting === "Account" && userId) {
+    if (setting === "Account") {
       navigate(`/userSettings/${userId}`);
+      console.log(parsedData);
     } else if (setting === "Logout") {
       handleLogout();
     } else if (setting === "My Orders") {
@@ -43,7 +47,7 @@ function UserMenu() {
     }
   };
 
-  const settings = ["Profile", "Account", "My Orders", "Dashboard", "Logout"];
+  const settings = ["Account", "My Orders", "Logout"];
 
   return (
     <Box sx={{ flexGrow: 0 }}>

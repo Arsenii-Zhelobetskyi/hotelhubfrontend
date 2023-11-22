@@ -6,6 +6,7 @@ import SinglePage from "./routes/SinglePage/SinglePage.jsx";
 import OrderHistory from "./routes/OrderHistory/OrderHistory.jsx";
 import UserSettings from "./routes/UserSettings/UserSettings.jsx";
 import UserNotFound from "./routes/UserSettings/UserNotFound.jsx";
+import UserAccessDenied from "./routes/UserSettings/UserAccessDenied.jsx";
 import OrderNow from "./routes/OrderNow/OrderNow.jsx";
 import { API_URL } from "./utils/config";
 
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
       {
         path: "/userNotFound",
         element: <UserNotFound />,
+      },
+      {
+        path: "/userAccessDenied",
+        element: <UserAccessDenied />,
       },
       {
         path: "/order-now/:type/:id",
