@@ -25,6 +25,7 @@ function Catalog() {
       ) : (
         <GridComp key={1} info={houses} type="house" />
       )}
+      <Box></Box>
     </Box>
   );
 }

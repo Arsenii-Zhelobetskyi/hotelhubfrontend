@@ -29,34 +29,50 @@ function Header() {
   };
 
   return (
-      <AppBar position="fixed" sx={{ backgroundColor: "background.default" }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <HamburgerMenu
-                handleOpenNavMenu={handleOpenNavMenu}
-                handleCloseNavMenu={handleCloseNavMenu}
-                anchorElNav={anchorElNav}
-                pages={pages}
-                handleNavigate={handleNavigate}
-            />
+    <AppBar position="fixed" sx={{ backgroundColor: "background.default" }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <HamburgerMenu
+            handleOpenNavMenu={handleOpenNavMenu}
+            handleCloseNavMenu={handleCloseNavMenu}
+            anchorElNav={anchorElNav}
+            pages={pages}
+            handleNavigate={handleNavigate}
+          />
 
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                  <Button
-                      key={page.label}
-                      sx={{ my: 2, color: "white", display: "block" }}
-                      onClick={() => handleNavigate(page.path)}
-                  >
-                    {page.label}
-                  </Button>
-              ))}
-            </Box>
-            <UserMenu />
-          </Toolbar>
-        </Container>
-      </AppBar>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", alignItems: "center" },
+            }}
+          >
+            <Box
+              component="img"
+              sx={{
+                height: "100%",
+                width: "5%",
+                marginRight: "10px",
+                "&:hover": { cursor: "pointer" },
+              }}
+              src={"/src/assets/logov2.svg"}
+              alt="House photo"
+              onClick={() => handleNavigate("/home")}
+            ></Box>
+            {pages.map((page) => (
+              <Button
+                key={page.label}
+                sx={{ my: 2, color: "white", display: "block" }}
+                onClick={() => handleNavigate(page.path)}
+              >
+                {page.label}
+              </Button>
+            ))}
+          </Box>
+          <UserMenu />
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
 
 export default Header;
-

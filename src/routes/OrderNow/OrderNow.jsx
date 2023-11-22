@@ -35,13 +35,18 @@ function OrderNow() {
     }));
   };
   const handleSubmit = () => {
+    const startDate = dayjs(formData.start_date);
+    const endDate = dayjs(formData.end_date);
+
+    const quantityOfDays = endDate.diff(startDate, "day");
+    console.log(quantityOfDays * data.price);
     dispatch(
       addOrder({
         resObj: { type, id },
         order: {
           ...formData,
           status: "active",
-          sum: data.price,
+          sum: data.price * quantityOfDays,
           user_id: user.id,
         },
       })
