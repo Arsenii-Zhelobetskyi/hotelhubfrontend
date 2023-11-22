@@ -3,14 +3,17 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { useNavigate } from "react-router-dom";
 
-function CompData({ item, theme, type }) {
+function CompData( {item, theme} ) {
+
   const navigateTo = useNavigate();
   const handleNavigate = (path) => {
     navigateTo(path);
   };
+  let type;
+  { item.roomN ? type = "house" : type = "room" };
   return (
     <Box
-    //   onClick={() => handleNavigate(`/catalog/${type}/${item.id}`)}
+      onClick={() => handleNavigate(`/catalog/${type}/${item.id}`)}
       sx={{ cursor: "pointer" }}
     >
       <Box

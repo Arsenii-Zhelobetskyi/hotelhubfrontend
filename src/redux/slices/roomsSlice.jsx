@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../utils/config";
+
 export const fetchRooms = createAsyncThunk("fetchRooms", async ({ id }) => {
   const response = await fetch(`${API_URL}/api/rooms/${id}`);
   const data = await response.json();
@@ -14,15 +15,6 @@ export const fetchOccupiedPlacesByHotel = createAsyncThunk(
   }
 );
 
-/* export const fetchRooms = createAsyncThunk(
-  "fetchRooms",
-  async () => {
-    const response = await fetch(`${API_URL}/api/rooms/`);
-    const data = await response.json();
-    return { data };
-  }
-)
- */
 const roomsSlice = createSlice({
   name: "rooms",
   initialState: {

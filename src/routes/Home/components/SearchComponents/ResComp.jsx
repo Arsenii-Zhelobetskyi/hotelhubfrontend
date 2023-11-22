@@ -3,7 +3,8 @@ import Grid  from "@mui/material/Unstable_Grid2";
 import { useTheme } from "@mui/material/styles";
 import CompData from "./CompData";
 
-function ResComp( compData, type ) {
+function ResComp(compData, type) {
+  console.log(compData.data, type);
   const theme = useTheme();
   return (
     <div>
