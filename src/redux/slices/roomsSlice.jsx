@@ -9,6 +9,15 @@ export const fetchOccupiedPlacesByHotel = createAsyncThunk(
   }
 );
 
+export const fetchRooms = createAsyncThunk(
+  "fetchRooms",
+  async () => {
+    const response = await fetch(`${API_URL}/api/rooms/`);
+    const data = await response.json();
+    return { data };
+  }
+)
+
 const roomsSlice = createSlice({
   name: "rooms",
   initialState: {
