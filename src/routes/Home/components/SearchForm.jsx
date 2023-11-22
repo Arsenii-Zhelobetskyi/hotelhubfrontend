@@ -98,7 +98,7 @@ function SearchForm() {
       setSubmitClicked(false);
     }
   }, [searchData, submitClicked]);
-   
+
   const theme = useTheme();
   const data = useLoaderData();
   const options = data.map((city) => `${city.name}, ${city.country}`);
@@ -277,12 +277,8 @@ function SearchForm() {
           </div>
         </form>
       </article>
-      
-      {showResults && <Results data={searchData.data} />}
 
-      {showResults && (
-        <Results data={searchData.data} type={formData.accommodationType} />
-      )}
+      {showResults && <Results data={searchData.data} />}
     </Box>
   );
 }

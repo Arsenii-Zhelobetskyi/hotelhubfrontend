@@ -6,9 +6,8 @@ import SinglePage from "./routes/SinglePage/SinglePage.jsx";
 import OrderHistory from "./routes/OrderHistory/OrderHistory.jsx";
 import UserSettings from "./routes/UserSettings/UserSettings.jsx";
 import UserNotFound from "./routes/UserSettings/UserNotFound.jsx";
-import OrderNow from "./routes/OrderNow/OrderNow.jsx";
 import { API_URL } from "./utils/config";
-
+import OrderNow from "./routes/OrderNow/OrderNow.jsx";
 import DefaultLayout from "./views/DefaultLayout/DefaultLayout.jsx";
 import LoginLayout from "./views/LoginLayout/LoginLayout.jsx";
 import LoginForm from "./components/LoginForm/LoginForm.jsx";

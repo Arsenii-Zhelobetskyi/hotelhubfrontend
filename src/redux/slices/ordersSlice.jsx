@@ -10,6 +10,43 @@ export const fetchOrders = createAsyncThunk(
     return { data };
   }
 );
+export const addOrder = createAsyncThunk(
+  "addOrder",
+  async ({ resObj, order }) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const response1 = await fetch(
+        `${API_URL}/api/reservation/create-reservation-obj?type=${resObj.type}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: resObj.id }),
+        }
+      );
+      if (!response1.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const createReservationObject = await response1.json();
+
+      const response2 = await fetch(
+        `${API_URL}/api/reservation/create?resObj=${createReservationObject.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ order }),
+        }
+      );
+      return await response2.json();
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const ordersSlice = createSlice({
   name: "orders",
   initialState: {
@@ -18,17 +55,19 @@ const ordersSlice = createSlice({
     isError: false,
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchOrders.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchOrders.fulfilled, (state, action) => {
-        state.data = action.payload.data;
-        state.isLoading = false;
-      })
-      .addCase(fetchOrders.rejected, (state) => {
-        state.isError = true;
-      });
+    builder.addCase(fetchOrders.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchOrders.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchOrders.rejected, (state) => {
+      state.isError = true;
+    });
+    builder.addCase(addOrder.fulfilled, (state, action) => {
+      state.data.push(action.payload);
+    });
   },
 });
 export default ordersSlice.reducer;
