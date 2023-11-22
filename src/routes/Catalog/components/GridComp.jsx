@@ -44,17 +44,7 @@ function GridComp({ info, places = undefined, type }) {
       >
         {info.data?.map((item) => (
           <Grid key={item.id}>
-            <Card
-              variant="outlined"
-              sx={{
-                bgcolor: "Transparent",
-                border: `1px solid ${theme.palette.secondary.main}`,
-                borderRadius: "30px",
-                width: "310px",
-              }}
-            >
-              <GridData item={item} theme={theme} places={places} type={type} />
-            </Card>
+            <GridData item={item} theme={theme} places={places} type={type} />
           </Grid>
         ))}
       </Grid>

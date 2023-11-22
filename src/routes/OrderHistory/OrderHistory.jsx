@@ -27,7 +27,7 @@ const columns = [
     type: "text",
     width: 190,
     valueGetter: (params) => {
-      const payType = String(params.row.payCheck.payType);
+      const payType = String(params?.row?.payCheck?.payType);
 
       if (payType === "debit_card") {
         return "Debit Card";
