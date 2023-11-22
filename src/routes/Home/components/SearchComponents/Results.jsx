@@ -1,11 +1,7 @@
 import ResComp from "./ResComp.jsx"
 import { Box, Typography } from "@mui/material";
 
-function Results( resData, type) {
-  let value;
-  if (type === "room") {
-    value = "0";
-  } else {value = "1";}
+function Results(resData) {  
   return (
     <Box
       sx={{
@@ -20,12 +16,10 @@ function Results( resData, type) {
             marginTop: 15,
             textAlign: "left",
             marginBottom: 3,
-          }}> Search Results </Typography>
-      {value === "0" ? (
-        <ResComp data={resData.data} type="room" />
-      ) : (
-        <ResComp data={resData.data} type="house" />
-      )}
+        }}> Search Results
+      </Typography>
+        
+      <ResComp data={resData.data} />
       
     </Box>
   );
