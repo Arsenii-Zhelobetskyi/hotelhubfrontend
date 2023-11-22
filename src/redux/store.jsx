@@ -5,6 +5,8 @@ import roomsSlice from "./slices/roomsSlice";
 import singlePageSlice from "./slices/singlePageSlice";
 import searchSlice from "./slices/searchSlice";
 import { configureStore } from "@reduxjs/toolkit";
+import authorizationSlice from "./slices/authorizationSlice";
+
 const store = configureStore({
   reducer: {
     hotels: hotelsSlice,
@@ -13,6 +15,7 @@ const store = configureStore({
     singlePage: singlePageSlice,
     comments: commentsSlice,
     search: searchSlice,
+    authorization: authorizationSlice,
   },
 });
 export default store;

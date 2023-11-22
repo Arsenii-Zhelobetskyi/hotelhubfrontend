@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -11,16 +11,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSinglePage } from "../../redux/slices/singlePageSlice.jsx";
 import Comments from "./components/Comments/Comments.jsx";
 import Carousel from "./components/Carousel/Carousel.jsx";
+import GridComp from "../Catalog/components/GridComp.jsx";
+import { fetchRooms } from "../../redux/slices/roomsSlice.jsx";
 
 function SinglePage() {
   const dispatch = useDispatch();
   const singlePage = useSelector((state) => state.singlePage);
+  const rooms = useSelector((state) => state.rooms);
+  const navigateTo = useNavigate();
   const { data } = singlePage;
   const { type, id } = useParams();
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
+    dispatch(fetchRooms({ id }));
   }, []);
-  console.log(data);
   if (singlePage.isLoading) {
     return (
       <Box
@@ -87,11 +91,16 @@ function SinglePage() {
           <Button variant="contained" color="secondary">
             Save
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigateTo(`/order-now/${type}/${id}`)}
+          >
             Order now
           </Button>
         </Box>
       </Box>
+      {/* {rooms.data && <GridComp info={rooms} type={type} />} */}
       <Comments type={type} id={id} />
     </Box>
   );
