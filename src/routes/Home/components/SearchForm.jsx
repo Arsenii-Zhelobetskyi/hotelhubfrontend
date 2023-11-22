@@ -1,6 +1,20 @@
 import { useState, useEffect } from "react";
 import "./style.css";
-import { useTheme, Box, Typography, TextField, Stack, Autocomplete, Radio, RadioGroup, FormControl, FormControlLabel, Divider, Button, Paper } from "@mui/material/";
+import {
+  useTheme,
+  Box,
+  Typography,
+  TextField,
+  Stack,
+  Autocomplete,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  Divider,
+  Button,
+  Paper,
+} from "@mui/material/";
 
 import { useLoaderData } from "react-router-dom";
 import background from "./image.jpg";
@@ -14,9 +28,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchDataSearch} from "../../../redux/slices/searchSlice.jsx";
+import { fetchDataSearch } from "../../../redux/slices/searchSlice.jsx";
 import Results from "./SearchComponents/Results.jsx";
 
+import Calendar from "../../../components/Calendar/Calendar.jsx";
 
 function SearchForm() {
   const dispatch = useDispatch();
@@ -24,8 +39,8 @@ function SearchForm() {
 
   const [formData, setFormData] = useState({
     city: "",
-    startDate: `${dayjs().format('YYYY-MM-DD')}`,
-    endDate: `${dayjs().format('YYYY-MM-DD')}`,
+    startDate: `${dayjs().format("YYYY-MM-DD")}`,
+    endDate: `${dayjs().format("YYYY-MM-DD")}`,
     guests: 1,
     accommodationType: "house",
   });
@@ -43,13 +58,26 @@ function SearchForm() {
       guests: isNaN(guests) ? 1 : guests,
     }));
   };
- 
+
   const [submitClicked, setSubmitClicked] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
+  const handleStartDate = (date) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      startDate: date.format("YYYY-MM-DD"),
+    }));
+  };
+  const handleEndDate = (date) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      endDate: date.format("YYYY-MM-DD"),
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-   
+
     dispatch(
       fetchDataSearch({
         accommodationType: formData.accommodationType,
@@ -58,19 +86,19 @@ function SearchForm() {
         endDate: formData.endDate,
         guests: formData.guests,
       })
-    ).then(() => { setSubmitClicked(true); });
-      
+    ).then(() => {
+      setSubmitClicked(true);
+    });
   };
   useEffect(() => {
     if (submitClicked) {
       // Виконується після завантаження даних та натиску кнопки
       setShowResults(true);
-      
+
       setSubmitClicked(false);
     }
   }, [searchData, submitClicked]);
-   
-    
+
   const theme = useTheme();
   const data = useLoaderData();
   const options = data.map((city) => `${city.name}, ${city.country}`);
@@ -85,8 +113,6 @@ function SearchForm() {
 
         <form className="form" onSubmit={handleSubmit}>
           <div className="flex-box" style={{ justifyContent: "space-between" }}>
-      
-
             <Typography
               sx={{
                 padding: "10px 50px 25px 15px",
@@ -200,79 +226,62 @@ function SearchForm() {
               </Stack>
             </Box>
 
-            <Box sx={{ paddingLeft: 3 }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  sx={{
-                    backgroundColor: theme.palette.background.grey,
-                    border: `1px solid ${theme.palette.secondary.dark}`,
-                    borderRadius: 2,
-                    width: "80%",
-                  }} 
-                  format="YYYY-MM-DD" disablePast
-                  label="Start Date" name="startDate" value={dayjs(formData.startDate)}
-                  onChange={(date) => setFormData((prevData) => ({ ...prevData, startDate: date.format("YYYY-MM-DD") }))} 
-                />
-              </LocalizationProvider>
-            </Box>
-
+            <Calendar
+              data={formData}
+              value={formData.startDate}
+              label={"Start Date"}
+              name={"startDate"}
+              minDate={undefined}
+              setData={handleStartDate}
+            />
             <Typography variant="headline3"> – </Typography>
+            <Calendar
+              data={formData}
+              value={formData.endDate}
+              label={"End Date"}
+              name={"endDate"}
+              minDate={dayjs(formData.startDate)}
+              setData={handleEndDate}
+            />
 
-            <Box sx={{paddingRight: 3}}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                  <DatePicker sx={{backgroundColor: theme.palette.background.grey,
-                        border: `1px solid ${theme.palette.secondary.dark}`,
-                        borderRadius: 2, 
-                        width: "80%",}} 
-                      label="End Date" disablePast 
-                      format="YYYY-MM-DD" name="endDate"
-                      minDate={dayjs(formData.startDate)} 
-                      value={dayjs(formData.endDate)} 
-                      onChange={(date) => setFormData((prevData) => ({ ...prevData, endDate: date.format("YYYY-MM-DD") }))} 
-                  />
-              </LocalizationProvider>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <PersonIcon
+                sx={{
+                  color: theme.palette.text.primary,
+                  marginRight: 1,
+                  fontSize: 35,
+                }}
+              />
+              <TextField
+                sx={{
+                  backgroundColor: theme.palette.background.dark,
+                  borderRadius: 2,
+                  width: 130,
+                }}
+                id="filled-number"
+                name="guests"
+                value={formData.guests}
+                label="Number of guests"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="filled"
+                onChange={handleGuestsChange}
+                inputProps={{
+                  min: 1,
+                  max: 30,
+                }}
+              />
             </Box>
-
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <PersonIcon
-                  sx={{
-                    color: theme.palette.text.primary,
-                    marginRight: 1,
-                    fontSize: 35,
-                  }}
-                />
-                <TextField
-                  sx={{
-                    backgroundColor: theme.palette.background.dark,
-                    borderRadius: 2,
-                    width: 130,
-                  }}
-                  id="filled-number"
-                  name="guests"
-                  value={formData.guests}
-                  label="Number of guests"
-                  type="number"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="filled"
-                  onChange={handleGuestsChange}
-                  inputProps={{
-                    min: 1,
-                    max: 30,
-                  }}
-                />
-            </Box>
-            
           </div>
         </form>
-
       </article>
-      
-      {showResults && <Results data={searchData.data} type={formData.accommodationType}/>}
 
+      {showResults && (
+        <Results data={searchData.data} type={formData.accommodationType} />
+      )}
     </Box>
-     
   );
 }
 
