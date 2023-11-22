@@ -22,10 +22,6 @@ import PinDropIcon from "@mui/icons-material/PinDropOutlined";
 import PersonIcon from "@mui/icons-material/PersonAddAltOutlined";
 import TravelIcon from "@mui/icons-material/TravelExploreTwoTone";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDataSearch } from "../../../redux/slices/searchSlice.jsx";
@@ -98,7 +94,7 @@ function SearchForm() {
       setSubmitClicked(false);
     }
   }, [searchData, submitClicked]);
-   
+
   const theme = useTheme();
   const data = useLoaderData();
   const options = data.map((city) => `${city.name}, ${city.country}`);
@@ -120,8 +116,7 @@ function SearchForm() {
                 fontSize: 18,
               }}
             >
-              {" "}
-              Search and Book Your Getaway{" "}
+              {" "}  Search and Book Your Getaway{" "}
             </Typography>
 
             <Button
@@ -138,8 +133,7 @@ function SearchForm() {
                 }}
               />
               <Typography sx={{ textAlign: "center", fontSize: 14 }}>
-                {" "}
-                Search{" "}
+                {" "} Search{" "}
               </Typography>
             </Button>
           </div>
@@ -277,12 +271,8 @@ function SearchForm() {
           </div>
         </form>
       </article>
-      
-      {showResults && <Results data={searchData.data} />}
 
-      {showResults && (
-        <Results data={searchData.data} type={formData.accommodationType} />
-      )}
+      {showResults && <Results data={searchData.data} />}
     </Box>
   );
 }

@@ -8,10 +8,10 @@ import { useTheme } from "@emotion/react";
 import { fetchSinglePage } from "../../redux/slices/singlePageSlice";
 import Calendar from "../../components/Calendar/Calendar";
 import dayjs from "dayjs";
-
+import { addOrder } from "../../redux/slices/ordersSlice.jsx";
 import { useStateContext } from "../../utils/contexts/ContextProvider";
 
-function orderNow() {
+function OrderNow() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
@@ -19,30 +19,38 @@ function orderNow() {
   const data = useSelector((state) => state.singlePage.data);
   const { user } = useStateContext();
   const [formData, setFormData] = useState({
-    startDate: `${dayjs().format("YYYY-MM-DD")}`,
-    endDate: `${dayjs().format("YYYY-MM-DD")}`,
+    start_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
+    end_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
   });
-  console.log(user);
-
   const handleStartDate = (date) => {
     setFormData((prevData) => ({
       ...prevData,
-      startDate: date.format("YYYY-MM-DD"),
+      start_date: date.format("YYYY-MM-DDTHH:mm:ss[Z]"),
     }));
   };
   const handleEndDate = (date) => {
     setFormData((prevData) => ({
       ...prevData,
-      endDate: date.format("YYYY-MM-DD"),
+      end_date: date.format("YYYY-MM-DDTHH:mm:ss[Z]"),
     }));
   };
-
+  const handleSubmit = () => {
+    dispatch(
+      addOrder({
+        resObj: { type, id },
+        order: {
+          ...formData,
+          status: "active",
+          sum: data.price,
+          user_id: user.id,
+        },
+      })
+    );
+  };
+  console.log(data);
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
-  const handleSubmit = () => {
-    console.log("hello");
-  };
   return (
     <Box
       sx={{
@@ -70,7 +78,7 @@ function orderNow() {
       <Box sx={{ display: "flex", alignItems: "center", my: "20px" }}>
         <Calendar
           data={formData}
-          value={formData.startDate}
+          value={formData.start_date}
           label={"Start Date"}
           name={"startDate"}
           minDate={undefined}
@@ -79,10 +87,10 @@ function orderNow() {
         <Typography variant="headline3"> – </Typography>
         <Calendar
           data={formData}
-          value={formData.endDate}
+          value={formData.end_date}
           label={"End Date"}
           name={"endDate"}
-          minDate={dayjs(formData.startDate)}
+          minDate={dayjs(formData.start_date)}
           setData={handleEndDate}
         />
       </Box>
@@ -100,10 +108,10 @@ function orderNow() {
         <Button color="secondary" onClick={() => navigateTo(`/home`)}>
           Go home
         </Button>
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={() => handleSubmit()}>Submit</Button>
       </Box>
     </Box>
   );
 }
 
-export default orderNow;
+export default OrderNow;

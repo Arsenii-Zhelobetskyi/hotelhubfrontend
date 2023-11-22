@@ -7,7 +7,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/";
 function RegistrationForm({ onClose }) {
+    const theme = useTheme();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -87,13 +89,29 @@ function RegistrationForm({ onClose }) {
 
     return (
         <>
-            <Dialog open={true} onClose={onClose}>
-                <DialogTitle>Registration Form</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
+            <Dialog open={true} onClose={onClose}  PaperProps={{
+                style: {
+                backgroundColor: "#1D1D1E",
+                borderRadius: 10,
+                },
+            }}>
+                <DialogTitle sx={{ color: "#FCFCFD" , height: "65px", paddingTop: "25px"}}>Registration Form</DialogTitle>
+                <DialogContent  sx={{ padding: "15px 20px"}}>
+                    <DialogContentText sx={{ color: "#777E90", marginBottom: 1.7}}>
                         Please fill out the registration form.
                     </DialogContentText>
-                    <TextField
+                    <TextField sx={{
+                        backgroundColor: "rgba(34,38,45,0.88)",
+                        borderRadius: 3,
+                        }} InputProps={{
+                          style: {
+                              color: "whitesmoke",
+                        }
+                      }} InputLabelProps={{
+                        style: {
+                          color: "white", 
+                        },
+                      }}
                         autoFocus
                         margin="dense"
                         label="Name"
@@ -102,7 +120,18 @@ function RegistrationForm({ onClose }) {
                         value={name}
                         onChange={handleNameChange}
                     />
-                    <TextField
+                    <TextField sx={{
+                        backgroundColor: "rgba(34,38,45,0.88)",
+                        borderRadius: 3,
+                        }} InputProps={{
+                          style: {
+                              color: "whitesmoke",
+                        }
+                      }} InputLabelProps={{
+                        style: {
+                          color: "white", 
+                        },
+                      }}
                         margin="dense"
                         label="Email"
                         type="email"
@@ -110,7 +139,18 @@ function RegistrationForm({ onClose }) {
                         value={email}
                         onChange={handleEmailChange}
                     />
-                    <TextField
+                    <TextField sx={{
+                        backgroundColor: "rgba(34,38,45,0.88)",
+                        borderRadius: 3,
+                        }} InputProps={{
+                          style: {
+                              color: "whitesmoke",
+                        }
+                      }} InputLabelProps={{
+                        style: {
+                          color: "white", 
+                        },
+                      }}
                         margin="dense"
                         label="Password"
                         type="password"
@@ -124,12 +164,12 @@ function RegistrationForm({ onClose }) {
                         </p>
                     )}
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleLogin} color="primary">
-                        Have an account?
+                <DialogActions sx={{ padding: "5px 20px 15px 15px", height: "60px", display: "flex", justifyContent: "space-around" }}>
+                    <Button onClick={handleLogin} variant="contained" color="secondary" sx={{ marginRight: "100px", padding: "7px 15px", alignItem: "left"}}>
+                        Have an account
                     </Button>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={handleSubmit} variant="contained" color="primary">
+                    <Button sx={{ padding: "7px 15px", color: "whitesmoke" }} onClick={onClose}>Cancel</Button>
+                    <Button sx={{ padding: "7px 15px" }} onClick={handleSubmit} variant="contained" color="primary">
                         Register
                     </Button>
                 </DialogActions>
