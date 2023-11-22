@@ -31,6 +31,7 @@ function Comments({ type, id }) {
   const [rating, setRating] = useState(4);
   const [currentPage, useCurrentPage] = useState(1);
   const [currentLimit, useCurrentLimit] = useState(5);
+  const userName = useSelector((state)=> state.authorization.user.name)
 
   useEffect(() => {
     dispatch(
@@ -59,7 +60,7 @@ function Comments({ type, id }) {
       return;
     }
     dispatch(
-      addComment({ comment: { title: "anonymous", body, rating, id }, type })
+      addComment({ comment: { title: userName, body, rating, id }, type })
     );
     setOrderBy("");
     setBody("");

@@ -8,8 +8,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/";
+import { login } from "../../redux/slices/authorizationSlice.jsx";
+import { useDispatch } from "react-redux";
+
 function RegistrationForm({ onClose }) {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -69,7 +73,8 @@ function RegistrationForm({ onClose }) {
             if (result.ok) {
                 const data = await result.json();
                 console.log('User successfully registered:', data);
-                // You can perform additional actions after successful registration here
+                dispatch(login({ email, password }));
+                navigate("/home");
                 onClose();
             } else {
                 const errorData = await result.json();

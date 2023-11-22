@@ -26,7 +26,7 @@ function UserSettings() {
   const [actionType, setActionType] = useState("name");
   const [newName, setNewName] = useState(user ? user.name : "");
   const [newEmail, setNewEmail] = useState(user ? user.email : "");
-  const [newPassword, setNewPassword] = useState("");
+  const [newPassword, setNewPassword] = useState(user ? user.password : "");
 
   const checker = window.location.pathname.split("/").pop();
   const data = localStorage.getItem("ACCESS");
@@ -37,6 +37,7 @@ function UserSettings() {
   useEffect(() => {
     setNewName(user ? user.name : "");
     setNewEmail(user ? user.email : "");
+    setNewEmail(user ? user.password : "");
   }, [user]);
 
   useEffect(() => {
@@ -87,6 +88,7 @@ function UserSettings() {
         const updatedUser = await result.json();
         setNewName(updatedUser.name);
         setNewEmail(updatedUser.email);
+        setNewPassword(updatedUser.password);
       } else {
         console.error("Error saving changes:", result.statusText);
       }
