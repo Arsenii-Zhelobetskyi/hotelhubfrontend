@@ -16,32 +16,34 @@ import { useTheme } from "@mui/material/";
 function LoginForm() {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const authorization = useSelector((state) => state.authorization);
-  const { setName, setEmail, setToken } = useStateContext();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  const authorization = useSelector((state) => state.authorization);
+  const { setUser } = useStateContext();
 
   const [email, _setEmail] = useState("");
-  const [name, _setName] = useState("");
   const [password, _setPassword] = useState("");
 
-  const [error, setError] = useState(null);
   const handleEmailChange = (e) => {
     _setEmail(e.target.value);
   };
-
   const handlePasswordChange = (e) => {
     _setPassword(e.target.value);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
+
   useEffect(() => {
-    if (authorization.name) {
-      setEmail(authorization.name.email);
-      setToken(authorization.name.token);
+    //наповнення useContext даними на нашу сесію
+    if (authorization.user) {
+      setUser(authorization.user);
     }
-  }, [authorization.name, setEmail, setToken]);
+  }, [authorization.user, setUser]);
+
   const handleRegistrationClick = () => {
     navigate("/registration");
   };
@@ -106,6 +108,5 @@ function LoginForm() {
       </Dialog>
   );
 }
-
 
 export default LoginForm;

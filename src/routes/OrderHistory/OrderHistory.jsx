@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTheme } from "@mui/material/styles";
 import { useLoaderData } from "react-router-dom";
+import { fetchOrders } from "../../redux/slices/ordersSlice";
+import { useParams } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton"; // Import Skeleton component from MUI
+
 const columns = [
   { field: "id", headerName: " ID", width: 100 },
   {
@@ -51,38 +55,50 @@ const columns = [
 
 function OrderHistory() {
   const theme = useTheme();
-
-  const { history } = useLoaderData();
-  console.log(history);
-
-  const rows = Object.values(history);
-
+  const dispatch = useDispatch();
+  const { user_id } = useParams();
+  const orders = useSelector((state) => state.orders);
+  useEffect(() => {
+    dispatch(fetchOrders({ user_id }));
+  }, []);
+  if (orders.isLoading) {
+    return (
+      <div>
+        <h1>My Order History</h1>
+        <Box sx={{ height: 400, width: `100%`, marginTop: 4 }}>
+          <Skeleton variant="rectangular" height={400} />
+        </Box>
+      </div>
+    );
+  }
   return (
     <div>
       <h1>My Order History</h1>
-      <Box sx={{ height: 400, width: `100%`, marginTop: 4 }}>
-        <DataGrid
-          sx={{
-            paddingRight: 2,
-            paddingLeft: 2,
-            fontSize: 16,
-            boxShadow: 2,
-            border: 2,
-            borderColor: "primary.light",
-            "& .MuiDataGrid-cell:hover": { color: "primary.main" },
-          }}
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
+      {orders?.data && (
+        <Box sx={{ height: 400, width: `100%`, marginTop: 4 }}>
+          <DataGrid
+            sx={{
+              paddingRight: 2,
+              paddingLeft: 2,
+              fontSize: 16,
+              boxShadow: 2,
+              border: 2,
+              borderColor: "primary.light",
+              "& .MuiDataGrid-cell:hover": { color: "primary.main" },
+            }}
+            rows={orders.data}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
               },
-            },
-          }}
-          pageSizeOptions={[5]}
-        />
-      </Box>
+            }}
+            pageSizeOptions={[5]}
+          />
+        </Box>
+      )}
     </div>
   );
 }

@@ -16,7 +16,6 @@ export const login = createAsyncThunk("login", async (log) => {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-
     return await response.json();
   } catch (error) {
     throw error;
@@ -24,17 +23,16 @@ export const login = createAsyncThunk("login", async (log) => {
 });
 
 export const logout = createAsyncThunk("logout", async () => {
+  // eslint-disable-next-line no-useless-catch
   try {
-     const response = await fetch(`${API_URL}/logout`, {
+    const response = await fetch(`${API_URL}/logout`, {
       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-     });
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-
-    localStorage.removeItem("ACCESS_TOKEN");
-
+    localStorage.removeItem("ACCESS");
   } catch (error) {
     throw error;
   }
@@ -44,14 +42,12 @@ const authorizationSlice = createSlice({
   name: "authorization",
   initialState: {
     isLoading: false,
-    userId: null,
-    name: null,
+    user: null,
     isError: false,
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      state.userId = action.payload.userId;
-      state.name = action.payload;
+      state.user = action.payload;
     });
     builder.addCase(login.pending, (state) => {
       state.isLoading = true;
@@ -63,7 +59,7 @@ const authorizationSlice = createSlice({
     });
     builder.addCase(logout.fulfilled, (state, action) => {
       state.userId = null;
-      state.name = null;
+      state.user = null;
     });
   },
 });

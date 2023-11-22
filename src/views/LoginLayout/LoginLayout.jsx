@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../../utils/contexts/ContextProvider";
 function LoginLayout() {
-  const { name, email, token } = useStateContext();
-  if (token) {
+  const { user } = useStateContext();
+  if (user?.token) {
     return <Navigate to={"/home"} />;
   }
   return (
