@@ -8,7 +8,7 @@ function Catalog() {
   const hotels = useSelector((state) => state.hotels);
   const houses = useSelector((state) => state.houses);
   const places = useSelector((state) => state.rooms);
-  console.log(hotels);
+  const authorization = useSelector((state) => state.authorization);
   return (
     <Box
       sx={{

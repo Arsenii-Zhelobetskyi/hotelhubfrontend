@@ -8,12 +8,22 @@ import { useTheme } from "@emotion/react";
 import { fetchSinglePage } from "../../redux/slices/singlePageSlice";
 import Calendar from "../../components/Calendar/Calendar";
 import dayjs from "dayjs";
+
+import { useStateContext } from "../../utils/contexts/ContextProvider";
+
 function orderNow() {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const theme = useTheme();
   const { type, id } = useParams();
   const data = useSelector((state) => state.singlePage.data);
+  const { user } = useStateContext();
+  const [formData, setFormData] = useState({
+    startDate: `${dayjs().format("YYYY-MM-DD")}`,
+    endDate: `${dayjs().format("YYYY-MM-DD")}`,
+  });
+  console.log(user);
+
   const handleStartDate = (date) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -30,10 +40,9 @@ function orderNow() {
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
-  const [formData, setFormData] = useState({
-    startDate: `${dayjs().format("YYYY-MM-DD")}`,
-    endDate: `${dayjs().format("YYYY-MM-DD")}`,
-  });
+  const handleSubmit = () => {
+    console.log("hello");
+  };
   return (
     <Box
       sx={{
@@ -44,6 +53,17 @@ function orderNow() {
       }}
     >
       <Typography variant="hero">Order now😺</Typography>
+      <Typography variant="headline3">hello {user.name}👋</Typography>
+      <Typography variant="headline3">
+        You are a few steps away from making an order
+      </Typography>
+      <Typography variant="headline3">
+        Please check your order details below, and add your date
+      </Typography>
+      <Box sx={{ marginBottom: "20px", marginTop: "15px" }}>
+        <Typography variant="caption1">your name: {user.name}</Typography>
+        <Typography variant="caption1">your email: {user.email}</Typography>
+      </Box>
       <Typography variant="headline3" sx={{ my: "20px" }}>
         choose your date:
       </Typography>
@@ -80,7 +100,7 @@ function orderNow() {
         <Button color="secondary" onClick={() => navigateTo(`/home`)}>
           Go home
         </Button>
-        <Button>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </Box>
     </Box>
   );

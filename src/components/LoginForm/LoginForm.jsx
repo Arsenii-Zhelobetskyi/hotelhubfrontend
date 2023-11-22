@@ -14,70 +14,71 @@ import { useStateContext } from "../../utils/contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
 function LoginForm() {
   const dispatch = useDispatch();
-  const authorization = useSelector((state) => state.authorization);
-  const { setName, setEmail, setToken } = useStateContext();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  const authorization = useSelector((state) => state.authorization);
+  const { setUser } = useStateContext();
 
   const [email, _setEmail] = useState("");
-  const [name, _setName] = useState("");
   const [password, _setPassword] = useState("");
 
-  const [error, setError] = useState(null);
   const handleEmailChange = (e) => {
     _setEmail(e.target.value);
   };
-
   const handlePasswordChange = (e) => {
     _setPassword(e.target.value);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
+
   useEffect(() => {
-    if (authorization.name) {
-      setEmail(authorization.name.email);
-      setToken(authorization.name.token);
+    //наповнення useContext даними на нашу сесію
+    if (authorization.user) {
+      setUser(authorization.user);
     }
-  }, [authorization.name, setEmail, setToken]);
+  }, [authorization.user, setUser]);
+
   const handleRegistrationClick = () => {
     navigate("/registration");
   };
   return (
-      <Dialog open={true}>
-        <DialogTitle>Login Form</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please fill out the login form.</DialogContentText>
-          <TextField
-              margin="dense"
-              label="Email"
-              type="email"
-              fullWidth
-              value={email}
-              onChange={handleEmailChange}
-          />
-          <TextField
-              margin="dense"
-              label="Password"
-              type="password"
-              fullWidth
-              value={password}
-              onChange={handlePasswordChange}
-          />
-          {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleRegistrationClick} color="primary">
-            Register
-          </Button>
-          <Button>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained" color="primary">
-            Log in
-          </Button>
-        </DialogActions>
-      </Dialog>
+    <Dialog open={true}>
+      <DialogTitle>Login Form</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Please fill out the login form.</DialogContentText>
+        <TextField
+          margin="dense"
+          label="Email"
+          type="email"
+          fullWidth
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <TextField
+          margin="dense"
+          label="Password"
+          type="password"
+          fullWidth
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleRegistrationClick} color="primary">
+          Register
+        </Button>
+        <Button>Cancel</Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary">
+          Log in
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
-
 
 export default LoginForm;

@@ -73,13 +73,6 @@ const router = createBrowserRouter([
       {
         path: "/orderHistory/:user_id",
         element: <OrderHistory />,
-        loader: async ({ params }) => {
-          const req = await fetch(
-            `${API_URL}/api/reservation/${params.user_id}`
-          );
-          const history = await req.json();
-          return { history };
-        },
       },
       {
         path: "/userSettings/:user_id",

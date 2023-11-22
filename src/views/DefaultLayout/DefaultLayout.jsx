@@ -9,9 +9,9 @@ import { useStateContext } from "../../utils/contexts/ContextProvider.jsx";
 import { useDispatch } from "react-redux";
 
 export default function DefaultLayout() {
-  const { name, email, token, setUser, setName, setToken } = useStateContext();
+  const { user } = useStateContext();
   const dispatch = useDispatch();
-  if (!token) {
+  if (!user?.token) {
     return <Navigate to={"/login"} />;
   }
   return (

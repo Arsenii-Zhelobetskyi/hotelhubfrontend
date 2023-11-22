@@ -55,11 +55,7 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ ownerState }) => ({
           backgroundColor: theme.palette.background.default,
-          border:
-            ownerState.color === "secondary"
-              ? "none"
-              : "2px solid " + theme.palette.secondary.light,
-          padding: ownerState.color === "primary" ? "12px 30px" : "10px 30px",
+
           color: theme.palette.text.primary,
           boxShadow: "none",
           borderRadius: "20px",
