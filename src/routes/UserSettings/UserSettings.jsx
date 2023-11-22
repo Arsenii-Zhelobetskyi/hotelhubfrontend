@@ -27,16 +27,23 @@ function UserSettings() {
   const [newName, setNewName] = useState(user ? user.name : "");
   const [newEmail, setNewEmail] = useState(user ? user.email : "");
   const [newPassword, setNewPassword] = useState("");
-  const userId = useSelector((state) => state.authorization);
+
+  const checker = window.location.pathname.split("/").pop();
+  const data = localStorage.getItem("ACCESS");
+  const parsedData = JSON.parse(data);
+  const userId = parsedData.id;
   console.log(userId);
+  console.log(checker);
   useEffect(() => {
     setNewName(user ? user.name : "");
     setNewEmail(user ? user.email : "");
   }, [user]);
 
   useEffect(() => {
-    if (!user || !user.id) {
+    if ((!user || !user.id)) {
       navigate("/userNotFound");
+    } else if(checker != userId) {
+      navigate("/userAccessDenied")
     }
   }, [user, navigate]);
 

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-function UserNotFound() {
+function UserAccessDenied() {
     return (
         <Box
             sx={{
@@ -16,7 +16,7 @@ function UserNotFound() {
             }}
         >
             <Typography variant="h4" gutterBottom>
-                Unfortunately, such a user does not exist.
+                You are trying to access the settings of another user.
             </Typography>
             <Button component={Link} to="/home" variant="contained" color="primary">
                 Return to the home page
@@ -25,4 +25,4 @@ function UserNotFound() {
     );
 }
 
-export default UserNotFound;
+export default UserAccessDenied;
