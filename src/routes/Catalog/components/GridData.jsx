@@ -44,6 +44,8 @@ function GridData({ item, isLoading, theme, places, type }) {
         border: `1px solid ${theme.palette.secondary.main}`,
         borderRadius: "30px",
         width: "310px",
+        opacity: item.status === "occupied" ? 0.5 : 1,
+        pointerEvents: item.status === "occupied" ? "none" : "auto",
       }}
     >
       <Box

@@ -11,7 +11,7 @@ import {
   IconButton,
   Pagination,
 } from "@mui/material";
-
+import { useStateContext } from "../../../../utils/contexts/ContextProvider.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchComments,
@@ -31,8 +31,10 @@ function Comments({ type, id }) {
   const [rating, setRating] = useState(4);
   const [currentPage, useCurrentPage] = useState(1);
   const [currentLimit, useCurrentLimit] = useState(5);
-  const userName = useSelector((state)=> state.authorization.user.name)
-
+  // const userName = useSelector((state)=> state.authorization.user.name)
+  const { user } = useStateContext();
+  const userName = user.name;
+  console.log(userName, "userName");
   useEffect(() => {
     dispatch(
       fetchComments({

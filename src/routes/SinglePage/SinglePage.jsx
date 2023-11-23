@@ -30,8 +30,8 @@ function SinglePage() {
   }, [type]);
 
   const handleClick = () => {
-        setOpen(true);
-    };
+    setOpen(true);
+  };
 
   if (singlePage.isLoading) {
     return (
@@ -97,16 +97,24 @@ function SinglePage() {
         </Box>
         <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <AlertComp open={open} setOpen={setOpen} text="Add to favorites!" />
-          <Button variant="contained" color="secondary" onClick={handleClick}>
+          {type !== "hotel" && (
+            <>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleClick}
+              >
                 Save
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigateTo(`/order-now/${type}/${id}`)}
-          >
-            Order now
-          </Button>
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigateTo(`/order-now/${type}/${id}`)}
+              >
+                Order now
+              </Button>
+            </>
+          )}
         </Box>
       </Box>
       {type == "hotel" && (

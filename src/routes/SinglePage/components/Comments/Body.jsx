@@ -15,7 +15,7 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-
+import { useStateContext } from "../../../../utils/contexts/ContextProvider";
 import { formatDistanceToNow } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "../../../../redux/slices/commentsSlice";
@@ -29,8 +29,12 @@ function Body({ data, orderBy, setOrderBy, type }) {
     [JSON.stringify({ field: "rating", algorithm: "desc" }), "Best"],
     [JSON.stringify({ field: "rating", algorithm: "asc" }), "Worst"],
   ];
-  const userName = useSelector((state)=> state.authorization.user.name);
-  const userRole = useSelector((state) => state.authorization.user.role_id)
+  const { user } = useStateContext();
+  const userName = user.name;
+  const userRole = user.role_id;
+  console.log(userName, userRole);
+  // const userName = useSelector((state)=> state.authorization.user.name);
+  // const userRole = useSelector((state) => state.authorization.user.role_id)
   const handleChange = (event) => {
     setOrderBy(event.target.value);
   };
@@ -73,14 +77,14 @@ function Body({ data, orderBy, setOrderBy, type }) {
         {data?.map((comment) => (
           <Box key={comment.id}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-                {(comment.title === userName || userRole === 2) && (
-                    <IconButton
-                        color="error"
-                        onClick={() => handleCommentDeletion(comment.id)}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                )}
+              {(comment.title === userName || userRole === 2) && (
+                <IconButton
+                  color="error"
+                  onClick={() => handleCommentDeletion(comment.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
               <Box
                 sx={{ display: "flex", flexDirection: "column", width: "100%" }}
               >

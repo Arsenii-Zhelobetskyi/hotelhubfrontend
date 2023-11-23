@@ -9,14 +9,20 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/authorizationSlice.jsx";
-
+import { useStateContext } from "../../utils/contexts/ContextProvider";
 function UserMenu() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.authorization.user.id);
-  const userRole = useSelector((state)=> state.authorization.user.role_id);
+  // const userId = useSelector((state) => state.authorization.user.id);
+  // const userRole = useSelector((state)=> state.authorization.user.role_id);
+
+  // const userId = useSelector((state) => state.authorization.user.id);
+  // const userRole = useSelector((state)=> state.authorization.user.role_id);
+  const {user} = useStateContext();
+  const userId = user.id;
+  const userRole = user.role_id;
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -25,7 +31,7 @@ function UserMenu() {
     setAnchorElUser(null);
     if (setting === "Account") {
       navigate(`/userSettings/${userId}`);
-      console.log(parsedData);
+      // console.log(parsedData);
     } else if (setting === "Logout") {
       handleLogout();
     } else if (setting === "My Orders") {
@@ -71,19 +77,25 @@ function UserMenu() {
         open={Boolean(anchorElUser)}
         onClose={() => handleCloseUserMenu()}
       >
-        {settings.map((setting) => (
-            (setting === "Admin panel" && userRole === 2) ? (
-                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-            ) : (
-                setting !== "Admin panel" && (
-                    <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                )
+        {settings.map((setting) =>
+          setting === "Admin panel" && userRole === 2 ? (
+            <MenuItem
+              key={setting}
+              onClick={() => handleCloseUserMenu(setting)}
+            >
+              <Typography textAlign="center">{setting}</Typography>
+            </MenuItem>
+          ) : (
+            setting !== "Admin panel" && (
+              <MenuItem
+                key={setting}
+                onClick={() => handleCloseUserMenu(setting)}
+              >
+                <Typography textAlign="center">{setting}</Typography>
+              </MenuItem>
             )
-        ))}
+          )
+        )}
       </Menu>
     </Box>
   );

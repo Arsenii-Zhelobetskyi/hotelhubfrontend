@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   BottomNavigation,
@@ -18,8 +18,8 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { API_URL } from "../../utils/config.js";
-import {logout} from "../../redux/slices/authorizationSlice.jsx";
-
+import { logout } from "../../redux/slices/authorizationSlice.jsx";
+import { useStateContext } from "../../utils/contexts/ContextProvider";
 function UserSettings() {
   const navigate = useNavigate();
   const { user } = useLoaderData();
@@ -30,9 +30,10 @@ function UserSettings() {
   const [newPassword, setNewPassword] = useState(user ? user.password : "");
 
   const checker = window.location.pathname.split("/").pop();
-  const userId = useSelector((state) => (state.authorization.user.id));
+  // const userId = useSelector((state) => (state.authorization.user.id));
   const dispatch = useDispatch();
-
+  const { user: userContext } = useStateContext();
+  const userId = userContext.id;
   useEffect(() => {
     setNewName(user ? user.name : "");
     setNewEmail(user ? user.email : "");
@@ -40,10 +41,10 @@ function UserSettings() {
   }, [user]);
 
   useEffect(() => {
-    if ((!user || !user.id)) {
+    if (!user || !user.id) {
       navigate("/userNotFound");
-    } else if(checker != userId) {
-      navigate("/userAccessDenied")
+    } else if (checker != userId) {
+      navigate("/userAccessDenied");
     }
   }, [user, navigate]);
 
@@ -117,137 +118,136 @@ function UserSettings() {
   };
 
   return (
-      <div>
-        <BottomNavigation
-            value={selectedTab}
-            onChange={handleTabChange}
-            sx={{ backgroundColor: "transparent" }}
+    <div>
+      <BottomNavigation
+        value={selectedTab}
+        onChange={handleTabChange}
+        sx={{ backgroundColor: "transparent" }}
+      >
+        <BottomNavigationAction
+          label="Info"
+          icon={<PersonIcon />}
+          sx={{
+            color: selectedTab === 0 ? "blue" : "gray",
+            borderRadius: "12px",
+          }}
+        />
+        <BottomNavigationAction
+          label="Settings"
+          icon={<SettingsIcon />}
+          sx={{
+            color: selectedTab === 1 ? "blue" : "gray",
+            borderRadius: "12px",
+          }}
+        />
+      </BottomNavigation>
+
+      {selectedTab === 0 && (
+        <Card
+          style={{
+            margin: "16px",
+            borderRadius: 15,
+            color: "white",
+            minWidth: "400px",
+            width: "60vw",
+          }}
         >
-          <BottomNavigationAction
-              label="Info"
-              icon={<PersonIcon />}
-              sx={{
-                color: selectedTab === 0 ? "blue" : "gray",
-                borderRadius: "12px",
-              }}
-          />
-          <BottomNavigationAction
-              label="Settings"
-              icon={<SettingsIcon />}
-              sx={{
-                color: selectedTab === 1 ? "blue" : "gray",
-                borderRadius: "12px",
-              }}
-          />
-        </BottomNavigation>
+          <CardContent>
+            <Typography variant="h4" gutterBottom>
+              User name: {newName}
+            </Typography>
+            <Typography variant="subtitle1">Email: {newEmail}</Typography>
+          </CardContent>
+        </Card>
+      )}
 
-        {selectedTab === 0 && (
-            <Card
-                style={{
-                  margin: "16px",
-                  borderRadius: 15,
-                  color: "white",
-                  minWidth: "400px",
-                  width: "60vw",
-                }}
+      {selectedTab === 1 && (
+        <Card style={{ margin: "16px", borderRadius: 15 }}>
+          <CardContent>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Select Action</FormLabel>
+              <RadioGroup
+                row
+                aria-label="actionType"
+                name="actionType"
+                value={actionType}
+                onChange={handleActionTypeChange}
+              >
+                <FormControlLabel
+                  value="name"
+                  control={<Radio />}
+                  label="Change Name"
+                />
+                <FormControlLabel
+                  value="email"
+                  control={<Radio />}
+                  label="Change Email"
+                />
+                <FormControlLabel
+                  value="password"
+                  control={<Radio />}
+                  label="Change Password"
+                />
+              </RadioGroup>
+            </FormControl>
+
+            {actionType === "name" && (
+              <>
+                <TextField
+                  label="New Name"
+                  fullWidth
+                  value={newName}
+                  onChange={handleNameChange}
+                  margin="normal"
+                />
+              </>
+            )}
+
+            {actionType === "email" && (
+              <>
+                <TextField
+                  label="New Email"
+                  fullWidth
+                  value={newEmail}
+                  onChange={handleEmailChange}
+                  margin="normal"
+                />
+              </>
+            )}
+
+            {actionType === "password" && (
+              <>
+                <TextField
+                  label="New Password"
+                  type="password"
+                  fullWidth
+                  value={newPassword}
+                  onChange={handlePasswordChange}
+                  margin="normal"
+                />
+              </>
+            )}
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSaveChanges}
             >
-              <CardContent>
-                <Typography variant="h4" gutterBottom>
-                  User name: {newName}
-                </Typography>
-                <Typography variant="subtitle1">Email: {newEmail}</Typography>
-              </CardContent>
-            </Card>
-        )}
+              Save Changes
+            </Button>
 
-        {selectedTab === 1 && (
-            <Card style={{ margin: "16px", borderRadius: 15 }}>
-              <CardContent>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Select Action</FormLabel>
-                  <RadioGroup
-                      row
-                      aria-label="actionType"
-                      name="actionType"
-                      value={actionType}
-                      onChange={handleActionTypeChange}
-                  >
-                    <FormControlLabel
-                        value="name"
-                        control={<Radio />}
-                        label="Change Name"
-                    />
-                    <FormControlLabel
-                        value="email"
-                        control={<Radio />}
-                        label="Change Email"
-                    />
-                    <FormControlLabel
-                        value="password"
-                        control={<Radio />}
-                        label="Change Password"
-                    />
-                  </RadioGroup>
-                </FormControl>
-
-                {actionType === "name" && (
-                    <>
-                      <TextField
-                          label="New Name"
-                          fullWidth
-                          value={newName}
-                          onChange={handleNameChange}
-                          margin="normal"
-                      />
-                    </>
-                )}
-
-                {actionType === "email" && (
-                    <>
-                      <TextField
-                          label="New Email"
-                          fullWidth
-                          value={newEmail}
-                          onChange={handleEmailChange}
-                          margin="normal"
-                      />
-                    </>
-                )}
-
-                {actionType === "password" && (
-                    <>
-                      <TextField
-                          label="New Password"
-                          type="password"
-                          fullWidth
-                          value={newPassword}
-                          onChange={handlePasswordChange}
-                          margin="normal"
-                      />
-                    </>
-                )}
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSaveChanges}
-                >
-                  Save Changes
-                </Button>
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleDeleteUser}
-                >
-                  Delete User
-                </Button>
-              </CardContent>
-            </Card>
-        )}
-      </div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDeleteUser}
+            >
+              Delete User
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 }
 
 export default UserSettings;
-

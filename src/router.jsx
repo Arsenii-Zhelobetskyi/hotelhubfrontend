@@ -18,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -105,11 +106,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/userAccessDenied",
-        element: <UserAccessDenied/>,
+        element: <UserAccessDenied />,
       },
       {
         path: "/adminPanel",
-        element: <AdminPanel/>,
+        element: <AdminPanel />,
       },
     ],
   },
