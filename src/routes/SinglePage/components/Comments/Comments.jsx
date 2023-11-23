@@ -133,12 +133,14 @@ function Comments({ type, id }) {
         setOrderBy={setOrderBy}
         type={type}
       />
-      <Pagination
-        count={Math.ceil(comments.quantity / currentLimit)}
-        color="primary"
-        sx={{ marginTop: "50px", display: "flex", justifyContent: "center" }}
-        onChange={handlePagination}
-      />
+      {comments.data.length !== 0 && (
+        <Pagination
+          count={Math.ceil(comments.quantity / currentLimit)}
+          color="primary"
+          sx={{ marginTop: "50px", display: "flex", justifyContent: "center" }}
+          onChange={handlePagination}
+        />
+      )}
     </Box>
   );
 }

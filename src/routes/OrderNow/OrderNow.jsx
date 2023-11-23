@@ -18,7 +18,7 @@ function OrderNow() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const { type, id } = useParams();
-  const data = useSelector((state) => state.singlePage.data);
+  const singlePage = useSelector((state) => state.singlePage);
   const { user } = useStateContext();
   const [formData, setFormData] = useState({
     start_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
@@ -41,14 +41,14 @@ function OrderNow() {
     const endDate = dayjs(formData.end_date);
 
     const quantityOfDays = endDate.diff(startDate, "day");
-    console.log(quantityOfDays * data.price);
+    console.log(quantityOfDays * singlePage.data.price);
     dispatch(
       addOrder({
         resObj: { type, id },
         order: {
           ...formData,
           status: "active",
-          sum: data.price * quantityOfDays,
+          sum: singlePage.data.price * quantityOfDays,
           user_id: user.id,
         },
       })
@@ -108,9 +108,13 @@ function OrderNow() {
       </Typography>
 
       <Box>
-        {data.length !== 0 ? (
-          <GridData item={data} places={undefined} theme={theme} type={type} />
-        ) : null}
+        <GridData
+          item={singlePage.data}
+          isLoading={singlePage.isLoading}
+          places={undefined}
+          theme={theme}
+          type={type}
+        />
       </Box>
 
       <Box sx={{ my: "20px" }}>
