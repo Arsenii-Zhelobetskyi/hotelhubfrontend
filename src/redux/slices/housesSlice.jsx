@@ -13,6 +13,27 @@ export const fetchHouses = createAsyncThunk(
   }
 );
 
+export const updateHouse = createAsyncThunk("updateHouse", async (data) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await fetch(`${API_URL}/api/houses/update/${data.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const house = await response.json();
+    return { house };
+  } catch (error) {
+    throw error;
+  }
+});
+
 const housesSlice = createSlice({
   name: "houses",
   initialState: {
@@ -34,6 +55,11 @@ const housesSlice = createSlice({
       .addCase(fetchHouses.rejected, (state) => {
         state.isError = true;
       });
+    builder.addCase(updateHouse.fulfilled, (state, action) => {
+      // const updatedRoom = action.payload.room.data;
+      // console.log(updatedRoom);
+      // state.data = updatedRoom;
+    });
   },
 });
 export default housesSlice.reducer;

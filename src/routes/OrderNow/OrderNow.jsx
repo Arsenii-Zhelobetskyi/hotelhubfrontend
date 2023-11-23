@@ -12,6 +12,7 @@ import { addOrder } from "../../redux/slices/ordersSlice.jsx";
 import { useStateContext } from "../../utils/contexts/ContextProvider";
 import AlertComp from "../../components/Alert/AlertComp.jsx";
 import { updateRoom } from "../../redux/slices/roomsSlice.jsx";
+import { updateHouse } from "../../redux/slices/housesSlice.jsx";
 
 function OrderNow() {
   const [open, setOpen] = useState(false);
@@ -54,7 +55,10 @@ function OrderNow() {
         },
       })
     );
-    dispatch(updateRoom({ ...singlePage.data, status: "occupied" }));
+    if (type === "room")
+      dispatch(updateRoom({ ...singlePage.data, status: "occupied" }));
+    else if (type === "house")
+      dispatch(updateHouse({ ...singlePage.data, status: "occupied" }));
 
     setOpen(true);
   };
