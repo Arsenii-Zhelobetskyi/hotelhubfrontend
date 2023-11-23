@@ -18,6 +18,20 @@ export const deleteUser = createAsyncThunk("deleteUser", async (userId) => {
     return { data };
 });
 
+export const updateUser = createAsyncThunk("updateUser", async (userData) => {
+    const { id, name, email, password, role_id } = userData;
+    const response = await fetch(`${API_URL}/api/users/update/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, role_id }),
+    });
+    const data = await response.json();
+    console.log(data);
+    return { data };
+});
+
 const usersSlice = createSlice({
     name: "user",
     initialState: {
@@ -50,6 +64,20 @@ const usersSlice = createSlice({
             .addCase(deleteUser.rejected, (state, action) => {
                 state.isError = true;
                 console.error("Error deleting user:", action.error);
+            })
+            .addCase(updateUser.pending, (state) => {
+            state.isLoading = true;
+              })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                // Оновлюємо стан, оновлюючи існуючого користувача
+                state.users = state.users.map(user =>
+                    user.id === action.payload.data.id ? action.payload.data : user
+                );
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.isError = true;
+                console.error("Error updating user:", action.error);
             });
     },
 });

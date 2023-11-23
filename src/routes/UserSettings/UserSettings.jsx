@@ -32,7 +32,7 @@ function UserSettings() {
   const checker = window.location.pathname.split("/").pop();
   // const userId = useSelector((state) => (state.authorization.user.id));
   const dispatch = useDispatch();
-  const { user: userContext } = useStateContext();
+  const { user: userContext, setUser: setUserContext } = useStateContext();
   const userId = userContext.id;
   useEffect(() => {
     setNewName(user ? user.name : "");
@@ -89,6 +89,7 @@ function UserSettings() {
         setNewName(updatedUser.name);
         setNewEmail(updatedUser.email);
         setNewPassword(updatedUser.password);
+        setUserContext(updatedUser);
       } else {
         console.error("Error saving changes:", result.statusText);
       }
