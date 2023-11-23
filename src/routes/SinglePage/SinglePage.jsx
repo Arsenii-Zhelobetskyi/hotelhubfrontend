@@ -18,13 +18,15 @@ function SinglePage() {
   const dispatch = useDispatch();
   const singlePage = useSelector((state) => state.singlePage);
   const rooms = useSelector((state) => state.rooms);
+  console.log(singlePage, "singlePage");
   const navigateTo = useNavigate();
   const { data } = singlePage;
   const { type, id } = useParams();
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
-    dispatch(fetchRooms({ id }));
-  }, []);
+    // dispatch(fetchRooms({ id }));
+  }, [type]);
+
   if (singlePage.isLoading) {
     return (
       <Box
@@ -100,7 +102,14 @@ function SinglePage() {
           </Button>
         </Box>
       </Box>
-      {/* {rooms.data && <GridComp info={rooms} type={type} />} */}
+      {type == "hotel" && (
+        <>
+          <Typography variant="headline2" sx={{ my: "20px" }}>
+            Rooms:
+          </Typography>
+          <GridComp info={rooms} places={undefined} type={"room"} />
+        </>
+      )}
       <Comments type={type} id={id} />
     </Box>
   );

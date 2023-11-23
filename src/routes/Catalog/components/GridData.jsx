@@ -5,11 +5,37 @@ import Divider from "@mui/material/Divider";
 import CardMedia from "@mui/material/CardMedia";
 import Card from "@mui/material/Card";
 import { useNavigate } from "react-router-dom";
-function GridData({ item, theme, places, type }) {
+import Skeleton from "@mui/material/Skeleton";
+
+function GridData({ item, isLoading, theme, places, type }) {
   const navigateTo = useNavigate();
   const handleNavigate = (path) => {
     navigateTo(path);
   };
+
+  if (isLoading) {
+    return (
+      <Card
+        variant="outlined"
+        sx={{
+          bgcolor: "Transparent",
+          border: `1px solid ${theme.palette.secondary.main}`,
+          borderRadius: "30px",
+          width: "310px",
+        }}
+      >
+        <Skeleton variant="rectangular" width="100%" height={190} />
+        <Box sx={{ padding: "24px" }}>
+          <Skeleton variant="text" width="70%" height={40} />
+          <Skeleton variant="text" width="50%" height={20} />
+          <Skeleton variant="text" width="30%" height={20} />
+          <Skeleton variant="text" width="40%" height={20} />
+          <Skeleton variant="text" width="60%" height={20} />
+        </Box>
+      </Card>
+    );
+  }
+
   return (
     <Card
       variant="outlined"
@@ -31,7 +57,7 @@ function GridData({ item, theme, places, type }) {
             width: "100%",
           }}
           alt="The house from the offer."
-          src={item.photo.data[0]}
+          src={item?.photo?.data[0]}
         />
         <Box sx={{ padding: "24px" }}>
           <Typography
