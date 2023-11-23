@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { addOrder } from "../../redux/slices/ordersSlice.jsx";
 import { useStateContext } from "../../utils/contexts/ContextProvider";
 import AlertComp from "../../components/Alert/AlertComp.jsx";
+import { updateRoom } from "../../redux/slices/roomsSlice.jsx";
 
 function OrderNow() {
   const [open, setOpen] = useState(false);
@@ -53,10 +54,12 @@ function OrderNow() {
         },
       })
     );
+    dispatch(updateRoom({ ...singlePage.data, status: "occupied" }));
+
     setOpen(true);
   };
 
-  console.log(open);
+  console.log(singlePage.data);
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
@@ -118,7 +121,11 @@ function OrderNow() {
       </Box>
 
       <Box sx={{ my: "20px" }}>
-        <AlertComp open={open} setOpen={setOpen} text="Your order is success!" />
+        <AlertComp
+          open={open}
+          setOpen={setOpen}
+          text="Your order is success!"
+        />
         <Button color="secondary" onClick={() => navigateTo(`/home`)}>
           Go home
         </Button>
