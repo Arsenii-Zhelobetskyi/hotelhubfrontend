@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -13,8 +13,10 @@ import Comments from "./components/Comments/Comments.jsx";
 import Carousel from "./components/Carousel/Carousel.jsx";
 import GridComp from "../Catalog/components/GridComp.jsx";
 import { fetchRooms } from "../../redux/slices/roomsSlice.jsx";
+import AlertComp from "../../components/Alert/AlertComp.jsx";
 
 function SinglePage() {
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const singlePage = useSelector((state) => state.singlePage);
   const rooms = useSelector((state) => state.rooms);
@@ -25,6 +27,10 @@ function SinglePage() {
     dispatch(fetchSinglePage({ type, id }));
     dispatch(fetchRooms({ id }));
   }, []);
+  const handleClick = () => {
+        setOpen(true);
+    };
+
   if (singlePage.isLoading) {
     return (
       <Box
@@ -88,8 +94,9 @@ function SinglePage() {
           <Typography variant="body">{data.roomN}</Typography>
         </Box>
         <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <Button variant="contained" color="secondary">
-            Save
+          <AlertComp open={open} setOpen={setOpen} text="Add to favorites!" />
+          <Button variant="contained" color="secondary" onClick={handleClick}>
+                Save
           </Button>
           <Button
             variant="contained"
@@ -101,7 +108,7 @@ function SinglePage() {
         </Box>
       </Box>
       {/* {rooms.data && <GridComp info={rooms} type={type} />} */}
-      <Comments type={type} id={id} />
+      {/* <Comments type={type} id={id} /> */}
     </Box>
   );
 }

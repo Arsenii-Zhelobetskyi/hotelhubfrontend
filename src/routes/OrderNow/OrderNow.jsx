@@ -10,8 +10,10 @@ import Calendar from "../../components/Calendar/Calendar";
 import dayjs from "dayjs";
 import { addOrder } from "../../redux/slices/ordersSlice.jsx";
 import { useStateContext } from "../../utils/contexts/ContextProvider";
+import AlertComp from "../../components/Alert/AlertComp.jsx";
 
 function OrderNow() {
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
@@ -51,8 +53,10 @@ function OrderNow() {
         },
       })
     );
+    setOpen(true);
   };
-  console.log(data);
+
+  console.log(open);
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
@@ -110,6 +114,7 @@ function OrderNow() {
       </Box>
 
       <Box sx={{ my: "20px" }}>
+        <AlertComp open={open} setOpen={setOpen} text="Your order is success!" />
         <Button color="secondary" onClick={() => navigateTo(`/home`)}>
           Go home
         </Button>
