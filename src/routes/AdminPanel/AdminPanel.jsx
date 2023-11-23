@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { List, ListItem, ListItemText, Paper, Typography, IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";  // Імпорт іконки корзини
-import { fetchUsers, deleteUser } from "../../redux/slices/usersSlice.jsx";
+import { List, ListItem, ListItemText, Paper, Typography, IconButton, Button, TextField, MenuItem } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { fetchUsers, deleteUser, updateUser } from "../../redux/slices/usersSlice.jsx";
 
 function AdminPanel() {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.users);
+    const [editingUserId, setEditingUserId] = useState(null);
+    const [editedRoleId, setEditedRoleId] = useState("");
 
     useEffect(() => {
         dispatch(fetchUsers());
@@ -14,6 +17,21 @@ function AdminPanel() {
 
     const handleDeleteUser = (userId) => {
         dispatch(deleteUser(userId));
+    };
+
+    const handleEditUser = (userId, roleId) => {
+        setEditingUserId(userId);
+        setEditedRoleId(roleId);
+    };
+
+    const handleSaveChanges = () => {
+        const userData = {
+            id: editingUserId,
+            role_id: editedRoleId,
+        };
+        dispatch(updateUser(userData));
+        setEditingUserId(null);
+        setEditedRoleId("");
     };
 
     return (
@@ -24,15 +42,42 @@ function AdminPanel() {
             <List>
                 {users.users.map((user) => (
                     <ListItem key={user.id}>
-                        <ListItemText primary={user.name} />
-                        <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() => handleDeleteUser(user.id)}
-                            style={{ color: "red" }}
-                        >
-                            <DeleteIcon />
-                        </IconButton>
+                        {editingUserId === user.id ? (
+                            // Режим редагування
+                            <>
+                                <TextField
+                                    select
+                                    label="Role"
+                                    value={editedRoleId}
+                                    onChange={(e) => setEditedRoleId(e.target.value)}
+                                >
+                                    <MenuItem value={2}>Administrator</MenuItem>
+                                    <MenuItem value={1}>User</MenuItem>
+                                </TextField>
+                                <Button onClick={handleSaveChanges}>Save</Button>
+                            </>
+                        ) : (
+                            // Режим перегляду
+                            <>
+                                <ListItemText primary={user.name} secondary={`Role: ${user.role_id}`} />
+                                <IconButton
+                                    edge="end"
+                                    aria-label="delete"
+                                    onClick={() => handleDeleteUser(user.id)}
+                                    style={{ color: "red" }}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                                <IconButton
+                                    edge="end"
+                                    aria-label="edit"
+                                    onClick={() => handleEditUser(user.id, user.role_id)}
+                                    style={{ color: "SlateBlue" }}
+                                >
+                                    <EditIcon />
+                                </IconButton>
+                            </>
+                        )}
                     </ListItem>
                 ))}
             </List>
@@ -41,5 +86,3 @@ function AdminPanel() {
 }
 
 export default AdminPanel;
-
-
