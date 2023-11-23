@@ -29,7 +29,8 @@ function Body({ data, orderBy, setOrderBy, type }) {
     [JSON.stringify({ field: "rating", algorithm: "desc" }), "Best"],
     [JSON.stringify({ field: "rating", algorithm: "asc" }), "Worst"],
   ];
-  const userName = useSelector((state)=> state.authorization.user.name)
+  const userName = useSelector((state)=> state.authorization.user.name);
+  const userRole = useSelector((state) => state.authorization.user.role_id)
   const handleChange = (event) => {
     setOrderBy(event.target.value);
   };
@@ -72,7 +73,7 @@ function Body({ data, orderBy, setOrderBy, type }) {
         {data?.map((comment) => (
           <Box key={comment.id}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-                {comment.title === userName && (
+                {(comment.title === userName || userRole === 2) && (
                     <IconButton
                         color="error"
                         onClick={() => handleCommentDeletion(comment.id)}
