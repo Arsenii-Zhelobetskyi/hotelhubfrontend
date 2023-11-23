@@ -13,6 +13,7 @@ import DefaultLayout from "./views/DefaultLayout/DefaultLayout.jsx";
 import LoginLayout from "./views/LoginLayout/LoginLayout.jsx";
 import LoginForm from "./components/LoginForm/LoginForm.jsx";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm.jsx";
+import AdminPanel from "./routes/AdminPanel/AdminPanel.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
       {
         path: "/userAccessDenied",
         element: <UserAccessDenied/>,
+      },
+      {
+        path: "/adminPanel",
+        element: <AdminPanel/>,
       },
     ],
   },

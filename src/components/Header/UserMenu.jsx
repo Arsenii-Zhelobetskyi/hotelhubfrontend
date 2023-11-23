@@ -15,11 +15,8 @@ function UserMenu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  //const userId = useSelector((state) => state.authorization.user.id);
-  const data = localStorage.getItem("ACCESS");
-  const parsedData = JSON.parse(data);
-  const userId = parsedData.id;
-
+  const userId = useSelector((state) => state.authorization.user.id);
+  const userRole = useSelector((state)=> state.authorization.user.role_id);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -33,6 +30,8 @@ function UserMenu() {
       handleLogout();
     } else if (setting === "My Orders") {
       navigate(`/orderHistory/${userId}`);
+    } else if (setting === "Admin panel") {
+      navigate(`/adminPanel`);
     }
   };
 
@@ -47,7 +46,7 @@ function UserMenu() {
     }
   };
 
-  const settings = ["Account", "My Orders", "Logout"];
+  const settings = ["Account", "My Orders", "Admin panel", "Logout"];
 
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -73,9 +72,17 @@ function UserMenu() {
         onClose={() => handleCloseUserMenu()}
       >
         {settings.map((setting) => (
-          <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-            <Typography textAlign="center">{setting}</Typography>
-          </MenuItem>
+            (setting === "Admin panel" && userRole === 2) ? (
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+            ) : (
+                setting !== "Admin panel" && (
+                    <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                )
+            )
         ))}
       </Menu>
     </Box>

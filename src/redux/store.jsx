@@ -7,6 +7,7 @@ import searchSlice from "./slices/searchSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import authorizationSlice from "./slices/authorizationSlice";
 import ordersSlice from "./slices/ordersSlice";
+import userSlice from "./slices/usersSlice.jsx";
 const store = configureStore({
   reducer: {
     hotels: hotelsSlice,
@@ -17,6 +18,7 @@ const store = configureStore({
     search: searchSlice,
     authorization: authorizationSlice,
     orders: ordersSlice,
+    users: userSlice,
   },
 });
 export default store;
