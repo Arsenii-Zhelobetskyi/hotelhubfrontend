@@ -2,7 +2,6 @@ import { Snackbar, Alert, } from "@mui/material";
 
 function AlertComp(  {open, setOpen, text}) { 
 
-  console.log(open);
   const handleClose = (event, reason) => {
         setOpen(false);
     };

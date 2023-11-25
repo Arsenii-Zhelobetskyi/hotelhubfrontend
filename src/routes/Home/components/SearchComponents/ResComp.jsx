@@ -25,7 +25,7 @@ function ResComp(compData, type) {
                 width: "310px",
               }}
             >
-              <CompData item={item} theme={theme} type={type} />
+              <CompData item={item} theme={theme}/>
             </Card>
           </Grid>
         ))}

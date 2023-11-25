@@ -2,6 +2,7 @@ import ResComp from "./ResComp.jsx"
 import { Box, Typography } from "@mui/material";
 
 function Results(resData) {  
+  let title = (resData.data.length > 0) ? "Search Results" : "Sorry, no matching results...";
   return (
     <Box
       sx={{
@@ -11,13 +12,14 @@ function Results(resData) {
         gap: "25px",
         marginBottom: "200px",
       }}
-    > <Typography variant="headline2"
+    >
+
+      <Typography variant="headline2"
           sx={{
             marginTop: 15,
             textAlign: "left",
             marginBottom: 3,
-        }}> Search Results
-      </Typography>
+        }}> {title} </Typography>
         
       <ResComp data={resData.data} />
       

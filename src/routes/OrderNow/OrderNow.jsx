@@ -63,7 +63,6 @@ function OrderNow() {
     setOpen(true);
   };
 
-  console.log(singlePage.data);
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
@@ -133,7 +132,8 @@ function OrderNow() {
         <Button color="secondary" onClick={() => navigateTo(`/home`)}>
           Go home
         </Button>
-        <Button onClick={() => handleSubmit()}>Submit</Button>
+        {console.log(singlePage.data.status)}
+        {singlePage.data.status === "free" ? <Button onClick={() => handleSubmit()}>Submit</Button> : ""}
       </Box>
     </Box>
   );
