@@ -32,6 +32,21 @@ export const updateUser = createAsyncThunk("updateUser", async (userData) => {
     return { data };
 });
 
+export const createUser = createAsyncThunk("createUser", async (userData) => {
+    const { name, email, password, role_id } = userData;
+    const response = await fetch(`${API_URL}/api/users/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, role_id }),
+    });
+    const data = await response.json();
+    console.log(data);
+    return { data };
+});
+
+
 const usersSlice = createSlice({
     name: "user",
     initialState: {
@@ -42,6 +57,7 @@ const usersSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+
             .addCase(fetchUsers.pending, (state) => {
                 state.isLoading = true;
             })
@@ -53,24 +69,24 @@ const usersSlice = createSlice({
                 state.status = "failed";
                 state.isError = true;
             })
+
              .addCase(deleteUser.pending, (state) => {
             state.isLoading = true;
             })
             .addCase(deleteUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                // Оновлюємо стан, видаляючи користувача
                 state.users = state.users.filter(user => user.id !== action.meta.arg);
             })
             .addCase(deleteUser.rejected, (state, action) => {
                 state.isError = true;
                 console.error("Error deleting user:", action.error);
             })
+
             .addCase(updateUser.pending, (state) => {
             state.isLoading = true;
               })
             .addCase(updateUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                // Оновлюємо стан, оновлюючи існуючого користувача
                 state.users = state.users.map(user =>
                     user.id === action.payload.data.id ? action.payload.data : user
                 );
@@ -78,6 +94,18 @@ const usersSlice = createSlice({
             .addCase(updateUser.rejected, (state, action) => {
                 state.isError = true;
                 console.error("Error updating user:", action.error);
+            })
+
+            .addCase(createUser.pending, (state) => {
+            state.isLoading = true;
+            })
+            .addCase(createUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.users = [...state.users, action.payload.data];
+            })
+            .addCase(createUser.rejected, (state, action) => {
+                state.isError = true;
+                console.error("Error creating user:", action.error);
             });
     },
 });
