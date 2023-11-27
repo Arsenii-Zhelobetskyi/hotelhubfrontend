@@ -57,6 +57,7 @@ function GridData({ item, isLoading, theme, places, type }) {
           sx={{
             height: 190,
             width: "100%",
+            objectFit: "cover", // Add this lin
           }}
           alt="The house from the offer."
           src={item?.photo?.data[0]}

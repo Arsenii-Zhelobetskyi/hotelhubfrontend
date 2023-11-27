@@ -26,9 +26,8 @@ function SinglePage() {
   const { type, id } = useParams();
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
-    // dispatch(fetchRooms({ id }));
   }, [type]);
-
+  console.log(data);
   const handleClick = () => {
     setOpen(true);
   };
@@ -90,10 +89,30 @@ function SinglePage() {
         }}
       >
         <Box sx={{ width: "350px" }}>
-          <Typography variant="body">{data.description}</Typography>
-          <Typography variant="body">{data.contact_inf}</Typography>
-          <Typography variant="body">{data.placeN}</Typography>
-          <Typography variant="body">{data.roomN}</Typography>
+          <Typography variant="headline2" sx={{ my: "20px" }}>
+            Description
+          </Typography>
+          <Typography variant="body" sx={{ my: "5px" }}>
+            {data.description}
+          </Typography>
+          <Box sx={{ display: "flex", gap: "20px", my: "5px" }}>
+            <Typography variant="caption1" sx={{ color: "text.primary" }}>
+              place numbers
+            </Typography>
+            <Typography variant="body">{data.placeN}</Typography>
+          </Box>
+          <Box sx={{ display: "flex", gap: "20px", my: "5px" }}>
+            <Typography variant="caption1" sx={{ color: "text.primary" }}>
+              number of rooms
+            </Typography>
+            <Typography variant="body">{data.roomN}</Typography>
+          </Box>
+          <Box sx={{ display: "flex", gap: "20px", my: "5px" }}>
+            <Typography variant="caption1" sx={{ color: "text.primary" }}>
+              contact us
+            </Typography>
+            <Typography variant="body">{data.contact_inf}</Typography>
+          </Box>
         </Box>
         <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <AlertComp open={open} setOpen={setOpen} text="Add to favorites!" />

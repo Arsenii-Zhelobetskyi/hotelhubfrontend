@@ -67,8 +67,8 @@ const router = createBrowserRouter([
             element: <Catalog />,
           },
           {
-            path: ":type/:id", // Шлях для будинків у каталозі
-            element: <SinglePage />, //  компонентa, яка показує сторінку для будинків
+            path: ":type/:id",
+            element: <SinglePage />,
           },
         ],
       },

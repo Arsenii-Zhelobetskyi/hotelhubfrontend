@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
 import dayjs from "dayjs";
 
 function Calendar({ data, setData, value, label, name, minDate }) {
@@ -17,6 +16,9 @@ function Calendar({ data, setData, value, label, name, minDate }) {
             border: `1px solid ${theme.palette.secondary.dark}`,
             borderRadius: 2,
             width: "80%",
+            svg: { color: "text.primary" },
+            label: { color: "text.primary" },
+            input: { color: "text.primary" },
           }}
           label={label}
           disablePast

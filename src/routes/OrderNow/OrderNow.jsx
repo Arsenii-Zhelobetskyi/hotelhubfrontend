@@ -1,18 +1,17 @@
 import { Typography, Button, Box } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import GridData from "../Catalog/components/GridData";
 import { useTheme } from "@emotion/react";
 import { fetchSinglePage } from "../../redux/slices/singlePageSlice";
-import Calendar from "../../components/Calendar/Calendar";
+import { updateSinglePage } from "../../redux/slices/singlePageSlice";
 import dayjs from "dayjs";
 import { addOrder } from "../../redux/slices/ordersSlice.jsx";
 import { useStateContext } from "../../utils/contexts/ContextProvider";
+
+import Calendar from "../../components/Calendar/Calendar";
+import GridData from "../Catalog/components/GridData";
 import AlertComp from "../../components/Alert/AlertComp.jsx";
-import { updateRoom } from "../../redux/slices/roomsSlice.jsx";
-import { updateHouse } from "../../redux/slices/housesSlice.jsx";
 
 function OrderNow() {
   const [open, setOpen] = useState(false);
@@ -21,6 +20,7 @@ function OrderNow() {
   const navigateTo = useNavigate();
   const { type, id } = useParams();
   const singlePage = useSelector((state) => state.singlePage);
+  const [price, setPrice] = useState(singlePage.data.price);
   const { user } = useStateContext();
   const [formData, setFormData] = useState({
     start_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
@@ -38,35 +38,45 @@ function OrderNow() {
       end_date: date.format("YYYY-MM-DDTHH:mm:ss[Z]"),
     }));
   };
+  console.log(formData.end_date);
   const handleSubmit = () => {
-    const startDate = dayjs(formData.start_date);
-    const endDate = dayjs(formData.end_date);
-
-    const quantityOfDays = endDate.diff(startDate, "day");
-    console.log(quantityOfDays * singlePage.data.price);
     dispatch(
       addOrder({
         resObj: { type, id },
         order: {
           ...formData,
           status: "active",
-          sum: singlePage.data.price * quantityOfDays,
+          sum: price,
           user_id: user.id,
         },
       })
     );
-    if (type === "room")
-      dispatch(updateRoom({ ...singlePage.data, status: "occupied" }));
-    else if (type === "house")
-      dispatch(updateHouse({ ...singlePage.data, status: "occupied" }));
+    // if (type === "room")
+    //   dispatch(updateRoom({ ...singlePage.data, status: "occupied" }));
+    // else if (type === "house")
+    //   dispatch(updateHouse({ ...singlePage.data, status: "occupied" }));
+    const info = { ...singlePage.data, status: "occupied" };
+    console.log("test");
+    dispatch(
+      updateSinglePage({
+        type,
+        info,
+      })
+    );
 
     setOpen(true);
   };
-
-  console.log(singlePage.data);
+  useEffect(() => {
+    const startDate = dayjs(formData.start_date);
+    const endDate = dayjs(formData.end_date);
+    const quantityOfDays = endDate.diff(startDate, "day");
+    if (quantityOfDays === 0) setPrice(singlePage.data.price);
+    else setPrice(singlePage.data.price * quantityOfDays);
+  }, [formData.start_date, formData.end_date, singlePage.data.price]);
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
+
   return (
     <Box
       sx={{
@@ -110,6 +120,9 @@ function OrderNow() {
           setData={handleEndDate}
         />
       </Box>
+      <Typography variant="headline3" sx={{ my: "20px" }}>
+        You will be charged {price} $
+      </Typography>
       <Typography variant="hero" sx={{ my: "20px" }}>
         You have ordered
       </Typography>
@@ -133,7 +146,14 @@ function OrderNow() {
         <Button color="secondary" onClick={() => navigateTo(`/home`)}>
           Go home
         </Button>
-        <Button onClick={() => handleSubmit()}>Submit</Button>
+        <Button
+          disabled={
+            singlePage.data.status === "occupied" || singlePage.isLoading
+          }
+          onClick={() => handleSubmit()}
+        >
+          Submit
+        </Button>
       </Box>
     </Box>
   );
