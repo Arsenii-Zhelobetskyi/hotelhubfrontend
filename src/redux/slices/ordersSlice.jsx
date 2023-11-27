@@ -12,7 +12,7 @@ export const fetchOrders = createAsyncThunk(
 );
 export const addOrder = createAsyncThunk(
   "addOrder",
-  async ({ resObj, order }) => {
+  async ({ resObj, order, pay }) => {
     // eslint-disable-next-line no-useless-catch
     try {
       const response1 = await fetch(
@@ -40,7 +40,22 @@ export const addOrder = createAsyncThunk(
           body: JSON.stringify({ order }),
         }
       );
-      return await response2.json();
+      if (!response2.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const createReservation = await response2.json();
+
+      const response3 = await fetch(
+        `${API_URL}/api/reservation/create-pay?resId=${createReservation.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ pay }),
+        }
+      );
+      return await response3.json();
     } catch (error) {
       throw error;
     }

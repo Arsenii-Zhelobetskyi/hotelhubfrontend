@@ -13,9 +13,11 @@ import { useStateContext } from "../../utils/contexts/ContextProvider";
 import AlertComp from "../../components/Alert/AlertComp.jsx";
 import { updateRoom } from "../../redux/slices/roomsSlice.jsx";
 import { updateHouse } from "../../redux/slices/housesSlice.jsx";
+import PayForm from "./PayForm.jsx";
 
 function OrderNow() {
   const [open, setOpen] = useState(false);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
@@ -24,8 +26,9 @@ function OrderNow() {
   const { user } = useStateContext();
   const [formData, setFormData] = useState({
     start_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
-    end_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
+    end_date: `${dayjs().add(1, 'day').format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
   });
+  const [sum, setSum] = useState({ sum: 0 })
   const handleStartDate = (date) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -43,15 +46,27 @@ function OrderNow() {
     const endDate = dayjs(formData.end_date);
 
     const quantityOfDays = endDate.diff(startDate, "day");
-    console.log(quantityOfDays * singlePage.data.price);
+    setSum((prevData) => ({
+      ...prevData,
+      sum: quantityOfDays * singlePage.data.price,
+    }));
+    
+    setShowPaymentForm(true);
+  };
+  const handleConfirm = ({ paymentMethod, amount, orderDate }) => {
     dispatch(
       addOrder({
         resObj: { type, id },
         order: {
           ...formData,
           status: "active",
-          sum: singlePage.data.price * quantityOfDays,
+          sum: sum.sum,
           user_id: user.id,
+        },
+        pay: {
+          sum: amount,
+          date: orderDate,
+          payType: paymentMethod,
         },
       })
     );
@@ -59,9 +74,7 @@ function OrderNow() {
       dispatch(updateRoom({ ...singlePage.data, status: "occupied" }));
     else if (type === "house")
       dispatch(updateHouse({ ...singlePage.data, status: "occupied" }));
-
-    setOpen(true);
-  };
+  }
 
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
@@ -105,7 +118,7 @@ function OrderNow() {
           value={formData.end_date}
           label={"End Date"}
           name={"endDate"}
-          minDate={dayjs(formData.start_date)}
+          minDate={dayjs(formData.start_date).add(1, 'day')}
           setData={handleEndDate}
         />
       </Box>
@@ -135,6 +148,19 @@ function OrderNow() {
         {console.log(singlePage.data.status)}
         {singlePage.data.status === "free" ? <Button onClick={() => handleSubmit()}>Submit</Button> : ""}
       </Box>
+      {/* Відображення форми оплати при необхідності */}
+      {showPaymentForm && (
+        <PayForm
+          onCancel={() => setShowPaymentForm(false)} // Закриття форми при відміні
+          onConfirm={({ paymentMethod, amount, orderDate }) => {
+            setShowPaymentForm(false);
+            setOpen(true);
+            handleConfirm({ paymentMethod, amount, orderDate });
+          }}
+          amount={sum.sum}
+          orderDate={dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}
+        />
+      )}
     </Box>
   );
 }

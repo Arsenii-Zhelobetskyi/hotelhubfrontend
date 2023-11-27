@@ -36,7 +36,7 @@ function SearchForm() {
   const [formData, setFormData] = useState({
     city: "",
     startDate: `${dayjs().format("YYYY-MM-DD")}`,
-    endDate: `${dayjs().format("YYYY-MM-DD")}`,
+    endDate: `${dayjs().add(1, 'day').format("YYYY-MM-DD")}`,
     guests: 1,
     accommodationType: "house",
   });
@@ -234,7 +234,7 @@ function SearchForm() {
               value={formData.endDate}
               label={"End Date"}
               name={"endDate"}
-              minDate={dayjs(formData.startDate)}
+              minDate={dayjs(formData.startDate).add(1, 'day')}
               setData={handleEndDate}
             />
 

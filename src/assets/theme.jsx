@@ -63,6 +63,15 @@ const theme = createTheme({
       },
     },
 
+    MuiIconButton: {
+        styleOverrides: {
+          sizeMedium: {
+            color: "white",
+          }
+        }
+    },
+
+
     MuiDivider: {
       styleOverrides: {
         root: () => ({
