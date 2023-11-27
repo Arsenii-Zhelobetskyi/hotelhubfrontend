@@ -2,7 +2,6 @@ import AlertComp from "./AlertComp";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import CardMedia from "@mui/material/CardMedia";
 import Card from "@mui/material/Card";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";

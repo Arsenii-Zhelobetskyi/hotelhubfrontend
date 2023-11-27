@@ -26,8 +26,8 @@ const columns = [
   },
   { field: "status", headerName: "Status", type: "text", width: 170 },
   {
-    field: "buildMethod",
-    headerName: "Build Method",
+    field: "payMethod",
+    headerName: "Pay Method",
     type: "text",
     width: 190,
     valueGetter: (params) => {
@@ -85,6 +85,8 @@ function OrderHistory() {
               border: 2,
               borderColor: "primary.light",
               "& .MuiDataGrid-cell:hover": { color: "primary.main" },
+              "& .MuiDataGrid-sortIcon": { opacity: 1, color: "white" },
+              "& .MuiDataGrid-menuIconButton": { opacity: 1, color: "white" },
             }}
             rows={orders.data}
             columns={columns}

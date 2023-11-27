@@ -12,9 +12,11 @@ import { useStateContext } from "../../utils/contexts/ContextProvider";
 import Calendar from "../../components/Calendar/Calendar";
 import GridData from "../Catalog/components/GridData";
 import AlertComp from "../../components/Alert/AlertComp.jsx";
+import PayForm from "./PayForm.jsx";
 
 function OrderNow() {
   const [open, setOpen] = useState(false);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
@@ -24,8 +26,9 @@ function OrderNow() {
   const { user } = useStateContext();
   const [formData, setFormData] = useState({
     start_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
-    end_date: `${dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
+    end_date: `${dayjs().add(1, "day").format("YYYY-MM-DDTHH:mm:ss[Z]")}`,
   });
+  const [sum, setSum] = useState({ sum: 0 });
   const handleStartDate = (date) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -40,14 +43,33 @@ function OrderNow() {
   };
   console.log(formData.end_date);
   const handleSubmit = () => {
+    const startDate = dayjs(formData.start_date);
+    const endDate = dayjs(formData.end_date);
+
+    const quantityOfDays =
+      endDate.diff(startDate, "day") !== 0 ? endDate.diff(startDate, "day") : 1;
+
+    setSum((prevData) => ({
+      ...prevData,
+      sum: quantityOfDays * singlePage.data.price,
+    }));
+
+    setShowPaymentForm(true);
+  };
+  const handleConfirm = ({ paymentMethod, amount, orderDate }) => {
     dispatch(
       addOrder({
         resObj: { type, id },
         order: {
           ...formData,
           status: "active",
-          sum: price,
+          sum: sum.sum,
           user_id: user.id,
+        },
+        pay: {
+          sum: amount,
+          date: orderDate,
+          payType: paymentMethod,
         },
       })
     );
@@ -66,13 +88,7 @@ function OrderNow() {
 
     setOpen(true);
   };
-  useEffect(() => {
-    const startDate = dayjs(formData.start_date);
-    const endDate = dayjs(formData.end_date);
-    const quantityOfDays = endDate.diff(startDate, "day");
-    if (quantityOfDays === 0) setPrice(singlePage.data.price);
-    else setPrice(singlePage.data.price * quantityOfDays);
-  }, [formData.start_date, formData.end_date, singlePage.data.price]);
+
   useEffect(() => {
     dispatch(fetchSinglePage({ type, id }));
   }, []);
@@ -116,13 +132,10 @@ function OrderNow() {
           value={formData.end_date}
           label={"End Date"}
           name={"endDate"}
-          minDate={dayjs(formData.start_date)}
+          minDate={dayjs(formData.start_date).add(1, "day")}
           setData={handleEndDate}
         />
       </Box>
-      <Typography variant="headline3" sx={{ my: "20px" }}>
-        You will be charged {price} $
-      </Typography>
       <Typography variant="hero" sx={{ my: "20px" }}>
         You have ordered
       </Typography>
@@ -155,6 +168,19 @@ function OrderNow() {
           Submit
         </Button>
       </Box>
+      {/* Відображення форми оплати при необхідності */}
+      {showPaymentForm && (
+        <PayForm
+          onCancel={() => setShowPaymentForm(false)} // Закриття форми при відміні
+          onConfirm={({ paymentMethod, amount, orderDate }) => {
+            setShowPaymentForm(false);
+            setOpen(true);
+            handleConfirm({ paymentMethod, amount, orderDate });
+          }}
+          amount={sum.sum}
+          orderDate={dayjs().format("YYYY-MM-DDTHH:mm:ss[Z]")}
+        />
+      )}
     </Box>
   );
 }
